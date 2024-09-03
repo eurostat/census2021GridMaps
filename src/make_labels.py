@@ -2,7 +2,10 @@ import svgwrite
 import fiona
 
 
-path_svg = '/home/juju/gisco/census_2021_map/map_age_labels.svg'
+out_folder = '/home/juju/gisco/census_2021_map/'
+
+
+out_path_svg = out_folder + 'map_age_labels.svg'
 gpkg_path = 'assets/labels_filtered.gpkg'
 font_name='Myriad Pro'
 
@@ -25,7 +28,7 @@ y_min, y_max = cy - height_m/2, cy + height_m/2
 
 
 
-dwg = svgwrite.Drawing(path_svg, size=(f'{width_px}px', f'{height_px}px'))
+dwg = svgwrite.Drawing(out_path_svg, size=(f'{width_px}px', f'{height_px}px'))
 #dwg.viewbox(x_min, y_min, width_m, height_m)
 
 
