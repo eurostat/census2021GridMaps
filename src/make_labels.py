@@ -3,7 +3,7 @@ import fiona
 
 
 path_svg = '/home/juju/gisco/census_2021_map/map_age_labels.svg'
-gpkg_path = '/home/juju/gisco/census_2021_map/labels_filtered.gpkg'
+gpkg_path = 'assets/labels_filtered.gpkg'
 font_name='Myriad Pro'
 
 # transform for europe view

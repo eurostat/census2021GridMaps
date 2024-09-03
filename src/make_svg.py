@@ -116,7 +116,7 @@ def make_map(path_svg = '/home/juju/gisco/census_2021_map/map_age_EUR.svg',
 
     # draw boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
-    lines = fiona.open('/home/juju/gisco/census_2021_map/BN_3M.gpkg') 
+    lines = fiona.open('assets/BN_3M.gpkg') 
     for feature in lines:
 
         #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
