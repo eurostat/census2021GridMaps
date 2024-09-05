@@ -14,7 +14,7 @@ def trivariate_classifier(properties, total_function, opts=None):
     # Parameter to decide whether to use mixed classes m0, m1, m2
     with_mixed_classes = opts.get('withMixedClasses', True)
 
-    # Parameter to decide whether to use a central class, and the size of this central class
+    # centerCoefficient: Parameter to decide whether to use a central class, and the size of this central class
     # Set to 0 or None for not showing any central class. Set to 1 for a central class that contains the mixed classes
     cc = 1 - opts['centerCoefficient'] if 'centerCoefficient' in opts else None
 
@@ -32,21 +32,21 @@ def trivariate_classifier(properties, total_function, opts=None):
         # Class 0
         if s0 >= c0 and s1 <= c1 and s2 <= c2:
             # Central class near class 0
-            if cc is not None and (s2 - c2) * (c1 - cc * c1) >= (s1 - cc * c1) * (cc * c2 - c2):
+            if cc is not None and (s2 - c2) * c1*(1 - cc) >= (s1 - cc * c1) * c2*(cc - 1):
                 return "center"
             return "0"
 
         # Class 1
         if s0 <= c0 and s1 >= c1 and s2 <= c2:
             # Central class near class 1
-            if cc is not None and (s2 - c2) * (c0 - cc * c0) >= (s0 - cc * c0) * (cc * c2 - c2):
+            if cc is not None and (s2 - c2) * c0*(1 - cc) >= (s0 - cc * c0) * c2*(cc - 1):
                 return "center"
             return "1"
 
         # Class 2
         if s0 <= c0 and s1 <= c1 and s2 >= c2:
             # Central class near class 2
-            if cc is not None and (s1 - c1) * (c0 - cc * c0) >= (s0 - cc * c0) * (cc * c1 - c1):
+            if cc is not None and (s1 - c1) * c0*(1 - cc) >= (s0 - cc * c0) * c1*(cc - 1):
                 return "center"
             return "2"
 
