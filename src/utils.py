@@ -46,13 +46,20 @@ def make_svg_map(
             del cell['SAME']
             del cell['CHG_IN']
             del cell['CHG_OUT']
-            del cell['NB']
             del cell['CONFIDENTIALSTATUS']
             del cell['POPULATED']
             del cell['LAND_SURFACE']
+            #del cell['NB']
+            del cell['fid']
 
-            cell['x'] = int(cell['x'])
-            cell['y'] = int(cell['y'])
+            #cell['x'] = int(cell['x'])
+            #cell['y'] = int(cell['y'])
+
+            sp = cell['GRD_ID'].split('N')[1].split('E')
+            cell['x'] = int(sp[1])
+            cell['y'] = int(sp[0])
+            del cell['GRD_ID']
+
             cell['T'] = int(cell['T'])
 
             cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
@@ -60,6 +67,7 @@ def make_svg_map(
             cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
             cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
 
+            #print(cell)
             cells.append(cell)
 
     #print(len(cells), "cells loaded")
