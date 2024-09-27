@@ -1,4 +1,5 @@
 from utils import make_svg_map, load_cells
+import cairosvg
 
 
 print("Start")
@@ -13,7 +14,7 @@ height_mm = 297 #A4
 width_m = width_mm / scale / 1000
 height_m = height_mm / scale / 1000
 
-overlap = 0.15
+overlap = 0.1
 
 cx0 = 4300000
 cy0 = 3300000
@@ -27,18 +28,18 @@ print(len(cells), "cells loaded")
 i=0
 for j in range(10):
 
-    cx = cx0 + i*dx
-    cy = cy0 + j*dy
-
-    print("make svg", cx, cy)
+    print("make svg", i, j)
+    file_name = out_folder + 'map_age_EUR_'+str(i)+'_'+str(j)
     make_svg_map(
         cells,
-        out_folder + 'map_age_EUR_'+str(i)+'_'+str(j)+'.svg',
+        file_name+'.svg',
         1000,
         scale = scale,
         width_mm = width_mm, height_mm = height_mm,
-        cx = cx, cy = cy,
+        cx = cx0 + i*dx, cy = cy0 + j*dy,
         bn_scale = "3M"
         )
+    
+    cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
 
 

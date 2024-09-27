@@ -4,7 +4,6 @@ import fiona
 from trivariate import trivariate_classifier
 
 
-
 def load_cells(in_CSV):
 
     #print("Load cell data", res)
@@ -112,10 +111,10 @@ def make_svg_map(
     gCircles = dwg.g(id='circles', transform=transform_str)
     no_cells = True
     for cell in cells:
-        if cell['x']<x_min: continue
-        if cell['x']>x_max: continue
-        if cell['y']<y_min: continue
-        if cell['y']>y_max: continue
+        if cell['x']+res < x_min: continue
+        if cell['x'] > x_max: continue
+        if cell['y']+res < y_min: continue
+        if cell['y'] > y_max: continue
         no_cells = False
 
         #compute diameter from total population
