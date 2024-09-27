@@ -149,7 +149,7 @@ def make_svg_map(
         geom = feature.geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke=colstr))
+            gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
 
 
     dwg.add(gBN)
