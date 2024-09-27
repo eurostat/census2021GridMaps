@@ -64,7 +64,8 @@ def make_svg_map(
         scale = 1/4500000,
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
-        colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
+        colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
+        bn_scale = "3M"
         ):
 
     # transform for europe view
@@ -109,11 +110,13 @@ def make_svg_map(
 
     #print("Draw cells")
     gCircles = dwg.g(id='circles', transform=transform_str)
+    no_cells = True
     for cell in cells:
         if cell['x']<x_min: continue
         if cell['x']>x_max: continue
         if cell['y']<y_min: continue
         if cell['y']>y_max: continue
+        no_cells = False
 
         #compute diameter from total population
         t = cell['T']
@@ -130,10 +133,14 @@ def make_svg_map(
         #draw circle
         gCircles.add(dwg.circle(center=(round(cell['x']+res/2), round(y_min + y_max - cell['y']-res/2)), r=round(diameter/2), fill=color))
 
+    #case where there is no cell to draw
+    if no_cells:
+        print("skip - no cells")
+        return
 
     # draw boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
-    lines = fiona.open('assets/BN_3M.gpkg') 
+    lines = fiona.open('assets/BN_'+bn_scale+'.gpkg') 
     for feature in lines:
 
         #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
