@@ -1,4 +1,4 @@
-from utils import make_svg_map, load_cells
+from utils import make_svg_map, load_cells, combine_pdfs
 import cairosvg
 
 
@@ -25,12 +25,13 @@ print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
 
+pdfs = []
 i=0
 for j in range(10):
 
     print("make svg", i, j)
     file_name = out_folder + 'map_age_EUR_'+str(i)+'_'+str(j)
-    make_svg_map(
+    ok = make_svg_map(
         cells,
         file_name+'.svg',
         1000,
@@ -39,7 +40,12 @@ for j in range(10):
         cx = cx0 + i*dx, cy = cy0 + j*dy,
         bn_scale = "3M"
         )
-    
+
+    if not ok: continue
+
+    print("make pdf", i, j)
     cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
+    pdfs.append(file_name+'.pdf')
 
 
+combine_pdfs(pdfs, out_folder + "atlas.pdf")

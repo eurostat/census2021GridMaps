@@ -2,6 +2,7 @@ import svgwrite
 import csv
 import fiona
 from trivariate import trivariate_classifier
+import pypdf
 
 
 def load_cells(in_CSV):
@@ -135,7 +136,7 @@ def make_svg_map(
     #case where there is no cell to draw
     if no_cells:
         print("skip - no cells")
-        return
+        return False
 
     # draw boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
@@ -157,4 +158,22 @@ def make_svg_map(
     print("Save SVG", res)
     dwg.save()
 
+    return True
 
+
+
+# Function to combine multiple PDF files into one
+def combine_pdfs(pdf_list, output_pdf_path):
+    pdf_writer = pypdf.PdfWriter()  # Use 'pypdf.PdfWriter()' for pypdf library
+
+    # Loop through all PDFs in the list
+    for pdf_file in pdf_list:
+        pdf_reader = pypdf.PdfReader(pdf_file)  # Use 'pypdf.PdfReader()' for pypdf
+        # Add each page to the writer object
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            pdf_writer.add_page(page)
+    
+    # Write the combined PDF to the output file
+    with open(output_pdf_path, 'wb') as output_file:
+        pdf_writer.write(output_file)
