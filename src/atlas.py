@@ -26,8 +26,8 @@ cx0 = 2000000 #4300000
 cy0 = 1000000 #3300000
 
 pdfs = []
-for i in range(25):
-    for j in range(25):
+for j in range(25):
+    for i in range(25):
 
         print("make svg", i, j)
         file_name = out_folder + '/pages/page_'+str(i)+'_'+str(j)
