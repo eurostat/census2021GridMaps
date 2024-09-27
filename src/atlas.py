@@ -16,9 +16,9 @@ height_m = height_mm / scale / 1000
 
 overlap = 0.1
 
-cx0 = 2440000 #4300000
-cy0 = 1440000 #3300000
-dx = width_mm * (1-2*overlap)
+cx0 = 4200000 #4300000
+cy0 = 3200000 #3300000
+dx = width_m * (1-2*overlap)
 dy = height_m * (1-2*overlap)
 
 print("load cells")
