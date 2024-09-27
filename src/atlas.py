@@ -22,12 +22,12 @@ print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
 
-cx0 = 2000000 #4300000
-cy0 = 1000000 #3300000
+cx0 = 1000000 #4300000
+cy0 = 500000 #3300000
 
 pdfs = []
-for j in range(25):
-    for i in range(25):
+for j in range(30):
+    for i in range(30):
 
         print("make svg", i, j)
         file_name = out_folder + '/pages/page_'+str(i)+'_'+str(j)
