@@ -8,26 +8,26 @@ print("Start")
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
 
-scale = 1/1000000
+scale = 1/1200000
 width_mm = 210
 height_mm = 297 #A4
 width_m = width_mm / scale / 1000
 height_m = height_mm / scale / 1000
 
-overlap = 0.1
-
-cx0 = 4200000 #4300000
-cy0 = 3200000 #3300000
-dx = width_m * (1-2*overlap)
-dy = height_m * (1-2*overlap)
+overlap_m = 15000
+dx = width_m - overlap_m
+dy = height_m - overlap_m
 
 print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
 
+cx0 = 3000000 #4300000
+cy0 = 2000000 #3300000
+
 pdfs = []
-for i in range(10):
-    for j in range(10):
+for i in range(20):
+    for j in range(20):
 
         print("make svg", i, j)
         file_name = out_folder + '/pages/page_'+str(i)+'_'+str(j)
@@ -48,4 +48,5 @@ for i in range(10):
         pdfs.append(file_name+'.pdf')
 
 
+print("combine", len(pdfs), "pages")
 combine_pdfs(pdfs, out_folder + "atlas.pdf")
