@@ -5,31 +5,7 @@ from trivariate import trivariate_classifier
 
 
 
-def make_svg_map(
-        out_svg_path,
-        in_CSV,
-        res = 1000,
-        scale = 1/4500000,
-        width_mm = 841, height_mm = 1189,
-        cx = 4300000, cy = 3300000,
-        colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
-        ):
-
-    # transform for europe view
-    # A0 dimensions in millimeters
-    width_m = width_mm / scale / 1000
-    height_m = height_mm / scale / 1000
-    x_min, x_max = cx - width_m/2, cx + width_m/2
-    y_min, y_max = cy - height_m/2, cy + height_m/2
-    transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
-
-    # Create an SVG drawing object with A0 dimensions in landscape orientation
-    dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
-    # Set the viewBox attribute to map the custom coordinates to the SVG canvas
-    #dwg.viewbox(x_min, y_min, width_m, height_m)
-    #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
-
-
+def load_cells(in_CSV):
 
     #print("Load cell data", res)
     cells = []
@@ -75,6 +51,35 @@ def make_svg_map(
 
     #print("Sort cells")
     cells.sort(key=lambda d: (-d['y'], d['x']))
+
+    return cells
+
+
+
+
+def make_svg_map(
+        cells,
+        out_svg_path,
+        res = 1000,
+        scale = 1/4500000,
+        width_mm = 841, height_mm = 1189,
+        cx = 4300000, cy = 3300000,
+        colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
+        ):
+
+    # transform for europe view
+    # A0 dimensions in millimeters
+    width_m = width_mm / scale / 1000
+    height_m = height_mm / scale / 1000
+    x_min, x_max = cx - width_m/2, cx + width_m/2
+    y_min, y_max = cy - height_m/2, cy + height_m/2
+    transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
+
+    # Create an SVG drawing object with A0 dimensions in landscape orientation
+    dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
+    # Set the viewBox attribute to map the custom coordinates to the SVG canvas
+    #dwg.viewbox(x_min, y_min, width_m, height_m)
+    #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
 
 
     # Set the background color to white
