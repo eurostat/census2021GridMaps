@@ -64,7 +64,9 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        lines = None
+        lines = None,
+        labels = None,
+        font_name='Myriad Pro'
         ):
 
     # transform for europe view
@@ -140,15 +142,51 @@ def make_svg_map(
     # draw boundaries
     if lines:
         gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
-        for feature in lines:
+        for label in lines:
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-            colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+            colstr = "#888" if label['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
 
-            geom = feature.geometry
+            geom = label.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
                 gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
+
+    if labels:
+
+        #coordinates conversion functions
+        width_px = width_mm * 96 / 25.4
+        height_px = height_mm * 96 / 25.4
+        def geoToPixX(xg):
+            return (xg-x_min)/width_m * width_px
+        def geoToPixY(yg):
+            return (1-(yg-y_min)/height_m) * height_px
+
+        # Create group elements
+        g = dwg.g(id='labels', font_family=font_name, fill='black')
+        gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2.5")
+        dwg.add(gh)
+        dwg.add(g)
+
+        for label in labels:
+            cc = label['properties']['cc']
+            if cc=="UK": continue
+            if cc=="UA": continue
+            if cc=="RS": continue
+            if cc=="BA": continue
+            if cc=="AL": continue
+            if cc=="ME": continue
+            if cc=="IS": continue
+            if cc=="MK": continue
+            if cc=="FO": continue
+            if cc=="SJ": continue
+            x, y = label['geometry']['coordinates']
+            name = label['properties']['name']
+            r1 = label['properties']['r1']
+            font_size="13pt" if r1<800 else "16pt" #check that - maybe should be in pixel unit ?
+            label = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
+            g.add(label)
+            gh.add(label)
 
 
     dwg.add(gBN)

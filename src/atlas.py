@@ -15,7 +15,7 @@ height_mm = 297 #A4
 width_m = width_mm / scale / 1000
 height_m = height_mm / scale / 1000
 
-overlap_m = 15000
+overlap_m = 20000
 dx = width_m - overlap_m
 dy = height_m - overlap_m
 
