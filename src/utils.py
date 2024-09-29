@@ -65,7 +65,7 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        bn_scale = "3M"
+        input_BN_file = None
         ):
 
     # transform for europe view
@@ -139,17 +139,18 @@ def make_svg_map(
         return False
 
     # draw boundaries
-    gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
-    lines = fiona.open('assets/BN_'+bn_scale+'.gpkg') 
-    for feature in lines:
+    if input_BN_file:
+        gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
+        lines = fiona.open(input_BN_file) 
+        for feature in lines:
 
-        #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-        colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+            #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
+            colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
 
-        geom = feature.geometry
-        for line in geom['coordinates']:
-            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
+            geom = feature.geometry
+            for line in geom['coordinates']:
+                points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+                gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
 
 
     dwg.add(gBN)

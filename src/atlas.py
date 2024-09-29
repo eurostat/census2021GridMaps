@@ -22,15 +22,16 @@ print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
 
-cx0 = 1000000 #4300000
-cy0 = 500000 #3300000
+cx0 = 990000
+cy0 = 500000
 
 pdfs = []
-for j in range(30):
+code = 1
+for j in range(16, 0, -1):
     for i in range(30):
 
         print("make svg", i, j)
-        file_name = out_folder + '/pages/page_'+str(i)+'_'+str(j)
+        file_name = out_folder + '/pages/page_'+str(code)+'_'+str(i)+'_'+str(j)
         ok = make_svg_map(
             cells,
             file_name+'.svg',
@@ -38,7 +39,7 @@ for j in range(30):
             scale = scale,
             width_mm = width_mm, height_mm = height_mm,
             cx = cx0 + i*dx, cy = cy0 + j*dy,
-            bn_scale = "3M"
+            input_BN_file = "/home/juju/geodata/gisco/CNTR_BN_01M_2024_3035.gpkg"
             )
 
         if not ok: continue
@@ -46,6 +47,8 @@ for j in range(30):
         print("make pdf", i, j)
         cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
         pdfs.append(file_name+'.pdf')
+
+        code += 1
 
 
 print("combine", len(pdfs), "pages")
