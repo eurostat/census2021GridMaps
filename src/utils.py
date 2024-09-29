@@ -180,8 +180,10 @@ def make_svg_map(
             return (1-(yg-y_min)/height_m) * height_px
 
         for label in labels:
+
             rs = label['properties']['rs']
             if(rs<250): continue
+
             cc = label['properties']['cc']
             if cc=="UK": continue
             if cc=="UA": continue
