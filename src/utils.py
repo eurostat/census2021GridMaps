@@ -183,7 +183,7 @@ def make_svg_map(
             x, y = label['geometry']['coordinates']
             name = label['properties']['name']
             r1 = label['properties']['r1']
-            font_size="10pt" if r1<800 else "13pt" #check that - maybe should be in pixel unit ?
+            font_size="8" if r1<800 else "11"
             label = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
             g.add(label)
             gh.add(label)

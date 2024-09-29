@@ -37,7 +37,7 @@ cy0 = 500000
 
 pdfs = []
 code = 1
-for j in range(15, 0, -1):
+for j in range(14, 0, -1):
     for i in range(30):
 
         print("make svg", i, j)
