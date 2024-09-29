@@ -49,7 +49,8 @@ for j in range(15, 0, -1):
             scale = scale,
             width_mm = width_mm, height_mm = height_mm,
             cx = cx0 + i*dx, cy = cy0 + j*dy,
-            lines = lines
+            lines = lines,
+            labels=labels
             )
 
         if not ok: continue
