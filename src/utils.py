@@ -204,7 +204,7 @@ def make_svg_map(
             gh.add(label)
 
 
-    print("Save SVG", res)
+    #print("Save SVG", res)
     dwg.save()
 
     return True

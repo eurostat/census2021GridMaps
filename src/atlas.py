@@ -95,6 +95,8 @@ for page in pages:
     cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
     pdfs.append(file_name+'.pdf')
 
+    print("done")
+
 
 print("combine", len(pdfs), "pages")
 combine_pdfs(pdfs, out_folder + "atlas.pdf")
