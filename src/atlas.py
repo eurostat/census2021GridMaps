@@ -53,9 +53,6 @@ for j in range(14, 0, -1):
 
 print(len(pages), "pages")
 
-
-
-
 print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
@@ -63,11 +60,6 @@ print(len(cells), "cells loaded")
 print("load boundaries")
 lines = fiona.open("assets/BN_1M.gpkg")
 print(len(lines), "boundaries loaded")
-
-print("load labels")
-labels = fiona.open("assets/labels.gpkg")
-print(len(labels), "labels loaded")
-
 
 
 pdfs = []
@@ -83,7 +75,7 @@ for page in pages:
         width_mm = width_mm, height_mm = height_mm,
         cx = page.x, cy=page.y,
         lines = lines,
-        labels=labels,
+        labels_file = "assets/labels.gpkg",
         title = "page=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
         )
 

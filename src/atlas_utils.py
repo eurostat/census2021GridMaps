@@ -1,3 +1,4 @@
+import fiona
 import svgwrite
 import csv
 from trivariate import trivariate_classifier
@@ -65,7 +66,7 @@ def make_svg_map(
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
         lines = None,
-        labels = None,
+        labels_file = None,
         font_name='Myriad Pro',
         title = None
         ):
@@ -77,6 +78,7 @@ def make_svg_map(
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
+    bbox = (x_min, y_min, x_max, y_max)
 
     # Create an SVG drawing object with A0 dimensions in landscape orientation
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
@@ -121,7 +123,7 @@ def make_svg_map(
     dwg.add(gCircles)
 
     #labels
-    if labels: 
+    if labels_file: 
         g = dwg.g(id='labels', font_family=font_name, fill='black')
         gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
         dwg.add(gh)
@@ -174,7 +176,7 @@ def make_svg_map(
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
                 gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
 
-    if labels:
+    if labels_file:
 
         #coordinates conversion functions
         width_px = width_mm * 96 / 25.4
@@ -183,6 +185,9 @@ def make_svg_map(
             return (xg-x_min)/width_m * width_px
         def geoToPixY(yg):
             return (1-(yg-y_min)/height_m) * height_px
+
+        #load labels
+        labels = fiona.open(labels_file, bbox=bbox)
 
         for label in labels:
 
