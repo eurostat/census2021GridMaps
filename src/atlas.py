@@ -37,8 +37,6 @@ class Page:
         self.x = x
         self.y = y
 
-#page = Page(1, 2)
-
 cx0 = 990000
 cy0 = 500000
 code = 1
@@ -74,17 +72,14 @@ pdfs = []
 for page in pages:
     print("page", page.code)
 
-    cx = page.x
-    cy = page.y
-
-    file_name = out_folder + '/pages/page_'+str(code)
+    file_name = out_folder + '/pages/page_'+str(page.code)
     ok = make_svg_map(
         cells,
         file_name+'.svg',
         1000,
         scale = scale,
         width_mm = width_mm, height_mm = height_mm,
-        cx = cx, cy=cy,
+        cx = cxpage.x, cy=page.y,
         lines = lines,
         labels=labels
         )
