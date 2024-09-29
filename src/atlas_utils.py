@@ -65,7 +65,7 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        lines = None,
+        boundaries_file = None,
         labels_file = None,
         font_name='Myriad Pro',
         title = None
@@ -114,7 +114,7 @@ def make_svg_map(
     #make groups
 
     #boundaries
-    if lines:
+    if boundaries_file:
         gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
         dwg.add(gBN)
 
@@ -165,13 +165,17 @@ def make_svg_map(
         return False
 
     # draw boundaries
-    if lines:
-        for label in lines:
+    if boundaries_file:
+
+        boundaries_ = fiona.open(boundaries_file, 'r')
+        boundaries = list(boundaries_.items(bbox=bbox))
+
+        for boundary in boundaries:
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-            colstr = "#888" if label['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+            colstr = "#888" if boundary['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
 
-            geom = label.geometry
+            geom = boundary.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
                 gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
@@ -187,14 +191,18 @@ def make_svg_map(
             return (1-(yg-y_min)/height_m) * height_px
 
         #load labels
-        labels = fiona.open(labels_file, bbox=bbox)
+        labels_ = fiona.open(labels_file, "r")
+        labels = list(labels_.items(bbox=bbox))
 
-        for label in labels:
+        print(len(labels))
 
-            rs = label['properties']['rs']
+        for boundary in labels:
+            boundary = boundary[1]
+
+            rs = boundary['properties']['rs']
             if(rs<250): continue
 
-            cc = label['properties']['cc']
+            cc = boundary['properties']['cc']
             if cc=="UK": continue
             if cc=="UA": continue
             if cc=="RS": continue
@@ -205,13 +213,13 @@ def make_svg_map(
             if cc=="MK": continue
             if cc=="FO": continue
             if cc=="SJ": continue
-            x, y = label['geometry']['coordinates']
-            name = label['properties']['name']
-            r1 = label['properties']['r1']
+            x, y = boundary['geometry']['coordinates']
+            name = boundary['properties']['name']
+            r1 = boundary['properties']['r1']
             font_size="8px" if r1<800 else "10px"
-            label = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
-            g.add(label)
-            gh.add(label)
+            boundary = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
+            g.add(boundary)
+            gh.add(boundary)
 
 
     if title:
