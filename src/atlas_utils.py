@@ -195,8 +195,6 @@ def make_svg_map(
         labels_ = fiona.open(labels_file, "r")
         labels = list(labels_.items(bbox=bbox))
 
-        print(len(labels))
-
         for boundary in labels:
             boundary = boundary[1]
 
