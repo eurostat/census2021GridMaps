@@ -6,6 +6,7 @@ import fiona
 print("Start")
 
 #TODO
+#show code on page
 #parallel
 #load labels and bn using spatial index
 #show assemply table
@@ -29,7 +30,7 @@ dy = height_m - overlap_m
 
 
 print("Make pages index")
-print(dx, dy)
+#print(dx, dy)
 
 class Page:
     def __init__(self, code: int, x: float, y: float):
