@@ -15,7 +15,7 @@ height_mm = 297 #A4
 width_m = width_mm / scale / 1000
 height_m = height_mm / scale / 1000
 
-overlap_m = 20000
+overlap_m = 25000
 dx = width_m - overlap_m
 dy = height_m - overlap_m
 
@@ -26,6 +26,10 @@ print(len(cells), "cells loaded")
 print("load boundaries")
 lines = fiona.open("assets/BN_1M.gpkg")
 print(len(lines), "boundaries loaded")
+
+print("load labels")
+labels = fiona.open("assets/labels_filtered.gpkg")
+print(len(labels), "labels loaded")
 
 
 cx0 = 990000
