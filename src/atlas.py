@@ -5,6 +5,14 @@ import fiona
 
 print("Start")
 
+#TODO
+#load labels and bn using spatial index
+#show assemply table
+#better define assembly table: function to generate it
+#parallel
+#euronym for non greek characters
+#road network in background ? no...
+
 
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
@@ -19,6 +27,35 @@ overlap_m = 25000
 dx = width_m - overlap_m
 dy = height_m - overlap_m
 
+
+print("Make pages index")
+print(dx, dy)
+
+class Page:
+    def __init__(self, code: int, x: float, y: float):
+        self.code = code
+        self.x = x
+        self.y = y
+
+#page = Page(1, 2)
+
+cx0 = 990000
+cy0 = 500000
+code = 1
+pages = []
+for j in range(14, 0, -1):
+    for i in range(30):
+        cx = cx0 + i*dx
+        cy = cy0 + j*dy
+        p = Page(code, cx, cy)
+        pages.append(p)
+        code += 1
+
+print(len(pages), "pages")
+
+
+
+
 print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
@@ -32,35 +69,33 @@ labels = fiona.open("assets/labels.gpkg")
 print(len(labels), "labels loaded")
 
 
-cx0 = 990000
-cy0 = 500000
 
 pdfs = []
-code = 1
-for j in range(14, 0, -1):
-    for i in range(30):
+for page in pages:
+    print("page", page.code)
 
-        print("make svg", i, j)
-        file_name = out_folder + '/pages/page_'+str(code)+'_'+str(i)+'_'+str(j)
-        ok = make_svg_map(
-            cells,
-            file_name+'.svg',
-            1000,
-            scale = scale,
-            width_mm = width_mm, height_mm = height_mm,
-            cx = cx0 + i*dx, cy = cy0 + j*dy,
-            lines = lines,
-            labels=labels
-            )
+    cx = page.x
+    cy = page.y
 
-        if not ok: continue
+    file_name = out_folder + '/pages/page_'+str(code)
+    ok = make_svg_map(
+        cells,
+        file_name+'.svg',
+        1000,
+        scale = scale,
+        width_mm = width_mm, height_mm = height_mm,
+        cx = cx, cy=cy,
+        lines = lines,
+        labels=labels
+        )
 
-        print("make pdf", i, j)
-        cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
-        pdfs.append(file_name+'.pdf')
+    if not ok: continue
 
-        code += 1
+    #print("make pdf")
+    cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
+    pdfs.append(file_name+'.pdf')
 
 
 print("combine", len(pdfs), "pages")
 combine_pdfs(pdfs, out_folder + "atlas.pdf")
+
