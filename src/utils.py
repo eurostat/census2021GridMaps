@@ -108,9 +108,27 @@ def make_svg_map(
         {'center': [0.15, 0.6, 0.25], 'centerCoefficient': 0.25}
         )
 
+    #make groups
+
+    #boundaries
+    if lines:
+        gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
+        dwg.add(gBN)
+
+    #circles
+    gCircles = dwg.g(id='circles', transform=transform_str)
+    dwg.add(gCircles)
+
+    #labels
+    if labels: 
+        g = dwg.g(id='labels', font_family=font_name, fill='black')
+        gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2.5")
+        dwg.add(gh)
+        dwg.add(g)
+
+
 
     #print("Draw cells")
-    gCircles = dwg.g(id='circles', transform=transform_str)
     no_cells = True
     for cell in cells:
         if cell['x']+res < x_min: continue
@@ -136,12 +154,11 @@ def make_svg_map(
 
     #case where there is no cell to draw
     if no_cells:
-        print("skip - no cells")
+        #print("skip - no cells")
         return False
 
     # draw boundaries
     if lines:
-        gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
         for label in lines:
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
@@ -162,12 +179,6 @@ def make_svg_map(
         def geoToPixY(yg):
             return (1-(yg-y_min)/height_m) * height_px
 
-        # Create group elements
-        g = dwg.g(id='labels', font_family=font_name, fill='black')
-        gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2.5")
-        dwg.add(gh)
-        dwg.add(g)
-
         for label in labels:
             cc = label['properties']['cc']
             if cc=="UK": continue
@@ -183,14 +194,11 @@ def make_svg_map(
             x, y = label['geometry']['coordinates']
             name = label['properties']['name']
             r1 = label['properties']['r1']
-            font_size="8" if r1<800 else "11"
+            font_size="8px" if r1<800 else "11px"
             label = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
             g.add(label)
             gh.add(label)
 
-
-    dwg.add(gBN)
-    dwg.add(gCircles)
 
     print("Save SVG", res)
     dwg.save()
