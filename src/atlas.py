@@ -6,10 +6,10 @@ import fiona
 print("Start")
 
 #TODO
+#parallel
 #load labels and bn using spatial index
 #show assemply table
 #better define assembly table: function to generate it
-#parallel
 #euronym for non greek characters
 #road network in background ? no...
 
@@ -79,7 +79,7 @@ for page in pages:
         1000,
         scale = scale,
         width_mm = width_mm, height_mm = height_mm,
-        cx = cxpage.x, cy=page.y,
+        cx = page.x, cy=page.y,
         lines = lines,
         labels=labels
         )
