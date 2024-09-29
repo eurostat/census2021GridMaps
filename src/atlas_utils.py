@@ -66,7 +66,8 @@ def make_svg_map(
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
         lines = None,
         labels = None,
-        font_name='Myriad Pro'
+        font_name='Myriad Pro',
+        title = None
         ):
 
     # transform for europe view
@@ -125,6 +126,10 @@ def make_svg_map(
         gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
         dwg.add(gh)
         dwg.add(g)
+
+    #layout
+    gLayout = dwg.g(id='layout')
+    dwg.add(gLayout)
 
 
 
@@ -202,6 +207,12 @@ def make_svg_map(
             label = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
             g.add(label)
             gh.add(label)
+
+
+    if title:
+        ttt = dwg.text(title, insert=(5, 20), font_size="20px")
+        gLayout.add(ttt)
+
 
 
     #print("Save SVG", res)

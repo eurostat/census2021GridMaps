@@ -1,4 +1,4 @@
-from utils import make_svg_map, load_cells, combine_pdfs
+from atlas_utils import make_svg_map, load_cells, combine_pdfs
 import cairosvg
 import fiona
 
@@ -33,10 +33,12 @@ print("Make pages index")
 #print(dx, dy)
 
 class Page:
-    def __init__(self, code: int, x: float, y: float):
+    def __init__(self, code: int, x: float, y: float, i: int = None, j: int = None):
         self.code = code
         self.x = x
         self.y = y
+        self.i = i
+        self.j = j
 
 cx0 = 990000
 cy0 = 500000
@@ -46,7 +48,7 @@ for j in range(14, 0, -1):
     for i in range(30):
         cx = cx0 + i*dx
         cy = cy0 + j*dy
-        p = Page(code, cx, cy)
+        p = Page(code, cx, cy, i, j)
         pages.append(p)
         code += 1
 
@@ -82,7 +84,8 @@ for page in pages:
         width_mm = width_mm, height_mm = height_mm,
         cx = page.x, cy=page.y,
         lines = lines,
-        labels=labels
+        labels=labels,
+        title = "page " + str(page.code) + " - i=" + str(page.i) + ", j=" + str(page.j)
         )
 
     if not ok: continue
