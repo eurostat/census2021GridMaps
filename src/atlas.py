@@ -28,7 +28,7 @@ lines = fiona.open("assets/BN_1M.gpkg")
 print(len(lines), "boundaries loaded")
 
 print("load labels")
-labels = fiona.open("assets/labels_filtered.gpkg")
+labels = fiona.open("assets/labels.gpkg")
 print(len(labels), "labels loaded")
 
 

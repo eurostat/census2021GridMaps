@@ -122,7 +122,7 @@ def make_svg_map(
     #labels
     if labels: 
         g = dwg.g(id='labels', font_family=font_name, fill='black')
-        gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2.5")
+        gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
         dwg.add(gh)
         dwg.add(g)
 
@@ -194,7 +194,7 @@ def make_svg_map(
             x, y = label['geometry']['coordinates']
             name = label['properties']['name']
             r1 = label['properties']['r1']
-            font_size="8px" if r1<800 else "11px"
+            font_size="8px" if r1<800 else "10px"
             label = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
             g.add(label)
             gh.add(label)
