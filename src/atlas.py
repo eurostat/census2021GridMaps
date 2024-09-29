@@ -1,5 +1,6 @@
 from utils import make_svg_map, load_cells, combine_pdfs
 import cairosvg
+import fiona
 
 
 print("Start")
@@ -22,6 +23,11 @@ print("load cells")
 cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
 print(len(cells), "cells loaded")
 
+print("load boundaries")
+lines = fiona.open("/home/juju/geodata/gisco/CNTR_BN_01M_2024_3035.gpkg")
+print(len(lines), "boundaries loaded")
+
+
 cx0 = 990000
 cy0 = 500000
 
@@ -39,7 +45,7 @@ for j in range(16, 0, -1):
             scale = scale,
             width_mm = width_mm, height_mm = height_mm,
             cx = cx0 + i*dx, cy = cy0 + j*dy,
-            input_BN_file = "/home/juju/geodata/gisco/CNTR_BN_01M_2024_3035.gpkg"
+            lines = lines
             )
 
         if not ok: continue

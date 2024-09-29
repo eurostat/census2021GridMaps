@@ -1,6 +1,5 @@
 import svgwrite
 import csv
-import fiona
 from trivariate import trivariate_classifier
 import pypdf
 
@@ -65,7 +64,7 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        input_BN_file = None
+        lines = None
         ):
 
     # transform for europe view
@@ -139,9 +138,8 @@ def make_svg_map(
         return False
 
     # draw boundaries
-    if input_BN_file:
+    if lines:
         gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
-        lines = fiona.open(input_BN_file) 
         for feature in lines:
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
