@@ -6,9 +6,8 @@ import fiona
 print("Start")
 
 #TODO
-#show code on page
-#parallel
 #load labels and bn using spatial index
+#parallel
 #show assemply table
 #better define assembly table: function to generate it
 #euronym for non greek characters
@@ -85,7 +84,7 @@ for page in pages:
         cx = page.x, cy=page.y,
         lines = lines,
         labels=labels,
-        title = "page " + str(page.code) + " - i=" + str(page.i) + ", j=" + str(page.j)
+        title = "page=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
         )
 
     if not ok: continue
