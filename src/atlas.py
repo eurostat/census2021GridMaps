@@ -24,7 +24,7 @@ cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/EST
 print(len(cells), "cells loaded")
 
 print("load boundaries")
-lines = fiona.open("/home/juju/geodata/gisco/CNTR_BN_01M_2024_3035.gpkg")
+lines = fiona.open("assets/BN_1M.gpkg")
 print(len(lines), "boundaries loaded")
 
 
@@ -33,7 +33,7 @@ cy0 = 500000
 
 pdfs = []
 code = 1
-for j in range(16, 0, -1):
+for j in range(15, 0, -1):
     for i in range(30):
 
         print("make svg", i, j)
