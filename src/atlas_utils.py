@@ -171,6 +171,7 @@ def make_svg_map(
         boundaries = list(boundaries_.items(bbox=bbox))
 
         for boundary in boundaries:
+            boundary = boundary[1]
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
             colstr = "#888" if boundary['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
