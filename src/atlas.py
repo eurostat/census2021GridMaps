@@ -1,12 +1,11 @@
 from atlas_utils import make_svg_map, load_cells, combine_pdfs
 import cairosvg
-import fiona
+import concurrent.futures
 
 
 print("Start")
 
 #TODO
-#load labels and bn using spatial index
 #parallel
 #show assemply table
 #better define assembly table: function to generate it
@@ -58,8 +57,8 @@ cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/EST
 print(len(cells), "cells loaded")
 
 
-pdfs = []
-for page in pages:
+# function to make a page
+def make_page(page):
     print("page", page.code)
 
     file_name = out_folder + '/pages/page_'+str(page.code)
@@ -75,15 +74,33 @@ for page in pages:
         title = "page=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
         )
 
-    if not ok: continue
+    if not ok: return
 
     #print("make pdf")
     cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
-    pdfs.append(file_name+'.pdf')
 
-    print("done")
+    print("page", page.code, "done")
+
+    #pdfs.append(file_name+'.pdf')
+    return file_name+'.pdf'
 
 
-print("combine", len(pdfs), "pages")
-combine_pdfs(pdfs, out_folder + "atlas.pdf")
+#for page in pages: make_page(page)
+
+
+
+#launch parallel computation   
+num_processors_to_use = 8
+with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
+    tasks_to_do = {executor.submit(make_page, page): page for page in pages}
+
+    # merge task outputs
+    pdfs = []
+    for task_output in concurrent.futures.as_completed(tasks_to_do):
+        out = task_output.result()
+        if(out==None): continue
+        pdfs.append(out)
+
+    print("combine", len(pdfs), "pages")
+    combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
