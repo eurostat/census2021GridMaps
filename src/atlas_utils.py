@@ -247,7 +247,7 @@ def make_svg_map(
 
             rs = boundary['properties']['rs']
             #if(rs<250): continue
-            if(rs<200): continue
+            if(rs<210): continue
 
             cc = boundary['properties']['cc']
             if cc=="UK": continue
