@@ -99,7 +99,7 @@ def make_svg_map(
         cell = cell[1]
         cell = cell['properties']
 
-        if cell['T'] == '0' or cell['T'] == '': continue
+        if cell['T'] == 0 or cell['T'] == None: continue
 
         sp = cell["GRD_ID"].split('N')[1].split('E')
         cell['x'] = int(sp[1])
@@ -107,9 +107,9 @@ def make_svg_map(
 
         cell['T'] = int(cell['T'])
 
-        cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
-        cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
-        cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
+        cell['Y_LT15'] = 0 if cell['Y_LT15']==None else int(cell['Y_LT15'])
+        cell['Y_1564'] = 0 if cell['Y_1564']==None else int(cell['Y_1564'])
+        cell['Y_GE65'] = 0 if cell['Y_GE65']==None else int(cell['Y_GE65'])
         cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
 
         '''''
