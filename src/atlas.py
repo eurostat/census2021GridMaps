@@ -6,6 +6,8 @@ import concurrent.futures
 print("Start")
 
 #TODO
+#cells loading
+#sort pages by code
 #show assemply table
 #better define assembly table: function to generate it
 #euronym for non greek characters
@@ -51,9 +53,9 @@ for j in range(14, 0, -1):
 
 print(len(pages), "pages")
 
-print("load cells")
-cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
-print(len(cells), "cells loaded")
+#print("load cells")
+#cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
+#print(len(cells), "cells loaded")
 
 
 # function to make a page
@@ -62,7 +64,7 @@ def make_page(page):
 
     file_name = out_folder + '/pages/page_'+str(page.code)
     ok = make_svg_map(
-        cells,
+        "/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg",
         file_name+'.svg',
         1000,
         scale = scale,
@@ -89,7 +91,7 @@ def make_page(page):
 
 
 #launch parallel computation   
-num_processors_to_use = 8
+num_processors_to_use = 1
 with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
     tasks_to_do = {executor.submit(make_page, page): page for page in pages}
 
@@ -99,6 +101,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
         out = task_output.result()
         if(out==None): continue
         pdfs.append(out)
+
+    #TODO sort pages first !
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")

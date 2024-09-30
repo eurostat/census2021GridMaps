@@ -58,7 +58,7 @@ def load_cells(in_CSV):
 
 
 def make_svg_map(
-        cells,
+        cells_file,
         out_svg_path,
         res = 1000,
         scale = 1/4500000,
@@ -85,6 +85,38 @@ def make_svg_map(
     # Set the viewBox attribute to map the custom coordinates to the SVG canvas
     #dwg.viewbox(x_min, y_min, width_m, height_m)
     #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
+
+
+    #load cells
+    cells_ = fiona.open(cells_file, 'r')
+    cells = list(cells_.items(bbox=bbox))
+
+    if len(cells) == 0: return False
+
+    cells___ = []
+    for cell in cells:
+        cell = cell[1]
+        cell = cell['properties']
+        if cell["T"]==0: continue
+        sp = cell["GRD_ID"].split('N')[1].split('E')
+
+        cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
+        cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
+        cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
+        cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
+
+        c = {
+            "x": int(sp[1]),
+            "y": int(sp[0]),
+            "T": int(cell["T"]),
+            "Y_LT15": 0 if cell["Y_LT15"]=="" else int(cell['Y_LT15']),
+            "Y_1564": 0 if cell['Y_1564']=="" else int(cell['Y_1564']),
+            "Y_GE65": 0 if cell['Y_GE65']=="" else int(cell['Y_GE65']),
+            "T_": cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
+        }
+        print(c)
+        cells___.append(c)
+    cells = cells___
 
 
     # Set the background color to white
