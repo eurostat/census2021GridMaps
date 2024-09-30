@@ -6,13 +6,14 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#sort pages by code
+#fix boundary width
 #show assemply table
 #better define assembly table: function to generate it
 #euronym for non greek characters
 #road network in background ? no...
 
 
+num_processors_to_use = 1
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
 
@@ -90,7 +91,6 @@ def make_page(page):
 
 
 #launch parallel computation   
-num_processors_to_use = 3
 with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
     tasks_to_do = {executor.submit(make_page, page): page for page in pages}
 
@@ -101,7 +101,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
         if(out==None): continue
         pdfs.append(out)
 
-    #TODO sort pages first !
+    #sort pages
     pdfs.sort(key = lambda pdf: int(pdf.replace(out_folder + "pages/","").replace(".pdf","")))
 
     print("combine", len(pdfs), "pages")

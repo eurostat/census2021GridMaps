@@ -112,23 +112,6 @@ def make_svg_map(
         cell['Y_GE65'] = 0 if cell['Y_GE65']==None else int(cell['Y_GE65'])
         cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
 
-        '''''
-        cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
-        cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
-        cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
-        cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
-
-        c = {
-            "x": int(sp[1]),
-            "y": int(sp[0]),
-            "T": int(cell["T"]),
-            "Y_LT15": 0 if cell["Y_LT15"]=="" else int(cell['Y_LT15']),
-            "Y_1564": 0 if cell['Y_1564']=="" else int(cell['Y_1564']),
-            "Y_GE65": 0 if cell['Y_GE65']=="" else int(cell['Y_GE65']),
-            "T_": cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
-        }
-        cells___.append(c)
-        '''''
         cells___.append(cell)
     cells = cells___
 
@@ -252,6 +235,7 @@ def make_svg_map(
             cc = boundary['properties']['cc']
             if cc=="UK": continue
             if cc=="UA": continue
+            if cc=="MD": continue
             if cc=="RS": continue
             if cc=="XK": continue
             if cc=="BA": continue
