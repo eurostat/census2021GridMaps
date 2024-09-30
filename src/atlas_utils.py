@@ -114,7 +114,6 @@ def make_svg_map(
             "Y_GE65": 0 if cell['Y_GE65']=="" else int(cell['Y_GE65']),
             "T_": cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
         }
-        print(c)
         cells___.append(c)
     cells = cells___
 
