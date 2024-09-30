@@ -246,7 +246,7 @@ def make_svg_map(
             x, y = boundary['geometry']['coordinates']
             name = boundary['properties']['name']
             r1 = boundary['properties']['r1']
-            font_size="8px" if r1<800 else "10px"
+            font_size="9px" if r1<800 else "11px"
             boundary = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
             g.add(boundary)
             gh.add(boundary)
