@@ -91,7 +91,7 @@ def make_page(page):
 
 
 #launch parallel computation   
-num_processors_to_use = 1
+num_processors_to_use = 2
 with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
     tasks_to_do = {executor.submit(make_page, page): page for page in pages}
 
@@ -103,6 +103,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
         pdfs.append(out)
 
     #TODO sort pages first !
+    pdfs = sorted(pdfs)
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
