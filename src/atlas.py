@@ -1,4 +1,4 @@
-from atlas_utils import make_svg_map, load_cells, combine_pdfs
+from atlas_utils import make_svg_map, combine_pdfs
 import cairosvg
 import concurrent.futures
 
@@ -91,7 +91,7 @@ def make_page(page):
 
 
 #launch parallel computation   
-num_processors_to_use = 2
+num_processors_to_use = 1
 with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
     tasks_to_do = {executor.submit(make_page, page): page for page in pages}
 

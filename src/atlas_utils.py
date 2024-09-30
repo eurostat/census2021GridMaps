@@ -4,7 +4,7 @@ import csv
 from trivariate import trivariate_classifier
 import pypdf
 
-
+'''''
 def load_cells(in_CSV):
 
     #print("Load cell data", res)
@@ -53,6 +53,7 @@ def load_cells(in_CSV):
     cells.sort(key=lambda d: (-d['y'], d['x']))
 
     return cells
+'''''
 
 
 
@@ -97,9 +98,21 @@ def make_svg_map(
     for cell in cells:
         cell = cell[1]
         cell = cell['properties']
-        if cell["T"]==0: continue
-        sp = cell["GRD_ID"].split('N')[1].split('E')
 
+        if cell['T'] == '0' or cell['T'] == '': continue
+
+        sp = cell["GRD_ID"].split('N')[1].split('E')
+        cell['x'] = int(sp[1])
+        cell['y'] = int(sp[0])
+
+        cell['T'] = int(cell['T'])
+
+        cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
+        cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
+        cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
+        cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
+
+        '''''
         cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
         cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
         cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
@@ -115,8 +128,11 @@ def make_svg_map(
             "T_": cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
         }
         cells___.append(c)
+        '''''
+        cells___.append(cell)
     cells = cells___
 
+    if len(cells) == 0: return False
 
     # Set the background color to white
     #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
