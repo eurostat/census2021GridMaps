@@ -145,7 +145,7 @@ def make_svg_map(
 
     #boundaries
     if boundaries_file:
-        gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=0.15/1000*scale, stroke_linecap="round", stroke_linejoin="round")
+        gBN = dwg.g(id='boundaries', transform=transform_str) #, fill="none", stroke_width=100/1000*scale, stroke_linecap="round", stroke_linejoin="round")
         dwg.add(gBN)
 
     #circles
@@ -209,7 +209,7 @@ def make_svg_map(
             geom = boundary.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-                gBN.add(dwg.polyline(points, stroke=colstr, stroke_width=2))
+                gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=120, stroke_linecap="round", stroke_linejoin="round"))
 
     if labels_file:
 

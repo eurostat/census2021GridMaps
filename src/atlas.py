@@ -6,7 +6,6 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#fix boundary width
 #show assemply table
 #better define assembly table: function to generate it
 #euronym for non greek characters
