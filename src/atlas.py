@@ -6,7 +6,6 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#cells loading
 #sort pages by code
 #show assemply table
 #better define assembly table: function to generate it
@@ -62,7 +61,7 @@ print(len(pages), "pages")
 def make_page(page):
     print("page", page.code)
 
-    file_name = out_folder + '/pages/page_'+str(page.code)
+    file_name = out_folder + 'pages/'+str(page.code)
     ok = make_svg_map(
         "/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg",
         file_name+'.svg',
@@ -91,7 +90,7 @@ def make_page(page):
 
 
 #launch parallel computation   
-num_processors_to_use = 1
+num_processors_to_use = 3
 with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
     tasks_to_do = {executor.submit(make_page, page): page for page in pages}
 
@@ -103,7 +102,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
         pdfs.append(out)
 
     #TODO sort pages first !
-    pdfs = sorted(pdfs)
+    pdfs.sort(key = lambda pdf: int(pdf.replace(out_folder + "pages/","").replace(".pdf","")))
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
