@@ -44,7 +44,6 @@ class Page:
         self.title = title
 
 
-
 pages = []
 
 xmi = 2500000; ymi = 1334600
@@ -101,17 +100,16 @@ pages.append(Page(1955151, 1010000, title="Canarias"))
 print(len(pages), "pages")
 
 
-index_file = out_folder + 'pages/index.svg'
+index_file = out_folder + 'pages/index'
 make_index_page(
     pages,
     "assets/BN_60M.gpkg",
-    index_file,
+    index_file + '.svg',
     width_m,
     height_m
 )
+cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
 
-pdfs = []
-pdfs.append(index_file)
 
 # function to make a page
 def make_page(page):
@@ -140,7 +138,6 @@ def make_page(page):
     #print("page", page.code, "done")
 
     #pdfs.append(file_name+'.pdf')
-    return file_name+'.pdf'
 
 
 #for page in pages: make_page(page)
@@ -153,12 +150,18 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
 
     # merge task outputs
     for task_output in concurrent.futures.as_completed(tasks_to_do):
-        out = task_output.result()
-        if(out==None): continue
-        pdfs.append(out)
+        pass
+        #out = task_output.result()
+        #if(out==None): continue
+        #pdfs.append(out)
+
 
     #sort pages
-    pdfs.sort(key = lambda pdf: int(pdf.replace(out_folder + "pages/","").replace(".pdf","")))
+    #pdfs.sort(key = lambda pdf: int(pdf.replace(out_folder + "pages/","").replace(".pdf","")))
+
+    pdfs = [index_file+".pdf"]
+    for i in range(0,len(pages)): pdfs.append(out_folder + "pages/" + str(i+1)+".pdf")
+    print(pdfs)
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
