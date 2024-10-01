@@ -60,12 +60,13 @@ xmi = 2500000
 ymi = 1334600
 xma = 6107000
 yma = 5450000
-for j in range(11, 10, -1):
+for j in range(10, 9, -1):
     cy = ymi+j*dy
     #if(cy>yma): print("j ", j); exit(0)
     ox = 0; oy = 0; ri=None
     if j==12: ox = 530000; ri = range(7, 10, 1)
-    if j==11: ox = 20000; ri = range(9, 13, 1)
+    if j==11: ox = 5000; ri = range(9, 13, 1)
+    if j==10: ox = -40000; ri = range(8, 14, 1)
 
     if ri==None: ri = range(0, 17, 1)
     for i in ri:
