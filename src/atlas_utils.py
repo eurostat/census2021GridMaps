@@ -235,7 +235,7 @@ def make_index_page(
         pages,
         boundaries_file,
         out_svg_path,
-        scale = 1/8000000,
+        scale = 1/10000000,
         width_mm = 841, height_mm = 1189,
         ):
 
