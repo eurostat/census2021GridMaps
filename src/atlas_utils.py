@@ -145,13 +145,13 @@ def make_svg_map(
         boundaries_ = fiona.open(boundaries_file, 'r')
         boundaries = list(boundaries_.items(bbox=bbox))
 
-        for boundary in boundaries:
-            boundary = boundary[1]
+        for obj in boundaries:
+            obj = obj[1]
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-            colstr = "#888" if boundary['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+            colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
 
-            geom = boundary.geometry
+            geom = obj.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
                 gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=120, stroke_linecap="round", stroke_linejoin="round"))
@@ -170,14 +170,14 @@ def make_svg_map(
         labels_ = fiona.open(labels_file, "r")
         labels = list(labels_.items(bbox=bbox))
 
-        for boundary in labels:
-            boundary = boundary[1]
+        for obj in labels:
+            obj = obj[1]
 
-            rs = boundary['properties']['rs']
+            rs = obj['properties']['rs']
             #if(rs<250): continue
             if(rs<220): continue
 
-            cc = boundary['properties']['cc']
+            cc = obj['properties']['cc']
             if cc=="UK": continue
             if cc=="UA": continue
             if cc=="MD": continue
@@ -190,13 +190,13 @@ def make_svg_map(
             if cc=="MK": continue
             if cc=="FO": continue
             if cc=="SJ": continue
-            x, y = boundary['geometry']['coordinates']
-            name = boundary['properties']['name']
-            r1 = boundary['properties']['r1']
+            x, y = obj['geometry']['coordinates']
+            name = obj['properties']['name']
+            r1 = obj['properties']['r1']
             font_size="9px" if r1<800 else "11px"
-            boundary = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
-            g.add(boundary)
-            gh.add(boundary)
+            obj = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
+            g.add(obj)
+            gh.add(obj)
 
 
     if title:
@@ -237,7 +237,7 @@ def make_index_page(
         out_svg_path,
         width_p_m,
         height_p_m,
-        scale = 1/9000000,
+        scale = 1/35000000,
         width_mm = 210,
         height_mm = 297
         ):
@@ -263,13 +263,18 @@ def make_index_page(
     #pages
     gP = dwg.g(id='pages', transform=transform_str)
     dwg.add(gP)
+    #page nb
+    gPNB = dwg.g(id='page_numbers', transform=transform_str)
+    dwg.add(gPNB)
 
-    #draw pages
+    #draw pages and number
     width_p_m = width_p_m/2
     height_p_m = height_p_m/2
     for p in pages:
         points = [(p.x-width_p_m, y_min + y_max-p.y+height_p_m), (p.x+width_p_m, y_min + y_max-p.y+height_p_m), (p.x+width_p_m, y_min + y_max-p.y-height_p_m), (p.x-width_p_m, y_min + y_max-p.y-height_p_m)]
-        gP.add(dwg.polygon(points, fill='none', stroke='black', stroke_width=3000))
+        gP.add(dwg.polygon(points, fill='#9162ff', fill_opacity=0.5, stroke='#000', stroke_width=3000))
+        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=90000, stroke="white", stroke_width=20000))
+        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=90000, fill="black"))
 
 
     #draw boundaries
@@ -280,7 +285,7 @@ def make_index_page(
         geom = boundary.geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke="#444", fill="none", stroke_width=3000, stroke_linecap="round", stroke_linejoin="round"))
+            gBN.add(dwg.polyline(points, stroke="black", fill="none", stroke_width=3000, stroke_linecap="round", stroke_linejoin="round"))
 
 
     #print("Save SVG", res)

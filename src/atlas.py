@@ -93,9 +93,9 @@ pages.append(Page(1296216, 2313164, title="Açores"))
 pages.append(Page(1847000, 1521000, title="Madeira"))
 
 #canaries
-pages.append(Page(1660000, 1010000, title="Canarias"))
-pages.append(Page(1830000, 1010000, title="Canarias"))
-pages.append(Page(1955151, 1010000, title="Canarias"))
+pages.append(Page(1640000, 1080000, title="Canarias"))
+pages.append(Page(1830000, 1080000, title="Canarias"))
+pages.append(Page(1955151, 1080000, title="Canarias"))
 
 print(len(pages), "pages")
 
@@ -110,6 +110,7 @@ make_index_page(
 )
 cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
 
+#exit()
 
 # function to make a page
 def make_page(page):
