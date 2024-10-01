@@ -60,7 +60,7 @@ def make_sub_row(j, ri, ox, oy, dx):
         if i==14 and j==5: oy_ = -100000
         pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
-for j in range(5, 4, -1):
+for j in range(12, 4, -1):
     if   j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
     elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, dx)
     elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
@@ -77,23 +77,21 @@ for j in range(5, 4, -1):
 
 
 
-''''
 #cyprus
-pages.append(Page(code, 6421000, 1639000, title="Cyprus")); code+=1
+pages.append(Page(6421000, 1639000, title="Cyprus"))
 
 #acores
-pages.append(Page(code, 952995, 2764729, title="Açores")); code+=1
-pages.append(Page(code, 1149886, 2516476, title="Açores")); code+=1
-pages.append(Page(code, 1296216, 2313164, title="Açores")); code+=1
+pages.append(Page(952995, 2764729, title="Açores"))
+pages.append(Page(1149886, 2516476, title="Açores"))
+pages.append(Page(1296216, 2313164, title="Açores"))
 
 #madeira
-pages.append(Page(code, 1847000, 1521000, title="Madeira")); code+=1
+pages.append(Page(1847000, 1521000, title="Madeira"))
 
 #canaries
-pages.append(Page(code, 1660000, 1010000, title="Canarias")); code+=1
-pages.append(Page(code, 1830000, 1010000, title="Canarias")); code+=1
-pages.append(Page(code, 1955151, 1010000, title="Canarias")); code+=1
-'''
+pages.append(Page(1660000, 1010000, title="Canarias"))
+pages.append(Page(1830000, 1010000, title="Canarias"))
+pages.append(Page(1955151, 1010000, title="Canarias"))
 
 
 print(len(pages), "pages")
