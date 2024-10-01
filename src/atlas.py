@@ -68,7 +68,7 @@ for j in range(7, 6, -1):
     elif j==10: ox = -50000; ri = range(8, 14, 1)
     elif j==9: ox = 85000; ri = range(7, 13, 1)
     elif j==8: ox = 0; ri = range(7, 14, 1); #dx_=0.8*dx
-    elif j==7: ox = 50000; ri = range(2, 14, 1)
+    elif j==7: ox = 100000; ri = range(2, 14, 1)
 
     if ri==None: ri = range(0, 17, 1)
     if dx_==None: dx_ = dx
