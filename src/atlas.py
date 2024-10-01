@@ -102,7 +102,7 @@ print(len(pages), "pages")
 
 
 pdfs = []
-indp = make_index_page(pages, "assets/BN_3M.gpkg",
+indp = make_index_page(pages, "assets/BN_60M.gpkg",
         out_folder + 'pages/index.svg'
 )
 #pdfs.append(indp)
