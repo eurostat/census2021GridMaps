@@ -60,9 +60,13 @@ xmi = 2500000
 ymi = 1334600
 xma = 6107000
 yma = 5450000
-for j in range(5, 0, -1):
-    for i in range(0, 5, 1):
-        pages.append(Page(code, xmi+i*dx, ymi+j*dy, str(i)+"_"+str(j))); code+=1
+for j in range(12, 0, -1):
+    cy = ymi+j*dy
+    if(cy>yma): print("j ", j); exit(0)
+    for i in range(0, 17, 1):
+        cx = xmi+i*dx
+        if(cx>xma): print("i ", i); exit(0)
+        pages.append(Page(code, cx, cy, str(i)+"_"+str(j))); code+=1
 
 
 #cyprus
