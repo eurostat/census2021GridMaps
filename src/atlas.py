@@ -31,12 +31,13 @@ print("Make pages index")
 #print(dx, dy)
 
 class Page:
-    def __init__(self, code: int, x: float, y: float, i: int = None, j: int = None):
+    def __init__(self, code: int, x: float, y: float, i: int = None, j: int = None, title: str = None):
         self.code = code
         self.x = x
         self.y = y
         self.i = i
         self.j = j
+        self.title = title
 
 
 pages = []
@@ -54,11 +55,20 @@ for j in range(15, 0, -1):
         code += 1
 '''
 
-  
+
+
+#acores
+pages.append(Page(code, 952995, 2764729, "Açores")); code+=1
+pages.append(Page(code, 1149886, 2516476, "Açores")); code+=1
+pages.append(Page(code, 1296216, 2313164, "Açores")); code+=1
+
+#madeira
+pages.append(Page(code, 1847000, 1521000, "Madeira")); code+=1
+
 #canaries
-pages.append(Page(code, 1663436, 980929)); code+=1
-pages.append(Page(code, 1837224, 980929)); code+=1
-pages.append(Page(code, 1955151, 980929)); code+=1
+pages.append(Page(code, 1660000, 1010000, "Canarias")); code+=1
+pages.append(Page(code, 1830000, 1010000, "Canarias")); code+=1
+pages.append(Page(code, 1955151, 1010000, "Canarias")); code+=1
 
 #cyprus
 pages.append(Page(code, 6421000, 1639000)); code+=1
