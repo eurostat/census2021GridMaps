@@ -6,6 +6,7 @@ import concurrent.futures
 print("Start")
 
 #TODO
+#check central point
 #decompose make svg and to_pdf
 #show assemply table
 #better define assembly table: function to generate it
@@ -100,11 +101,6 @@ print(len(pages), "pages")
 pdfs = []
 #indp = make_index_page(pages)
 #pdfs.append(indp)
-
-
-#print("load cells")
-#cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
-#print(len(cells), "cells loaded")
 
 
 # function to make a page

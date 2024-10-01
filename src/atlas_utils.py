@@ -1,6 +1,5 @@
 import fiona
 import svgwrite
-import csv
 from trivariate import trivariate_classifier
 import pypdf
 
