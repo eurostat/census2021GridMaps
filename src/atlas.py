@@ -54,8 +54,11 @@ for j in range(15, 0, -1):
         code += 1
 '''
 
-#cyprus
 
+#canaries
+pages.append(Page(code, 1656194, 991274)); code+=1
+
+#cyprus
 pages.append(Page(code, 6421000, 1639000)); code+=1
 
 print(len(pages), "pages")
