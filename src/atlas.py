@@ -6,12 +6,10 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#improve index page - format !!!
-#improve index
+#improve index page
 #decompose make svg and to_pdf
-#better define assembly table: function to generate it
+#page title and legend
 #euronym for non greek characters
-#road network in background ? no...
 
 
 num_processors_to_use = 1
