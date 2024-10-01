@@ -56,6 +56,14 @@ for j in range(15, 0, -1):
 '''
 
 
+xmi = 2500000
+ymi = 1334600
+xma = 6107000
+yma = 5450000
+for j in range(10, 8, -1):
+    for i in range(0, 5, 1):
+        pages.append(Page(code, xmi+i*dx, ymi+j*dy, str(i)+"_"+str(j))); code+=1
+
 
 #acores
 pages.append(Page(code, 952995, 2764729, "Açores")); code+=1
@@ -71,11 +79,9 @@ pages.append(Page(code, 1830000, 1010000, "Canarias")); code+=1
 pages.append(Page(code, 1955151, 1010000, "Canarias")); code+=1
 
 #cyprus
-pages.append(Page(code, 6421000, 1639000)); code+=1
+pages.append(Page(code, 6421000, 1639000, "Cyprus")); code+=1
 
 print(len(pages), "pages")
-
-
 
 
 
