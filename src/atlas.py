@@ -54,9 +54,12 @@ def make_sub_row(j, ri, ox, oy, dx):
         ox_ =0; oy_ = 0
         if i==6 and j==6: oy_ = -300000
         if i==7 and j==6: oy_ = -100000
+        if i==3 and j==5: oy_ = -130000
+        if i==13 and j==5: oy_ = -100000
+        if i==14 and j==5: oy_ = -100000
         pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
-for j in range(6, 5, -1):
+for j in range(5, 4, -1):
     if   j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
     elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, dx)
     elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
@@ -66,8 +69,9 @@ for j in range(6, 5, -1):
         make_sub_row(j, range(2, 4, 1), 80000, -40000, dx)
         make_sub_row(j, range(8, 14, 1), 0, 0, dx)
     elif  j==6:
-        #make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
+        make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
         make_sub_row(j, range(6, 14, 1), -100000, 0, dx)
+    elif  j==5: make_sub_row(j, range(3, 15, 1), 120000, 0, dx)
     else: make_sub_row(j, range(0, 17, 1), 0, 0, dx)
 
 
