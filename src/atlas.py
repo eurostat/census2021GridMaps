@@ -59,18 +59,19 @@ for j in range(15, 0, -1):
 xmi = 2500000; ymi = 1334600
 xma = 6107000; yma = 5450000
 
-def make_sub_row(j, ri, ox, oy, code, dx):
+def make_sub_row(j, ri, ox, oy, dx):
     for i in ri:
-        pages.append(Page(code, xmi + i*dx + ox, ymi + j*dy + oy, i, j, str(i)+"_"+str(j))); code+=1
+        pages.append(Page(code, xmi + i*dx + ox, ymi + j*dy + oy, i, j, str(i)+"_"+str(j)));
+        code += 1
 
 for j in range(12, 6, -1):
-    if j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, code, dx)
-    elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, code, dx)
-    elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, code, dx)
-    elif j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, code, dx)
-    elif j==8: make_sub_row(j, range(7, 14, 1), 0, 0, code, dx)
-    elif j==7: make_sub_row(j, range(2, 14, 1), 100000, 0, code, dx)
-    else: make_sub_row(j, range(0, 17, 1), 0, 0, code, dx)
+    if j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
+    elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, dx)
+    elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
+    elif j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, dx)
+    elif j==8: make_sub_row(j, range(7, 14, 1), 0, 0, dx)
+    elif j==7: make_sub_row(j, range(2, 14, 1), 100000, 0, dx)
+    else: make_sub_row(j, range(0, 17, 1), 0, 0, dx)
 
 
 
