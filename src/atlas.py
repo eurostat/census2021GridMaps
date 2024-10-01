@@ -6,7 +6,7 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#improve index page
+#improve index page - format !!!
 #improve index
 #decompose make svg and to_pdf
 #better define assembly table: function to generate it

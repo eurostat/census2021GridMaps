@@ -238,8 +238,8 @@ def make_index_page(
         width_p_m,
         height_p_m,
         scale = 1/9000000,
-        width_mm = 841,
-        height_mm = 1189
+        width_mm = 210,
+        height_mm = 297
         ):
 
     cx = 3900000
