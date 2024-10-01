@@ -161,7 +161,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
 
     pdfs = [index_file+".pdf"]
     for i in range(0,len(pages)): pdfs.append(out_folder + "pages/" + str(i+1)+".pdf")
-    print(pdfs)
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
