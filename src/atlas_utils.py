@@ -235,7 +235,7 @@ def make_index_page(
         pages,
         boundaries_file,
         out_svg_path,
-        scale = 1/6000000,
+        scale = 1/8000000,
         width_mm = 841, height_mm = 1189,
         ):
 
@@ -266,14 +266,10 @@ def make_index_page(
 
     for boundary in boundaries:
         boundary = boundary[1]
-
-        #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-        colstr = "#888" if boundary['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
-
         geom = boundary.geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=12000, stroke_linecap="round", stroke_linejoin="round"))
+            gBN.add(dwg.polyline(points, stroke="#444", fill="none", stroke_width=3000, stroke_linecap="round", stroke_linejoin="round"))
 
 
     #print("Save SVG", res)
