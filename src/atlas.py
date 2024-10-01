@@ -95,6 +95,7 @@ pages.append(Page(code, 1830000, 1010000, title="Canarias")); code+=1
 pages.append(Page(code, 1955151, 1010000, title="Canarias")); code+=1
 '''
 
+
 print(len(pages), "pages")
 
 
@@ -121,7 +122,7 @@ def make_page(page):
         )
 
     if not ok:
-        print("WARNING: useless page", page.title)
+        print("WARNING: empty page", page.title)
         return
 
     #print("make pdf")

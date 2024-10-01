@@ -3,59 +3,6 @@ import svgwrite
 from trivariate import trivariate_classifier
 import pypdf
 
-'''''
-def load_cells(in_CSV):
-
-    #print("Load cell data", res)
-    cells = []
-    with open(in_CSV, mode='r', newline='') as file:
-        csv_reader = csv.DictReader(file)
-        for cell in csv_reader:
-            if cell['T'] == '0' or cell['T'] == '': continue
-            del cell['M']
-            del cell['F']
-            del cell['EMP']
-            del cell['NAT']
-            del cell['EU_OTH']
-            del cell['OTH']
-            del cell['SAME']
-            del cell['CHG_IN']
-            del cell['CHG_OUT']
-            del cell['CONFIDENTIALSTATUS']
-            del cell['POPULATED']
-            del cell['LAND_SURFACE']
-            #del cell['NB']
-            del cell['fid']
-
-            #cell['x'] = int(cell['x'])
-            #cell['y'] = int(cell['y'])
-
-            sp = cell['GRD_ID'].split('N')[1].split('E')
-            cell['x'] = int(sp[1])
-            cell['y'] = int(sp[0])
-            del cell['GRD_ID']
-
-            cell['T'] = int(cell['T'])
-
-            cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
-            cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
-            cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
-            cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
-
-            #print(cell)
-            cells.append(cell)
-
-    #print(len(cells), "cells loaded")
-    #print(cells[0])
-
-    #print("Sort cells")
-    cells.sort(key=lambda d: (-d['y'], d['x']))
-
-    return cells
-'''''
-
-
-
 
 def make_svg_map(
         cells_file,
@@ -137,7 +84,7 @@ def make_svg_map(
     classifier = trivariate_classifier(
         ['Y_LT15', 'Y_1564', 'Y_GE65'],
         lambda cell:cell["T_"],
-        {'center': [0.15, 0.6, 0.25], 'centerCoefficient': 0.25}
+        {'center': [0.15, 0.64, 0.21], 'centerCoefficient': 0.25}
         )
 
     #make groups
