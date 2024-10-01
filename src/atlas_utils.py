@@ -235,7 +235,7 @@ def make_index_page(
         pages,
         boundaries_file,
         out_svg_path,
-        scale = 1/4*4500000,
+        scale = 1/6000000,
         width_mm = 841, height_mm = 1189,
         ):
 
@@ -256,22 +256,13 @@ def make_index_page(
     #make groups
 
     #boundaries
-    if boundaries_file:
-        gBN = dwg.g(id='boundaries', transform=transform_str)
-        dwg.add(gBN)
-
-    #circles
-    gCircles = dwg.g(id='circles', transform=transform_str)
-    dwg.add(gCircles)
-
-    #layout
-    gLayout = dwg.g(id='layout')
-    dwg.add(gLayout)
+    gBN = dwg.g(id='boundaries', transform=transform_str)
+    dwg.add(gBN)
 
 
 
     boundaries_ = fiona.open(boundaries_file, 'r')
-    boundaries = list(boundaries_.items(bbox=bbox))
+    boundaries = list(boundaries_.items())
 
     for boundary in boundaries:
         boundary = boundary[1]
@@ -282,7 +273,7 @@ def make_index_page(
         geom = boundary.geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=120, stroke_linecap="round", stroke_linejoin="round"))
+            gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=12000, stroke_linecap="round", stroke_linejoin="round"))
 
 
     #print("Save SVG", res)
