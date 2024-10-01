@@ -38,10 +38,13 @@ class Page:
         self.i = i
         self.j = j
 
+
+pages = []
+code = 1
+
+''''
 cx0 = 990000
 cy0 = 500000
-code = 1
-pages = []
 for j in range(15, 0, -1):
     for i in range(30):
         cx = cx0 + i*dx
@@ -49,8 +52,17 @@ for j in range(15, 0, -1):
         p = Page(code, cx, cy, i, j)
         pages.append(p)
         code += 1
+'''
+
+#cyprus
+
+pages.append(Page(code, 6421000, 1639000)); code+=1
 
 print(len(pages), "pages")
+
+
+
+
 
 #print("load cells")
 #cells = load_cells('/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.csv')
