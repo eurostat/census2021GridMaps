@@ -60,7 +60,7 @@ def make_sub_row(j, ri, ox, oy, dx):
         if i==14 and j==5: oy_ = -100000
         pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
-for j in range(12, 4, -1):
+for j in range(12, -1, -1):
     if   j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
     elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, dx)
     elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
@@ -73,9 +73,14 @@ for j in range(12, 4, -1):
         make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
         make_sub_row(j, range(6, 14, 1), -100000, 0, dx)
     elif  j==5: make_sub_row(j, range(3, 15, 1), 120000, 0, dx)
-    else: make_sub_row(j, range(0, 17, 1), 0, 0, dx)
-
-
+    elif  j==4: make_sub_row(j, range(4, 16, 1), 0, 0, dx)
+    elif  j==3: make_sub_row(j, range(1, 15, 1), 0, 0, dx)
+    elif  j==2: make_sub_row(j, range(1, 16, 1), 0, 0, dx)
+    elif  j==1: make_sub_row(j, range(1, 17, 1), 0, 0, dx)
+    elif  j==0:
+        make_sub_row(j, range(3, 4, 1), 0, 0, dx)
+        make_sub_row(j, range(9, 11, 1), 0, 0, dx)
+        make_sub_row(j, range(14, 16, 1), 0, 0, dx)
 
 #cyprus
 pages.append(Page(6421000, 1639000, title="Cyprus"))
@@ -92,7 +97,6 @@ pages.append(Page(1847000, 1521000, title="Madeira"))
 pages.append(Page(1660000, 1010000, title="Canarias"))
 pages.append(Page(1830000, 1010000, title="Canarias"))
 pages.append(Page(1955151, 1010000, title="Canarias"))
-
 
 print(len(pages), "pages")
 
