@@ -31,10 +31,10 @@ print("Make pages index")
 #print(dx, dy)
 
 class Page:
-    NB = 1
+    CODE = 1
     def __init__(self, x: float, y: float, i: int = None, j: int = None, title: str = None):
-        self.code = Page.NB
-        Page.NB += 1
+        self.code = Page.CODE
+        Page.CODE += 1
         self.x = x
         self.y = y
         self.i = i
