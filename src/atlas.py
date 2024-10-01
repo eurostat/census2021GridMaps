@@ -31,8 +31,10 @@ print("Make pages index")
 #print(dx, dy)
 
 class Page:
-    def __init__(self, code: int, x: float, y: float, i: int = None, j: int = None, title: str = None):
-        self.code = code
+    NB = 1
+    def __init__(self, x: float, y: float, i: int = None, j: int = None, title: str = None):
+        self.code = Page.NB
+        Page.NB += 1
         self.x = x
         self.y = y
         self.i = i
@@ -40,37 +42,23 @@ class Page:
         self.title = title
 
 
+
 pages = []
-code = 1
-
-''''
-cx0 = 990000
-cy0 = 500000
-for j in range(15, 0, -1):
-    for i in range(30):
-        cx = cx0 + i*dx
-        cy = cy0 + j*dy
-        p = Page(code, cx, cy, i, j)
-        pages.append(p)
-        code += 1
-'''
-
 
 xmi = 2500000; ymi = 1334600
 xma = 6107000; yma = 5450000
 
 def make_sub_row(j, ri, ox, oy, dx):
     for i in ri:
-        pages.append(Page(code, xmi + i*dx + ox, ymi + j*dy + oy, i, j, str(i)+"_"+str(j)));
-        code += 1
+        pages.append(Page(xmi + i*dx + ox, ymi + j*dy + oy, i, j, str(i)+"_"+str(j)))
 
 for j in range(12, 6, -1):
-    if j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
+    if   j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
     elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, dx)
     elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
-    elif j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, dx)
-    elif j==8: make_sub_row(j, range(7, 14, 1), 0, 0, dx)
-    elif j==7: make_sub_row(j, range(2, 14, 1), 100000, 0, dx)
+    elif  j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, dx)
+    elif  j==8: make_sub_row(j, range(7, 14, 1), 0, 0, dx)
+    elif  j==7: make_sub_row(j, range(2, 14, 1), 100000, 0, dx)
     else: make_sub_row(j, range(0, 17, 1), 0, 0, dx)
 
 
