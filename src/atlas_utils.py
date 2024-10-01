@@ -282,3 +282,9 @@ def combine_pdfs(pdf_list, output_pdf_path):
     # Write the combined PDF to the output file
     with open(output_pdf_path, 'wb') as output_file:
         pdf_writer.write(output_file)
+
+
+
+
+def make_index_page(pages):
+    pass

@@ -1,4 +1,4 @@
-from atlas_utils import make_svg_map, combine_pdfs
+from atlas_utils import make_svg_map, combine_pdfs, make_index_page
 import cairosvg
 import concurrent.futures
 
@@ -62,31 +62,35 @@ xma = 6107000
 yma = 5450000
 for j in range(12, 0, -1):
     cy = ymi+j*dy
-    if(cy>yma): print("j ", j); exit(0)
+    #if(cy>yma): print("j ", j); exit(0)
     for i in range(0, 17, 1):
         cx = xmi+i*dx
-        if(cx>xma): print("i ", i); exit(0)
-        pages.append(Page(code, cx, cy, str(i)+"_"+str(j))); code+=1
+        #if(cx>xma): print("i ", i); exit(0)
+        pages.append(Page(code, cx, cy, i, j, str(i)+"_"+str(j))); code+=1
 
 
 #cyprus
-pages.append(Page(code, 6421000, 1639000, "Cyprus")); code+=1
+pages.append(Page(code, 6421000, 1639000, title="Cyprus")); code+=1
 
 #acores
-pages.append(Page(code, 952995, 2764729, "Açores")); code+=1
-pages.append(Page(code, 1149886, 2516476, "Açores")); code+=1
-pages.append(Page(code, 1296216, 2313164, "Açores")); code+=1
+pages.append(Page(code, 952995, 2764729, title="Açores")); code+=1
+pages.append(Page(code, 1149886, 2516476, title="Açores")); code+=1
+pages.append(Page(code, 1296216, 2313164, title="Açores")); code+=1
 
 #madeira
-pages.append(Page(code, 1847000, 1521000, "Madeira")); code+=1
+pages.append(Page(code, 1847000, 1521000, title="Madeira")); code+=1
 
 #canaries
-pages.append(Page(code, 1660000, 1010000, "Canarias")); code+=1
-pages.append(Page(code, 1830000, 1010000, "Canarias")); code+=1
-pages.append(Page(code, 1955151, 1010000, "Canarias")); code+=1
+pages.append(Page(code, 1660000, 1010000, title="Canarias")); code+=1
+pages.append(Page(code, 1830000, 1010000, title="Canarias")); code+=1
+pages.append(Page(code, 1955151, 1010000, title="Canarias")); code+=1
 
 print(len(pages), "pages")
 
+
+pdfs = []
+#indp = make_index_page(pages)
+#pdfs.append(indp)
 
 
 #print("load cells")
@@ -131,7 +135,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
     tasks_to_do = {executor.submit(make_page, page): page for page in pages}
 
     # merge task outputs
-    pdfs = []
     for task_output in concurrent.futures.as_completed(tasks_to_do):
         out = task_output.result()
         if(out==None): continue
