@@ -60,15 +60,21 @@ xmi = 2500000
 ymi = 1334600
 xma = 6107000
 yma = 5450000
-for j in range(12, 0, -1):
+for j in range(11, 10, -1):
     cy = ymi+j*dy
     #if(cy>yma): print("j ", j); exit(0)
-    for i in range(0, 17, 1):
+    ox = 0; oy = 0; ri=None
+    if j==12: ox = 530000; ri = range(7, 10, 1)
+    if j==11: ox = 20000; ri = range(9, 13, 1)
+
+    if ri==None: ri = range(0, 17, 1)
+    for i in ri:
         cx = xmi+i*dx
         #if(cx>xma): print("i ", i); exit(0)
-        pages.append(Page(code, cx, cy, i, j, str(i)+"_"+str(j))); code+=1
+        pages.append(Page(code, cx+ox, cy+oy, i, j, str(i)+"_"+str(j))); code+=1
 
 
+''''
 #cyprus
 pages.append(Page(code, 6421000, 1639000, title="Cyprus")); code+=1
 
@@ -84,6 +90,7 @@ pages.append(Page(code, 1847000, 1521000, title="Madeira")); code+=1
 pages.append(Page(code, 1660000, 1010000, title="Canarias")); code+=1
 pages.append(Page(code, 1830000, 1010000, title="Canarias")); code+=1
 pages.append(Page(code, 1955151, 1010000, title="Canarias")); code+=1
+'''
 
 print(len(pages), "pages")
 
@@ -100,7 +107,7 @@ pdfs = []
 
 # function to make a page
 def make_page(page):
-    print("page", page.code)
+    print("page", page.code, page.title)
 
     file_name = out_folder + 'pages/'+str(page.code)
     ok = make_svg_map(
