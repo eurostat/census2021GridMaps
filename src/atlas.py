@@ -56,17 +56,16 @@ for j in range(15, 0, -1):
 '''
 
 
-xmi = 2500000
-ymi = 1334600
-xma = 6107000
-yma = 5450000
-for j in range(10, 9, -1):
+xmi = 2500000; ymi = 1334600
+xma = 6107000; yma = 5450000
+for j in range(9, 8, -1):
     cy = ymi+j*dy
     #if(cy>yma): print("j ", j); exit(0)
     ox = 0; oy = 0; ri=None
-    if j==12: ox = 530000; ri = range(7, 10, 1)
+    if j==12: ox = 90000; ri = range(9, 12, 1)
     if j==11: ox = 5000; ri = range(9, 13, 1)
     if j==10: ox = -50000; ri = range(8, 14, 1)
+    if j==9: ox = 85000; ri = range(7, 13, 1)
 
     if ri==None: ri = range(0, 17, 1)
     for i in ri:
@@ -123,12 +122,14 @@ def make_page(page):
         title = "page=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
         )
 
-    if not ok: return
+    if not ok:
+        print("WARNING: useless page", page.title)
+        return
 
     #print("make pdf")
     cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
 
-    print("page", page.code, "done")
+    #print("page", page.code, "done")
 
     #pdfs.append(file_name+'.pdf')
     return file_name+'.pdf'
