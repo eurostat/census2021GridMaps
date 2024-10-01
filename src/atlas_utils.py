@@ -19,7 +19,6 @@ def make_svg_map(
         ):
 
     # transform for europe view
-    # A0 dimensions in millimeters
     width_m = width_mm / scale / 1000
     height_m = height_mm / scale / 1000
     x_min, x_max = cx - width_m/2, cx + width_m/2
@@ -27,7 +26,7 @@ def make_svg_map(
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
     bbox = (x_min, y_min, x_max, y_max)
 
-    # Create an SVG drawing object with A0 dimensions in landscape orientation
+    # Create an SVG drawing object
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
     # Set the viewBox attribute to map the custom coordinates to the SVG canvas
     #dwg.viewbox(x_min, y_min, width_m, height_m)
@@ -232,5 +231,59 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
-def make_index_page(pages):
-    pass
+def make_index_page(
+        pages,
+        boundaries_file,
+        out_svg_path,
+        scale = 1/4*4500000,
+        width_mm = 841, height_mm = 1189,
+        ):
+
+    cx = 4300000
+    cy = 3300000
+
+    # transform for europe view
+    width_m = width_mm / scale / 1000
+    height_m = height_mm / scale / 1000
+    x_min, x_max = cx - width_m/2, cx + width_m/2
+    y_min, y_max = cy - height_m/2, cy + height_m/2
+    transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
+    bbox = (x_min, y_min, x_max, y_max)
+
+    # Create an SVG drawing object
+    dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
+
+    #make groups
+
+    #boundaries
+    if boundaries_file:
+        gBN = dwg.g(id='boundaries', transform=transform_str)
+        dwg.add(gBN)
+
+    #circles
+    gCircles = dwg.g(id='circles', transform=transform_str)
+    dwg.add(gCircles)
+
+    #layout
+    gLayout = dwg.g(id='layout')
+    dwg.add(gLayout)
+
+
+
+    boundaries_ = fiona.open(boundaries_file, 'r')
+    boundaries = list(boundaries_.items(bbox=bbox))
+
+    for boundary in boundaries:
+        boundary = boundary[1]
+
+        #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
+        colstr = "#888" if boundary['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+
+        geom = boundary.geometry
+        for line in geom['coordinates']:
+            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+            gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=120, stroke_linecap="round", stroke_linejoin="round"))
+
+
+    #print("Save SVG", res)
+    dwg.save()
