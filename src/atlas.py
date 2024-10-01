@@ -6,9 +6,9 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#check central point
+#improve index page
+#improve index
 #decompose make svg and to_pdf
-#show assemply table
 #better define assembly table: function to generate it
 #euronym for non greek characters
 #road network in background ? no...
@@ -101,12 +101,17 @@ pages.append(Page(1955151, 1010000, title="Canarias"))
 print(len(pages), "pages")
 
 
-pdfs = []
-indp = make_index_page(pages, "assets/BN_60M.gpkg",
-        out_folder + 'pages/index.svg'
+index_file = out_folder + 'pages/index.svg'
+make_index_page(
+    pages,
+    "assets/BN_60M.gpkg",
+    index_file,
+    width_m,
+    height_m
 )
-#pdfs.append(indp)
-exit()
+
+pdfs = []
+pdfs.append(index_file)
 
 # function to make a page
 def make_page(page):

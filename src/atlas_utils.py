@@ -235,11 +235,14 @@ def make_index_page(
         pages,
         boundaries_file,
         out_svg_path,
-        scale = 1/10000000,
-        width_mm = 841, height_mm = 1189,
+        width_p_m,
+        height_p_m,
+        scale = 1/9000000,
+        width_mm = 841,
+        height_mm = 1189
         ):
 
-    cx = 4300000
+    cx = 3900000
     cy = 3300000
 
     # transform for europe view
@@ -248,7 +251,6 @@ def make_index_page(
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
-    bbox = (x_min, y_min, x_max, y_max)
 
     # Create an SVG drawing object
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
@@ -258,12 +260,21 @@ def make_index_page(
     #boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str)
     dwg.add(gBN)
+    #pages
+    gP = dwg.g(id='pages', transform=transform_str)
+    dwg.add(gP)
+
+    #draw pages
+    width_p_m = width_p_m/2
+    height_p_m = height_p_m/2
+    for p in pages:
+        points = [(p.x-width_p_m, y_min + y_max-p.y+height_p_m), (p.x+width_p_m, y_min + y_max-p.y+height_p_m), (p.x+width_p_m, y_min + y_max-p.y-height_p_m), (p.x-width_p_m, y_min + y_max-p.y-height_p_m)]
+        gP.add(dwg.polygon(points, fill='none', stroke='black', stroke_width=3000))
 
 
-
+    #draw boundaries
     boundaries_ = fiona.open(boundaries_file, 'r')
     boundaries = list(boundaries_.items())
-
     for boundary in boundaries:
         boundary = boundary[1]
         geom = boundary.geometry
