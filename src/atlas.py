@@ -58,18 +58,23 @@ for j in range(15, 0, -1):
 
 xmi = 2500000; ymi = 1334600
 xma = 6107000; yma = 5450000
-for j in range(9, 8, -1):
-    cy = ymi+j*dy
+for j in range(7, 6, -1):
+    dy_ = dy
+    cy = ymi+j*dy_
     #if(cy>yma): print("j ", j); exit(0)
-    ox = 0; oy = 0; ri=None
+    ox = 0; oy = 0; ri=None; dx_ = None
     if j==12: ox = 90000; ri = range(9, 12, 1)
-    if j==11: ox = 5000; ri = range(9, 13, 1)
-    if j==10: ox = -50000; ri = range(8, 14, 1)
-    if j==9: ox = 85000; ri = range(7, 13, 1)
+    elif j==11: ox = 5000; ri = range(9, 13, 1)
+    elif j==10: ox = -50000; ri = range(8, 14, 1)
+    elif j==9: ox = 85000; ri = range(7, 13, 1)
+    elif j==8: ox = 0; ri = range(7, 14, 1); #dx_=0.8*dx
+    elif j==7: ox = 50000; ri = range(2, 14, 1)
 
     if ri==None: ri = range(0, 17, 1)
+    if dx_==None: dx_ = dx
+
     for i in ri:
-        cx = xmi+i*dx
+        cx = xmi+i*dx_
         #if(cx>xma): print("i ", i); exit(0)
         pages.append(Page(code, cx+ox, cy+oy, i, j, str(i)+"_"+str(j))); code+=1
 
