@@ -54,9 +54,11 @@ for j in range(15, 0, -1):
         code += 1
 '''
 
-
+  
 #canaries
-pages.append(Page(code, 1656194, 991274)); code+=1
+pages.append(Page(code, 1663436, 980929)); code+=1
+pages.append(Page(code, 1837224, 980929)); code+=1
+pages.append(Page(code, 1955151, 980929)); code+=1
 
 #cyprus
 pages.append(Page(code, 6421000, 1639000)); code+=1
