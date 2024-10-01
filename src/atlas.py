@@ -6,6 +6,7 @@ import concurrent.futures
 print("Start")
 
 #TODO
+#decompose make svg and to_pdf
 #show assemply table
 #better define assembly table: function to generate it
 #euronym for non greek characters
@@ -50,15 +51,23 @@ xma = 6107000; yma = 5450000
 
 def make_sub_row(j, ri, ox, oy, dx):
     for i in ri:
-        pages.append(Page(xmi + i*dx + ox, ymi + j*dy + oy, i, j, str(i)+"_"+str(j)))
+        ox_ =0; oy_ = 0
+        if i==6 and j==6: oy_ = -300000
+        if i==7 and j==6: oy_ = -100000
+        pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
-for j in range(12, 6, -1):
+for j in range(6, 5, -1):
     if   j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
     elif j==11: make_sub_row(j, range(9, 13, 1), 5000, 0, dx)
     elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
     elif  j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, dx)
     elif  j==8: make_sub_row(j, range(7, 14, 1), 0, 0, dx)
-    elif  j==7: make_sub_row(j, range(2, 14, 1), 100000, 0, dx)
+    elif  j==7:
+        make_sub_row(j, range(2, 4, 1), 80000, -40000, dx)
+        make_sub_row(j, range(8, 14, 1), 0, 0, dx)
+    elif  j==6:
+        #make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
+        make_sub_row(j, range(6, 14, 1), -100000, 0, dx)
     else: make_sub_row(j, range(0, 17, 1), 0, 0, dx)
 
 
