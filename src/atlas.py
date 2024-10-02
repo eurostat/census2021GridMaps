@@ -6,6 +6,7 @@ import concurrent.futures
 print("Start")
 
 #TODO
+#code on pages
 #improve index page
 #decompose make svg and to_pdf
 #page title and legend
