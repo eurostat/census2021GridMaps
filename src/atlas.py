@@ -6,12 +6,13 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#20km to the north ?
-#code on pages
-#improve index page
 #decompose make svg and to_pdf
+#code on pages
+#20km to the north ?
+#improve index page
 #page title and legend
 #euronym for non greek characters
+#check greek names
 
 
 num_processors_to_use = 1
@@ -100,7 +101,7 @@ pages.append(Page(1955151, 1080000, title="Canarias"))
 print(len(pages), "pages")
 
 
-index_file = out_folder + 'pages/index'
+index_file = out_folder + 'index'
 make_index_page(
     pages,
     "assets/BN_60M.gpkg",
@@ -116,33 +117,17 @@ cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
 def make_page(page):
     print("page", page.code, page.title)
 
-    file_name = out_folder + 'pages/'+str(page.code)
-    ok = make_svg_map(
+    make_svg_map(
         "/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg",
-        file_name+'.svg',
+        out_folder + 'pages_svg/'+str(page.code)+".svg",
         1000,
         scale = scale,
         width_mm = width_mm, height_mm = height_mm,
         cx = page.x, cy=page.y,
         boundaries_file = "assets/BN_1M.gpkg",
         labels_file = "assets/labels.gpkg",
-        title = "page=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
+        title = "code=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
         )
-
-    if not ok:
-        print("WARNING: empty page", page.title)
-        return
-
-    #print("make pdf")
-    cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
-
-    #print("page", page.code, "done")
-
-    #pdfs.append(file_name+'.pdf')
-
-
-#for page in pages: make_page(page)
-
 
 
 #launch parallel computation   
@@ -152,17 +137,18 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as
     # merge task outputs
     for task_output in concurrent.futures.as_completed(tasks_to_do):
         pass
-        #out = task_output.result()
-        #if(out==None): continue
-        #pdfs.append(out)
 
 
-    #sort pages
-    #pdfs.sort(key = lambda pdf: int(pdf.replace(out_folder + "pages/","").replace(".pdf","")))
+
+
+def make_pdf():
 
     pdfs = [index_file+".pdf"]
     for i in range(0,len(pages)): pdfs.append(out_folder + "pages/" + str(i+1)+".pdf")
 
+
+    #print("make pdf")
+    cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
+
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
-

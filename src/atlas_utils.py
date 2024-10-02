@@ -37,8 +37,6 @@ def make_svg_map(
     cells_ = fiona.open(cells_file, 'r')
     cells = list(cells_.items(bbox=bbox))
 
-    if len(cells) == 0: return False
-
     cells___ = []
     for cell in cells:
         cell = cell[1]
@@ -59,8 +57,6 @@ def make_svg_map(
 
         cells___.append(cell)
     cells = cells___
-
-    if len(cells) == 0: return False
 
     # Set the background color to white
     #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
@@ -136,8 +132,8 @@ def make_svg_map(
 
     #case where there is no cell to draw
     if no_cells:
-        #print("skip - no cells")
-        return False
+        print("WARNING: empty page", title)
+        return
 
     # draw boundaries
     if boundaries_file:
@@ -161,10 +157,8 @@ def make_svg_map(
         #coordinates conversion functions
         width_px = width_mm * 96 / 25.4
         height_px = height_mm * 96 / 25.4
-        def geoToPixX(xg):
-            return (xg-x_min)/width_m * width_px
-        def geoToPixY(yg):
-            return (1-(yg-y_min)/height_m) * height_px
+        def geoToPixX(xg): return (xg-x_min)/width_m * width_px
+        def geoToPixY(yg): return (1-(yg-y_min)/height_m) * height_px
 
         #load labels
         labels_ = fiona.open(labels_file, "r")
@@ -206,8 +200,6 @@ def make_svg_map(
 
     #print("Save SVG", res)
     dwg.save()
-
-    return True
 
 
 
