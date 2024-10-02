@@ -6,8 +6,6 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#decompose make svg and to_pdf
-#code on pages
 #20km to the north ?
 #improve index page
 #page title and legend
@@ -47,8 +45,8 @@ class Page:
 
 pages = []
 
-xmi = 2500000; ymi = 1334600
-xma = 6107000; yma = 5450000
+#south west position for europe
+xmi = 2500000; ymi = 1350000
 
 def make_sub_row(j, ri, ox, oy, dx):
     for i in ri:
@@ -129,7 +127,7 @@ def make_svg():
             cx = page.x, cy=page.y,
             boundaries_file = "assets/BN_1M.gpkg",
             labels_file = "assets/labels.gpkg",
-            title = "code=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
+            title = page.code #"code=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
             )
 
     #launch parallel computation   
@@ -158,5 +156,5 @@ def make_pdf():
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
 
-#make_svg()
+make_svg()
 make_pdf()

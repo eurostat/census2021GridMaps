@@ -107,6 +107,8 @@ def make_svg_map(
 
 
 
+
+
     #print("Draw cells")
     no_cells = True
     for cell in cells:
@@ -194,8 +196,8 @@ def make_svg_map(
 
 
     if title:
-        ttt = dwg.text(title, insert=(5, 20), font_size="20px")
-        gLayout.add(ttt)
+        gLayout.add(dwg.rect(insert=(width_px-110, -20), size=(130, 100), fill='black', stroke='none', stroke_width=0, fill_opacity=0.5, rx=20, ry=20))
+        gLayout.add(dwg.text(title, insert=(width_px-55, 45), font_size="40px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
 
 
 
