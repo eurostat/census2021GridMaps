@@ -86,7 +86,7 @@ def make_svg_map(
 
     #boundaries
     if boundaries_file:
-        gBN = dwg.g(id='boundaries', transform=transform_str) #, fill="none", stroke_width=100/1000*scale, stroke_linecap="round", stroke_linejoin="round")
+        gBN = dwg.g(id='boundaries', transform=transform_str)
         dwg.add(gBN)
 
     #circles
@@ -103,6 +103,7 @@ def make_svg_map(
     #layout
     gLayout = dwg.g(id='layout')
     dwg.add(gLayout)
+
 
 
 

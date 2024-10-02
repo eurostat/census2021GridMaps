@@ -100,7 +100,6 @@ pages.append(Page(1955151, 1080000, title="Canarias"))
 
 print(len(pages), "pages")
 
-
 index_file = out_folder + 'index'
 make_index_page(
     pages,
@@ -109,46 +108,55 @@ make_index_page(
     width_m,
     height_m
 )
-cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
+
+#cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
 
 #exit()
 
-# function to make a page
-def make_page(page):
-    print("page", page.code, page.title)
 
-    make_svg_map(
-        "/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg",
-        out_folder + 'pages_svg/'+str(page.code)+".svg",
-        1000,
-        scale = scale,
-        width_mm = width_mm, height_mm = height_mm,
-        cx = page.x, cy=page.y,
-        boundaries_file = "assets/BN_1M.gpkg",
-        labels_file = "assets/labels.gpkg",
-        title = "code=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
-        )
+def make_svg():
 
+    # function to make a page
+    def make_page(page):
+        print("page", page.code, page.title)
 
-#launch parallel computation   
-with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
-    tasks_to_do = {executor.submit(make_page, page): page for page in pages}
+        make_svg_map(
+            "/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg",
+            out_folder + 'pages_svg/'+str(page.code)+".svg",
+            1000,
+            scale = scale,
+            width_mm = width_mm, height_mm = height_mm,
+            cx = page.x, cy=page.y,
+            boundaries_file = "assets/BN_1M.gpkg",
+            labels_file = "assets/labels.gpkg",
+            title = "code=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
+            )
 
-    # merge task outputs
-    for task_output in concurrent.futures.as_completed(tasks_to_do):
-        pass
+    #launch parallel computation   
+    with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
+        tasks_to_do = {executor.submit(make_page, page): page for page in pages}
+        for task_output in concurrent.futures.as_completed(tasks_to_do): pass
 
 
 
 
 def make_pdf():
 
+    #index file
+    cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
+    #pages
+    for p in pages:
+        print("pdf", p.code)
+        cairosvg.svg2pdf(url=out_folder + 'pages_svg/'+str(p.code)+".svg", write_to = out_folder + 'pages_pdf/'+str(p.code)+".pdf")
+
+    #combine
     pdfs = [index_file+".pdf"]
-    for i in range(0,len(pages)): pdfs.append(out_folder + "pages/" + str(i+1)+".pdf")
-
-
-    #print("make pdf")
-    cairosvg.svg2pdf(url=file_name+'.svg', write_to=file_name+'.pdf')
+    for p in pages:
+        pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
+
+
+#make_svg()
+make_pdf()
