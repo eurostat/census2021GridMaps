@@ -6,13 +6,14 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#andorra, etc.
-#little greek island
+#little greek island + sicilia
+#page odd/even
 #page title and legend
 #euronym for non greek characters
 #check greek names
 #improve index page
-
+#counts by category - better select center class parameter
+#show other families
 
 num_processors_to_use = 1
 
@@ -152,7 +153,8 @@ def make_svg():
             cx = page.x, cy=page.y,
             boundaries_file = "assets/BN_1M.gpkg",
             labels_file = "assets/labels.gpkg",
-            title = page.code #"code=" + str(page.code) + "  i=" + str(page.i) + "  j=" + str(page.j)
+            title = "i=" + str(page.i) + "  j=" + str(page.j),
+            page = page.code
             )
 
     #launch parallel computation   

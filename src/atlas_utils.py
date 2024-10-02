@@ -15,7 +15,8 @@ def make_svg_map(
         boundaries_file = None,
         labels_file = None,
         font_name='Myriad Pro',
-        title = None
+        title = None,
+        page = None
         ):
 
     # transform for europe view
@@ -186,6 +187,7 @@ def make_svg_map(
             if cc=="MK": continue
             if cc=="FO": continue
             if cc=="SJ": continue
+            if cc=="AD": continue
             x, y = obj['geometry']['coordinates']
             name = obj['properties']['name']
             r1 = obj['properties']['r1']
@@ -195,10 +197,12 @@ def make_svg_map(
             gh.add(obj)
 
 
-    if title:
+    if page:
         gLayout.add(dwg.rect(insert=(width_px-70, -30), size=(100, 90), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
-        gLayout.add(dwg.text(title, insert=(width_px-35, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
+        gLayout.add(dwg.text(page, insert=(width_px-35, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
 
+    if title:
+        gLayout.add(dwg.text(title, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
 
     #print("Save SVG", res)
