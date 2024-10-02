@@ -63,6 +63,7 @@ def make_sub_row(j, ri, ox, oy, dx):
         if i==15 and j==4: ox_ = -60000; oy_ = -100000
         if i==1 and j==2: ox_ = 80000
         if i==15 and j==2: ox_ = -70000
+        if i==1 and j==1: oy_ = 200000
         pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
 for j in range(12, -1, -1):
