@@ -6,10 +6,10 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#improve index page
 #page title and legend
 #euronym for non greek characters
 #check greek names
+#improve index page
 
 
 num_processors_to_use = 1
@@ -63,7 +63,16 @@ def make_sub_row(j, ri, ox, oy, dx):
         if i==15 and j==4: ox_ = -60000; oy_ = -100000
         if i==1 and j==2: ox_ = 80000
         if i==15 and j==2: ox_ = -70000
-        if i==1 and j==1: oy_ = 200000
+        if i==6 and j==2: oy_ = 150000; ox_ = -70000
+        if i==8 and j==2: oy_ = 100000; ox_ = 50000 #corsica
+        if i==9 and j==2: oy_ = 100000; ox_ = 100000 #roma
+        if i==1 and j==1: oy_ = 170000
+        if i==3 and j==1: oy_ = 50000
+        if i==4 and j==1: oy_ = 80000
+        if i==5 and j==1: oy_ = 200000
+        if i==6 and j==1: oy_ = 200000; ox_ = -50000
+        if i==8 and j==1: oy_ = 180000; ox_ = -50000 #sardinia
+        if i==10 and j==0: oy_ = 80000 #malta
         pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
 for j in range(12, -1, -1):
@@ -86,7 +95,9 @@ for j in range(12, -1, -1):
         make_sub_row(j, range(8, 16, 1), -70000, 15000, dx)
     elif  j==1:
         make_sub_row(j, range(1, 7, 1), 0, 30000, dx)
-        make_sub_row(j, range(8, 17, 1), 0, 30000, dx)
+        make_sub_row(j, range(8, 9, 1), 0, 30000, dx)
+        make_sub_row(j, range(10, 12, 1), -90000, 30000, dx)
+        make_sub_row(j, range(13, 17, 1), -100000, 30000, dx)
     elif  j==0:
         make_sub_row(j, range(3, 4, 1), 0, 200000, dx)
         make_sub_row(j, range(9, 11, 1), 0, 120000, dx)
