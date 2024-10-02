@@ -6,6 +6,8 @@ import concurrent.futures
 print("Start")
 
 #TODO
+#andorra, etc.
+#little greek island
 #page title and legend
 #euronym for non greek characters
 #check greek names
@@ -121,6 +123,9 @@ pages.append(Page(1955151, 1080000, title="Canarias"))
 
 print(len(pages), "pages")
 
+
+
+#make index page
 index_file = out_folder + 'index'
 make_index_page(
     pages,
@@ -129,10 +134,7 @@ make_index_page(
     width_m,
     height_m
 )
-
-#cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
-
-exit()
+#exit()
 
 
 def make_svg():
