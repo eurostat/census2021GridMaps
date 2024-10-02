@@ -174,8 +174,7 @@ def make_svg_map(
             obj = obj[1]
 
             rs = obj['properties']['rs']
-            #if(rs<250): continue
-            if(rs<220): continue
+            if(rs<210): continue
 
             cc = obj['properties']['cc']
             if cc=="UK": continue

@@ -6,6 +6,7 @@ import concurrent.futures
 print("Start")
 
 #TODO
+#20km to the north ?
 #code on pages
 #improve index page
 #decompose make svg and to_pdf
