@@ -6,7 +6,6 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#20km to the north ?
 #improve index page
 #page title and legend
 #euronym for non greek characters
@@ -51,11 +50,19 @@ xmi = 2500000; ymi = 1350000
 def make_sub_row(j, ri, ox, oy, dx):
     for i in ri:
         ox_ =0; oy_ = 0
-        if i==6 and j==6: oy_ = -300000
-        if i==7 and j==6: oy_ = -100000
-        if i==3 and j==5: oy_ = -130000
-        if i==13 and j==5: oy_ = -100000
-        if i==14 and j==5: oy_ = -100000
+        if i==8 and j==10: ox_ = 70000
+        if i==7 and j==8: ox_ = 60000
+        if i==13 and j==8: ox_ = -50000
+        if i==13 and j==7: ox_ = -50000
+        if i==7 and j==6: oy_ = -70000
+        if i==13 and j==6: ox_ = -80000
+        if i==3 and j==5: oy_ = -150000
+        if i==13 and j==5: oy_ = -150000
+        if i==14 and j==5: oy_ = -150000
+        if i==4 and j==4: ox_ = 80000
+        if i==15 and j==4: ox_ = -60000; oy_ = -100000
+        if i==1 and j==2: ox_ = 80000
+        if i==15 and j==2: ox_ = -70000
         pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
 for j in range(12, -1, -1):
@@ -69,16 +76,20 @@ for j in range(12, -1, -1):
         make_sub_row(j, range(8, 14, 1), 0, 0, dx)
     elif  j==6:
         make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
-        make_sub_row(j, range(6, 14, 1), -100000, 0, dx)
+        make_sub_row(j, range(7, 14, 1), -100000, 0, dx)
     elif  j==5: make_sub_row(j, range(3, 15, 1), 120000, 0, dx)
     elif  j==4: make_sub_row(j, range(4, 16, 1), 0, 0, dx)
-    elif  j==3: make_sub_row(j, range(1, 15, 1), 0, 0, dx)
-    elif  j==2: make_sub_row(j, range(1, 16, 1), 0, 0, dx)
-    elif  j==1: make_sub_row(j, range(1, 17, 1), 0, 0, dx)
+    elif  j==3: make_sub_row(j, range(1, 15, 1), 100000, 0, dx)
+    elif  j==2:
+        make_sub_row(j, range(1, 7, 1), -70000, 15000, dx)
+        make_sub_row(j, range(8, 16, 1), -70000, 15000, dx)
+    elif  j==1:
+        make_sub_row(j, range(1, 7, 1), 0, 30000, dx)
+        make_sub_row(j, range(8, 17, 1), 0, 30000, dx)
     elif  j==0:
-        make_sub_row(j, range(3, 4, 1), 0, 0, dx)
-        make_sub_row(j, range(9, 11, 1), 0, 0, dx)
-        make_sub_row(j, range(14, 16, 1), 0, 0, dx)
+        make_sub_row(j, range(3, 4, 1), 0, 200000, dx)
+        make_sub_row(j, range(9, 11, 1), 0, 120000, dx)
+        make_sub_row(j, range(14, 16, 1), 0, 220000, dx)
 
 #cyprus
 pages.append(Page(6421000, 1639000, title="Cyprus"))
@@ -109,7 +120,7 @@ make_index_page(
 
 #cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
 
-#exit()
+exit()
 
 
 def make_svg():

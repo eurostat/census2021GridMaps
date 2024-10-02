@@ -196,8 +196,8 @@ def make_svg_map(
 
 
     if title:
-        gLayout.add(dwg.rect(insert=(width_px-110, -20), size=(130, 100), fill='black', stroke='none', stroke_width=0, fill_opacity=0.5, rx=20, ry=20))
-        gLayout.add(dwg.text(title, insert=(width_px-55, 45), font_size="40px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
+        gLayout.add(dwg.rect(insert=(width_px-70, -30), size=(100, 90), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
+        gLayout.add(dwg.text(title, insert=(width_px-35, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
 
 
 
