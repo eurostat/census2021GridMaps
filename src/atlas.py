@@ -10,8 +10,7 @@ print("Start")
 #page odd/even
 #page title and legend
 #euronym for non greek characters
-#check greek names
-#counts by category - better select center class parameter
+#check greek names on poster
 #show other categories
 
 num_processors_to_use = 1
