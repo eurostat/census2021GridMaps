@@ -270,7 +270,7 @@ def make_index_page(
     height_p_m = height_p_m/2
     for p in pages:
         points = [(p.x-width_p_m, y_min + y_max-p.y+height_p_m), (p.x+width_p_m, y_min + y_max-p.y+height_p_m), (p.x+width_p_m, y_min + y_max-p.y-height_p_m), (p.x-width_p_m, y_min + y_max-p.y-height_p_m)]
-        gP.add(dwg.polygon(points, fill='#9162ff', fill_opacity=0.2, stroke='#9162ff', stroke_width=5000))
+        gP.add(dwg.polygon(points, fill='#9162ff', fill_opacity=0.1, stroke='#9162ff', stroke_width=5000))
         gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=90000, stroke="white", font_weight='bold', stroke_width=20000))
         gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=90000, fill="black", font_weight='bold'))
 

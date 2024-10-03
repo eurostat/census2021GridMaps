@@ -6,14 +6,13 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#little greek island + sicilia
+#improve index page - 54-55,92,110
 #page odd/even
 #page title and legend
 #euronym for non greek characters
 #check greek names
-#improve index page
 #counts by category - better select center class parameter
-#show other families
+#show other categories
 
 num_processors_to_use = 1
 
@@ -59,16 +58,19 @@ def make_sub_row(j, ri, ox, oy, dx):
         if i==13 and j==7: ox_ = -50000
         if i==7 and j==6: oy_ = -70000
         if i==13 and j==6: ox_ = -80000
-        if i==3 and j==5: oy_ = -150000
+        if i==3 and j==5: oy_ = -150000 #britanny
         if i==13 and j==5: oy_ = -150000
         if i==14 and j==5: oy_ = -150000
         if i==4 and j==4: ox_ = 80000
         if i==15 and j==4: ox_ = -60000; oy_ = -100000
+        if i==11 and j==3: ox_ = -100000
+        if i==12 and j==3: ox_ = 50000
         if i==1 and j==2: ox_ = 80000
+        if i==12 and j==2: oy_ = -100000
         if i==15 and j==2: ox_ = -70000
         if i==6 and j==2: oy_ = 150000; ox_ = -70000
-        if i==8 and j==2: oy_ = 100000; ox_ = 50000 #corsica
-        if i==9 and j==2: oy_ = 100000; ox_ = 100000 #roma
+        if i==8 and j==2: oy_ = 100000; ox_ = 70000 #corsica
+        if i==9 and j==2: oy_ = 100000; ox_ = 80000 #roma
         if i==1 and j==1: oy_ = 170000
         if i==3 and j==1: oy_ = 50000
         if i==4 and j==1: oy_ = 80000
@@ -99,8 +101,8 @@ for j in range(12, -1, -1):
     elif  j==1:
         make_sub_row(j, range(1, 7, 1), 0, 30000, dx)
         make_sub_row(j, range(8, 9, 1), 0, 30000, dx)
-        make_sub_row(j, range(10, 12, 1), -90000, 30000, dx)
-        make_sub_row(j, range(13, 17, 1), -100000, 30000, dx)
+        make_sub_row(j, range(10, 12, 1), -100000, 30000, dx)
+        make_sub_row(j, range(13, 17, 1), -80000, 30000, dx)
     elif  j==0:
         make_sub_row(j, range(3, 4, 1), 0, 200000, dx)
         make_sub_row(j, range(9, 11, 1), 0, 120000, dx)
