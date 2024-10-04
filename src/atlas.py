@@ -164,6 +164,7 @@ def make_svg():
             width_mm = width_mm, height_mm = height_mm,
             cx = page.x, cy=page.y,
             boundaries_file = "assets/BN_1M.gpkg",
+            nuts_file = "assets/NUTS_BN_1M.gpkg",
             labels_file = "assets/labels.gpkg",
             title = "i=" + str(page.i) + "  j=" + str(page.j),
             page = page.code
