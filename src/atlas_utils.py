@@ -13,6 +13,7 @@ def make_svg_map(
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
         boundaries_file = None,
+        nuts_file = None,
         labels_file = None,
         font_name='Myriad Pro',
         title = None,
@@ -139,7 +140,7 @@ def make_svg_map(
         print("WARNING: empty page", title)
         return
 
-    # draw boundaries
+    # draw country boundaries
     if boundaries_file:
 
         boundaries_ = fiona.open(boundaries_file, 'r')
@@ -150,11 +151,32 @@ def make_svg_map(
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
             colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+            sw = 250 if obj['properties'].get("COAS_FLAG") == 'F' else 120
 
             geom = obj.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-                gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=120, stroke_linecap="round", stroke_linejoin="round"))
+                gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+
+    # draw nuts boundaries
+    if nuts_file:
+
+        nuts = fiona.open(nuts_file, 'r')
+        nuts = list(nuts.items(bbox=bbox))
+
+        for obj in nuts:
+            obj = obj[1]
+
+            #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
+            colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+            sw = 180 if obj['properties'].get("COAS_FLAG") == 'F' else 120
+
+            geom = obj.geometry
+            for line in geom['coordinates']:
+                points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+                gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+
+
 
     if labels_file:
 
