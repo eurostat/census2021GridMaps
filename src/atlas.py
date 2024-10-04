@@ -6,7 +6,7 @@ import concurrent.futures
 print("Start")
 
 #TODO
-#improve index page - 54-55,92,110
+#improve index page - 54-55,92,110, 69,70
 #page odd/even
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
@@ -16,6 +16,13 @@ print("Start")
 #background
 #arrow direction
 #test borders 1:100k
+# try yellow - blue - red
+#         green   purple   orange
+# show nuts 3 borders
+# rebalance red - green different
+# waters: blue gray. central value darker. nuts 3 in gray.
+
+
 
 
 num_processors_to_use = 1
@@ -184,8 +191,11 @@ def make_pdf():
     #combine
     pdfs = [
         out_folder + 'title.pdf',
+        out_folder + 'blank.pdf',
         out_folder + 'legend.pdf',
+        out_folder + 'blank.pdf',
         out_folder + 'index.pdf'
+        out_folder + 'blank.pdf',
             ]
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
