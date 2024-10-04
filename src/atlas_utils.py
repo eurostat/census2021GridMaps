@@ -161,7 +161,7 @@ def make_svg_map(
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
             colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
-            sw = 250 if obj['properties'].get("COAS_FLAG") == 'F' else 120
+            sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 120
 
             geom = obj.geometry
             for line in geom['coordinates']:
@@ -177,9 +177,11 @@ def make_svg_map(
         for obj in objs:
             obj = obj[1]
 
+            if obj['properties'].get("COAS_FLAG") == 'T': continue
+
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-            colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
-            sw = 180 if obj['properties'].get("COAS_FLAG") == 'F' else 120
+            colstr = "#888"
+            sw = 180
 
             geom = obj.geometry
             for line in geom['coordinates']:
