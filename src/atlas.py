@@ -194,8 +194,8 @@ def make_pdf():
         out_folder + 'blank.pdf',
         out_folder + 'legend.pdf',
         out_folder + 'blank.pdf',
-        out_folder + 'index.pdf'
-        out_folder + 'blank.pdf',
+        out_folder + 'index.pdf',
+        out_folder + 'blank.pdf'
             ]
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
