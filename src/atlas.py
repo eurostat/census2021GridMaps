@@ -18,7 +18,6 @@ print("Start")
 #test borders 1:100k
 # try yellow - blue - red
 #         green   purple   orange
-# show nuts 3 borders
 # rebalance red - green different
 # waters: blue gray. central value darker. nuts 3 in gray.
 
@@ -163,6 +162,7 @@ def make_svg():
             scale = scale,
             width_mm = width_mm, height_mm = height_mm,
             cx = page.x, cy=page.y,
+            land_file = "assets/RG_1M.gpkg",
             boundaries_file = "assets/BN_1M.gpkg",
             nuts_file = "assets/NUTS_BN_1M.gpkg",
             labels_file = "assets/labels.gpkg",

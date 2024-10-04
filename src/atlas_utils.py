@@ -12,6 +12,7 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
+        land_file = None,
         boundaries_file = None,
         nuts_file = None,
         labels_file = None,
@@ -86,10 +87,10 @@ def make_svg_map(
 
     #make groups
 
+
     #boundaries
-    if boundaries_file:
-        gBN = dwg.g(id='boundaries', transform=transform_str)
-        dwg.add(gBN)
+    gBN = dwg.g(id='boundaries', transform=transform_str)
+    dwg.add(gBN)
 
     #circles
     gCircles = dwg.g(id='circles', transform=transform_str)
@@ -140,13 +141,22 @@ def make_svg_map(
         print("WARNING: empty page", title)
         return
 
+    #land
+    if land_file:
+        objs = fiona.open(land_file, 'r')
+        objs = list(objs.items(bbox=bbox))
+        for obj in objs:
+            obj = obj[1]
+            #TODO
+
+
     # draw country boundaries
     if boundaries_file:
 
-        boundaries_ = fiona.open(boundaries_file, 'r')
-        boundaries = list(boundaries_.items(bbox=bbox))
+        objs = fiona.open(boundaries_file, 'r')
+        objs = list(objs.items(bbox=bbox))
 
-        for obj in boundaries:
+        for obj in objs:
             obj = obj[1]
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
@@ -161,10 +171,10 @@ def make_svg_map(
     # draw nuts boundaries
     if nuts_file:
 
-        nuts = fiona.open(nuts_file, 'r')
-        nuts = list(nuts.items(bbox=bbox))
+        objs = fiona.open(nuts_file, 'r')
+        objs = list(objs.items(bbox=bbox))
 
-        for obj in nuts:
+        for obj in objs:
             obj = obj[1]
 
             #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
