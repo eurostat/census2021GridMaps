@@ -8,7 +8,7 @@ print("Start")
 #TODO
 #improve index page - 54-55,92,110
 #page odd/even
-#page title and legend
+#improve title and legend pages. Add metadata.
 #euronym for non greek characters
 #check greek names on poster
 #show other categories
