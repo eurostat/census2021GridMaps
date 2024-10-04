@@ -12,6 +12,11 @@ print("Start")
 #euronym for non greek characters
 #check greek names on poster
 #show other categories
+#minimap
+#background
+#arrow direction
+#test borders 1:100k
+
 
 num_processors_to_use = 1
 
@@ -128,11 +133,10 @@ print(len(pages), "pages")
 
 
 #make index page
-index_file = out_folder + 'index'
 make_index_page(
     pages,
     "assets/BN_60M.gpkg",
-    index_file + '.svg',
+    out_folder + 'index.svg',
     width_m,
     height_m
 )
@@ -168,15 +172,21 @@ def make_svg():
 
 def make_pdf():
 
-    #index file
-    cairosvg.svg2pdf(url=index_file+'.svg', write_to=index_file+'.pdf')
+    cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
+    cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
+    cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
+
     #pages
     for p in pages:
         print("pdf", p.code)
         cairosvg.svg2pdf(url=out_folder + 'pages_svg/'+str(p.code)+".svg", write_to = out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
     #combine
-    pdfs = [index_file+".pdf"]
+    pdfs = [
+        out_folder + 'title.pdf',
+        out_folder + 'legend.pdf',
+        out_folder + 'index.pdf'
+            ]
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
