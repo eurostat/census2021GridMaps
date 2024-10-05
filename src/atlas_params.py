@@ -8,4 +8,4 @@ width_mm = 210
 height_mm = 297 #A4
 width_m = width_mm / scale / 1000
 height_m = height_mm / scale / 1000
-
+font_name='Myriad Pro'

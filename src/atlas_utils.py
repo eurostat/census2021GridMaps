@@ -3,10 +3,41 @@ import svgwrite
 from trivariate import trivariate_classifier
 import pypdf
 from shapely.geometry import shape
-from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder
+from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name
 
-font_name='Myriad Pro'
+
 colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"}
+water_color = '#ebf2f7'
+
+
+
+#the maximum population threshold - depends on the resolution
+max_pop = res * 60
+
+#style parameters
+
+#minimum circle size: 0.25 mm
+min_diameter = 0.25 / 1000 / scale
+#maximum diameter: 1.6*resolution
+max_diameter = res * 1.6
+#print(min_diameter, max_diameter)
+power = 0.25
+
+#define the trivariate classifier
+classifier = trivariate_classifier(
+    ['Y_LT15', 'Y_1564', 'Y_GE65'],
+    lambda cell:cell["T_"],
+    {'center': [0.15, 0.64, 0.21], 'centerCoefficient': 0.25}
+    )
+
+
+#
+cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
+land = fiona.open("assets/LAND_1M.gpkg", 'r')
+cnt_bn = fiona.open("assets/BN_1M.gpkg", 'r')
+nuts_bn = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
+labels = fiona.open("assets/labels.gpkg", "r")
+
 
 
 def make_svg_page(page):
@@ -20,15 +51,13 @@ def make_svg_page(page):
     bbox = (x_min, y_min, x_max, y_max)
 
     # Create an SVG drawing object
-    out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg",
+    out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
     # Set the viewBox attribute to map the custom coordinates to the SVG canvas
     #dwg.viewbox(x_min, y_min, width_m, height_m)
     #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
 
-
     #load cells
-    cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
     cells = list(cells_.items(bbox=bbox))
 
     cells___ = []
@@ -56,30 +85,8 @@ def make_svg_page(page):
     #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
 
 
-    #the maximum population threshold - depends on the resolution
-    max_pop = res * 60
-
-    #style parameters
-
-    #minimum circle size: 0.25 mm
-    min_diameter = 0.25 / 1000 / scale
-    #maximum diameter: 1.6*resolution
-    max_diameter = res * 1.6
-    #print(min_diameter, max_diameter)
-    power = 0.25
-
-
-    water_color = '#f5f8fa' # '#ebf2f7'
-
     # Set the background color
     dwg.add(dwg.rect(transform=transform_str, insert=(x_min, y_min), size=(width_m, height_m), fill=water_color))
-
-    #define the trivariate classifier
-    classifier = trivariate_classifier(
-        ['Y_LT15', 'Y_1564', 'Y_GE65'],
-        lambda cell:cell["T_"],
-        {'center': [0.15, 0.64, 0.21], 'centerCoefficient': 0.25}
-        )
 
     #make groups
 
@@ -104,8 +111,6 @@ def make_svg_page(page):
     #layout
     gLayout = dwg.g(id='layout')
     dwg.add(gLayout)
-
-
 
 
 
@@ -140,10 +145,8 @@ def make_svg_page(page):
         return
 
     #land
-    objs = fiona.open("assets/LAND_1M.gpkg", 'r')
-    objs = list(objs.items(bbox=bbox))
     def transform_coords(coords): return [(x, y_min + y_max - y) for x, y in coords]
-    for obj in objs:
+    for obj in list(land.items(bbox=bbox)):
         obj = obj[1]
         geom = shape(obj['geometry'])
         if geom.geom_type == 'MultiPolygon':
@@ -159,9 +162,7 @@ def make_svg_page(page):
 
 
     # draw country boundaries
-    objs = fiona.open("assets/BN_1M.gpkg", 'r')
-    objs = list(objs.items(bbox=bbox))
-    for obj in objs:
+    for obj in list(cnt_bn.items(bbox=bbox)):
         obj = obj[1]
         #if obj['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
@@ -171,9 +172,7 @@ def make_svg_page(page):
             gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw nuts boundaries
-    objs = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
-    objs = list(objs.items(bbox=bbox))
-    for obj in objs:
+    for obj in list(nuts_bn.items(bbox=bbox)):
         obj = obj[1]
         geom = obj.geometry
         for line in geom['coordinates']:
@@ -188,12 +187,7 @@ def make_svg_page(page):
     height_px = height_mm * 96 / 25.4
     def geoToPixX(xg): return (xg-x_min)/width_m * width_px
     def geoToPixY(yg): return (1-(yg-y_min)/height_m) * height_px
-
-    #load labels
-    labels_ = fiona.open("assets/labels.gpkg", "r")
-    labels = list(labels_.items(bbox=bbox))
-
-    for obj in labels:
+    for obj in list(labels.items(bbox=bbox)):
         obj = obj[1]
 
         rs = obj['properties']['rs']

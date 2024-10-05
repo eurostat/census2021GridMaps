@@ -11,7 +11,7 @@ print("Start")
 # check MD,BELA boundaries are out
 # inland waters
 
-#improve index page - 54-55,92,110, 69,70, 51
+#improve index page - 1,2 54-55,92,110, 69,70, 51
 #page odd/even
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
