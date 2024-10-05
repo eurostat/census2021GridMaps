@@ -84,7 +84,6 @@ def make_svg_page(page):
     # Set the background color to white
     #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
 
-
     # Set the background color
     dwg.add(dwg.rect(transform=transform_str, insert=(x_min, y_min), size=(width_m, height_m), fill=water_color))
 
@@ -111,7 +110,6 @@ def make_svg_page(page):
     #layout
     gLayout = dwg.g(id='layout')
     dwg.add(gLayout)
-
 
 
 
@@ -146,20 +144,18 @@ def make_svg_page(page):
 
     #land
     def transform_coords(coords): return [(x, y_min + y_max - y) for x, y in coords]
-    for obj in list(land.items(bbox=bbox)):
+    lands = list(land.items(bbox=bbox))
+    for obj in lands:
         obj = obj[1]
         geom = shape(obj['geometry'])
         if geom.geom_type == 'MultiPolygon':
             for polygon in geom.geoms:
                 exterior_coords = transform_coords(list(polygon.exterior.coords))
-                interior_coords_list = transform_coords([list(interior.coords) for interior in polygon.interiors])
                 gLand.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+                interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
                 for hole_coords in interior_coords_list:
-                    gLand.add(dwg.polygon(hole_coords, fill=water_color, stroke='none', stroke_width=0))
-        else:
-            print(geom.geom_type)
-
-
+                    gLand.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+        else: print(geom.geom_type)
 
     # draw country boundaries
     for obj in list(cnt_bn.items(bbox=bbox)):
@@ -180,7 +176,6 @@ def make_svg_page(page):
             gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=180, stroke_linecap="round", stroke_linejoin="round"))
 
 
-
     # draw labels
     #coordinates conversion functions
     width_px = width_mm * 96 / 25.4
@@ -194,6 +189,7 @@ def make_svg_page(page):
         if(rs<210): continue
 
         cc = obj['properties']['cc']
+        #TODO simplify
         if cc=="UK": continue
         if cc=="UA": continue
         if cc=="MD": continue
@@ -216,14 +212,14 @@ def make_svg_page(page):
         gh.add(obj)
 
     #code
-    case = page.code % 2 != 0
+    case = page.code % 2 == 0
     xcr = -20 if case else width_px-70
     wr = 100; hr = 90
     gLayout.add(dwg.rect(insert=(xcr, -20), size=(wr, hr), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
-    gLayout.add(dwg.text(page.code, insert=(xcr+wr/2, (hr-20)/2), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
+    gLayout.add(dwg.text(page.code, insert=(xcr+wr/2, (hr-20)/2), font_size="22px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
 
     #title
-    title = "i=" + str(page.i) + "  j=" + str(page.j),
+    title = "i=" + str(page.i) + "  j=" + str(page.j)
     gLayout.add(dwg.text(title, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #print("Save SVG", res)
