@@ -28,7 +28,8 @@ print("Start")
 
 
 
-num_processors_to_use = 1
+num_processors_svg = 4
+num_processors_pdf = 8
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
 
@@ -83,25 +84,28 @@ def make_svg():
             )
 
     #launch parallel computation   
-    with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_to_use) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_svg) as executor:
         tasks_to_do = {executor.submit(make_page, page): page for page in pages}
         for task_output in concurrent.futures.as_completed(tasks_to_do): pass
 
 
 
-
 def make_pdf():
 
+    #make pdfs
     cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
     cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
     cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 
-    #pages TODO: parallel ?
-    for p in pages:
+    #make pages pdf, in parellel
+    def make(p):
         print("pdf", p.code)
         cairosvg.svg2pdf(url=out_folder + 'pages_svg/'+str(p.code)+".svg", write_to = out_folder + 'pages_pdf/'+str(p.code)+".pdf")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_pdf) as executor:
+        tasks_to_do = {executor.submit(make, p): p for p in pages}
+        concurrent.futures.as_completed(tasks_to_do)
 
-    #combine
+    #combine PDF pages
     pdfs = [
         out_folder + 'title.pdf',
         out_folder + 'blank.pdf',
