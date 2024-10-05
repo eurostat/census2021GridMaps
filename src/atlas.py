@@ -10,7 +10,7 @@ print("Start")
 # waters: blue gray. central value darker. nuts 3 in gray.
 # inland waters
 
-#improve index page - 54-55,92,110, 69,70
+#improve index page - 54-55,92,110, 69,70, 51
 #page odd/even
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
@@ -164,6 +164,7 @@ def make_svg():
             1000,
             scale = scale,
             width_mm = width_mm, height_mm = height_mm,
+            colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"},
             cx = page.x, cy=page.y,
             land_file = "assets/LAND_1M.gpkg",
             boundaries_file = "assets/BN_1M.gpkg",
@@ -187,7 +188,7 @@ def make_pdf():
     cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
     cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 
-    #pages
+    #pages TODO: parallel ?
     for p in pages:
         print("pdf", p.code)
         cairosvg.svg2pdf(url=out_folder + 'pages_svg/'+str(p.code)+".svg", write_to = out_folder + 'pages_pdf/'+str(p.code)+".pdf")

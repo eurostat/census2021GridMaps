@@ -78,7 +78,7 @@ def make_svg_map(
     power = 0.25
 
 
-    water_color = '#e1ecf5'
+    water_color = '#ebf2f7'
 
     # Set the background color
     dwg.add(dwg.rect(transform=transform_str, insert=(x_min, y_min), size=(width_m, height_m), fill=water_color))
@@ -175,10 +175,10 @@ def make_svg_map(
         objs = list(objs.items(bbox=bbox))
         for obj in objs:
             obj = obj[1]
-            colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
-            sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 120
-            geom = obj.geometry
-            for line in geom['coordinates']:
+            #if obj['properties'].get("COAS_FLAG") == 'T': continue
+            colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
+            sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 60
+            for line in obj.geometry['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
                 gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
