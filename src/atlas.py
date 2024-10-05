@@ -29,7 +29,7 @@ print("Start")
 
 
 num_processors_svg = 1
-num_processors_pdf = 6
+num_processors_pdf = 1
 
 
 print("Make pages index")
@@ -37,7 +37,7 @@ pages = get_index()
 print(len(pages), "pages")
 
 #make index SVG page
-#make_index_page(pages)
+make_index_page(pages)
 
 
 def make_svg_pages():
