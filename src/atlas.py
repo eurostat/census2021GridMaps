@@ -31,21 +31,9 @@ print("Start")
 num_processors_svg = 1
 num_processors_pdf = 6
 
-out_folder = '/home/juju/gisco/census_2021_atlas/'
-
-scale = 1/1200000
-width_mm = 210
-height_mm = 297 #A4
-width_m = width_mm / scale / 1000
-height_m = height_mm / scale / 1000
-
-
 
 print("Make pages index")
-overlap_m = 30000
-dx = width_m - overlap_m
-dy = height_m - overlap_m
-pages = get_index(dx,dy)
+pages = get_index()
 print(len(pages), "pages")
 
 #make index SVG page

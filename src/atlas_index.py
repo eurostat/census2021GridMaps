@@ -1,7 +1,13 @@
 import svgwrite
 import fiona
 
-def get_index(dx, dy):
+
+overlap_m = 30000
+dx = width_m - overlap_m
+dy = height_m - overlap_m
+
+
+def get_index():
 
     class Page:
         CODE = 1
