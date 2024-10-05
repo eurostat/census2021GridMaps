@@ -12,8 +12,6 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        land_file = None,
-        boundaries_file = None,
         nuts_file = None,
         labels_file = None,
         font_name='Myriad Pro',
@@ -150,37 +148,35 @@ def make_svg_map(
         return
 
     #land
-    if land_file:
-        objs = fiona.open(land_file, 'r')
-        objs = list(objs.items(bbox=bbox))
-        def transform_coords(coords): return [(x, y_min + y_max - y) for x, y in coords]
-        for obj in objs:
-            obj = obj[1]
-            geom = shape(obj['geometry'])
-            if geom.geom_type == 'MultiPolygon':
-                for polygon in geom.geoms:
-                    exterior_coords = transform_coords(list(polygon.exterior.coords))
-                    interior_coords_list = transform_coords([list(interior.coords) for interior in polygon.interiors])
-                    gLand.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
-                    for hole_coords in interior_coords_list:
-                        gLand.add(dwg.polygon(hole_coords, fill=water_color, stroke='none', stroke_width=0))
-            else:
-                print(geom.geom_type)
+    objs = fiona.open("assets/LAND_1M.gpkg", 'r')
+    objs = list(objs.items(bbox=bbox))
+    def transform_coords(coords): return [(x, y_min + y_max - y) for x, y in coords]
+    for obj in objs:
+        obj = obj[1]
+        geom = shape(obj['geometry'])
+        if geom.geom_type == 'MultiPolygon':
+            for polygon in geom.geoms:
+                exterior_coords = transform_coords(list(polygon.exterior.coords))
+                interior_coords_list = transform_coords([list(interior.coords) for interior in polygon.interiors])
+                gLand.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+                for hole_coords in interior_coords_list:
+                    gLand.add(dwg.polygon(hole_coords, fill=water_color, stroke='none', stroke_width=0))
+        else:
+            print(geom.geom_type)
 
 
 
     # draw country boundaries
-    if boundaries_file:
-        objs = fiona.open(boundaries_file, 'r')
-        objs = list(objs.items(bbox=bbox))
-        for obj in objs:
-            obj = obj[1]
-            #if obj['properties'].get("COAS_FLAG") == 'T': continue
-            colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
-            sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 60
-            for line in obj.geometry['coordinates']:
-                points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-                gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+    objs = fiona.open("assets/BN_1M.gpkg", 'r')
+    objs = list(objs.items(bbox=bbox))
+    for obj in objs:
+        obj = obj[1]
+        #if obj['properties'].get("COAS_FLAG") == 'T': continue
+        colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
+        sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 60
+        for line in obj.geometry['coordinates']:
+            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+            gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw nuts boundaries
     if nuts_file:

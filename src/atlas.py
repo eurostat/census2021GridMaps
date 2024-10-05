@@ -28,8 +28,8 @@ print("Start")
 
 
 
-num_processors_svg = 4
-num_processors_pdf = 8
+num_processors_svg = 1
+num_processors_pdf = 6
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
 
@@ -45,23 +45,14 @@ dy = height_m - overlap_m
 
 
 print("Make pages index")
-pages = get_index()
+pages = get_index(dx,dy)
 print(len(pages), "pages")
 
+#make index SVG page
+make_index_page(pages, out_folder + 'index.svg', width_m, height_m)
 
 
-#make index page
-make_index_page(
-    pages,
-    "assets/BN_60M.gpkg",
-    out_folder + 'index.svg',
-    width_m,
-    height_m
-)
-#exit()
-
-
-def make_svg():
+def make_svg_pages():
 
     # function to make a page
     def make_page(page):
@@ -75,8 +66,6 @@ def make_svg():
             width_mm = width_mm, height_mm = height_mm,
             colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"},
             cx = page.x, cy=page.y,
-            land_file = "assets/LAND_1M.gpkg",
-            boundaries_file = "assets/BN_1M.gpkg",
             nuts_file = "assets/NUTS_BN_1M.gpkg",
             labels_file = "assets/labels.gpkg",
             title = "i=" + str(page.i) + "  j=" + str(page.j),
@@ -90,7 +79,7 @@ def make_svg():
 
 
 
-def make_pdf():
+def make_pdf_pages():
 
     #make pdfs
     cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
@@ -121,5 +110,5 @@ def make_pdf():
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
 
-make_svg()
-make_pdf()
+make_svg_pages()
+make_pdf_pages()

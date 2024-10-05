@@ -1,6 +1,7 @@
+import svgwrite
+import fiona
 
-
-def get_index():
+def get_index(dx, dy):
 
     class Page:
         CODE = 1
@@ -99,7 +100,6 @@ def get_index():
 
 def make_index_page(
         pages,
-        boundaries_file,
         out_svg_path,
         width_p_m,
         height_p_m,
@@ -144,11 +144,10 @@ def make_index_page(
 
 
     #draw boundaries
-    boundaries_ = fiona.open(boundaries_file, 'r')
-    boundaries = list(boundaries_.items())
+    boundaries = fiona.open("assets/BN_60M.gpkg", 'r')
+    boundaries = list(boundaries.items())
     for boundary in boundaries:
-        boundary = boundary[1]
-        geom = boundary.geometry
+        geom = boundary[1].geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
             gBN.add(dwg.polyline(points, stroke="black", fill="none", stroke_width=6000, stroke_linecap="round", stroke_linejoin="round"))
