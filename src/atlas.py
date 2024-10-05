@@ -162,7 +162,7 @@ def make_svg():
             scale = scale,
             width_mm = width_mm, height_mm = height_mm,
             cx = page.x, cy=page.y,
-            land_file = "assets/RG_1M.gpkg",
+            land_file = "assets/LAND_1M.gpkg",
             boundaries_file = "assets/BN_1M.gpkg",
             nuts_file = "assets/NUTS_BN_1M.gpkg",
             labels_file = "assets/labels.gpkg",

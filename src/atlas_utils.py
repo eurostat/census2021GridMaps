@@ -2,7 +2,7 @@ import fiona
 import svgwrite
 from trivariate import trivariate_classifier
 import pypdf
-
+from shapely.geometry import shape
 
 def make_svg_map(
         cells_file,
@@ -78,6 +78,11 @@ def make_svg_map(
     power = 0.25
 
 
+    water_color = '#d1dfeb'
+
+    # Set the background color
+    dwg.add(dwg.rect(transform=transform_str, insert=(x_min, y_min), size=(width_m, height_m), fill=water_color))
+
     #define the trivariate classifier
     classifier = trivariate_classifier(
         ['Y_LT15', 'Y_1564', 'Y_GE65'],
@@ -87,6 +92,9 @@ def make_svg_map(
 
     #make groups
 
+    #land
+    gLand = dwg.g(id='land', transform=transform_str)
+    dwg.add(gLand)
 
     #boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str)
@@ -145,9 +153,20 @@ def make_svg_map(
     if land_file:
         objs = fiona.open(land_file, 'r')
         objs = list(objs.items(bbox=bbox))
+        def transform_coords(coords): return [(x, y_min + y_max - y) for x, y in coords]
         for obj in objs:
             obj = obj[1]
-            #TODO
+            geom = shape(obj['geometry'])
+            if geom.geom_type == 'MultiPolygon':
+                for polygon in geom.geoms:
+                    exterior_coords = transform_coords(list(polygon.exterior.coords))
+                    interior_coords_list = transform_coords([list(interior.coords) for interior in polygon.interiors])
+                    gLand.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+                    for hole_coords in interior_coords_list:
+                        gLand.add(dwg.polygon(hole_coords, fill=water_color, stroke='none', stroke_width=0))
+            else:
+                print(geom.geom_type)
+
 
 
     # draw country boundaries
