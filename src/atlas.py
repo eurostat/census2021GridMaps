@@ -2,7 +2,7 @@ from atlas_utils import make_svg_page, combine_pdfs
 from atlas_index import get_index, make_index_page
 import cairosvg
 import concurrent.futures
-
+from atlas_params import out_folder
 
 print("Start")
 
@@ -37,7 +37,7 @@ pages = get_index()
 print(len(pages), "pages")
 
 #make index SVG page
-make_index_page(pages, out_folder + 'index.svg', width_m, height_m)
+#make_index_page(pages)
 
 
 def make_svg_pages():

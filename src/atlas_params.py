@@ -2,6 +2,7 @@
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
 
+res = 1000
 scale = 1/1200000
 width_mm = 210
 height_mm = 297 #A4

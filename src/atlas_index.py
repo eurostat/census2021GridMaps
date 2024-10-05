@@ -1,5 +1,6 @@
 import svgwrite
 import fiona
+from atlas_params import width_m, height_m, width_mm, height_mm, out_folder
 
 
 overlap_m = 30000
@@ -103,29 +104,21 @@ def get_index():
     return pages
 
 
-
-def make_index_page(
-        pages,
-        out_svg_path,
-        width_p_m,
-        height_p_m,
-        scale = 1/35000000,
-        width_mm = 210,
-        height_mm = 297
-        ):
+scale = 1/35000000
+def make_index_page(pages):
 
     cx = 3900000
     cy = 3300000
 
     # transform for europe view
-    width_m = width_mm / scale / 1000
-    height_m = height_mm / scale / 1000
-    x_min, x_max = cx - width_m/2, cx + width_m/2
-    y_min, y_max = cy - height_m/2, cy + height_m/2
+    width_m2 = width_mm / scale / 1000
+    height_m2 = height_mm / scale / 1000
+    x_min, x_max = cx - width_m2/2, cx + width_m2/2
+    y_min, y_max = cy - height_m2/2, cy + height_m2/2
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
 
     # Create an SVG drawing object
-    dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
+    dwg = svgwrite.Drawing(out_folder + "index.svg", size=(f'{width_mm}mm', f'{height_mm}mm'))
 
     #make groups
 

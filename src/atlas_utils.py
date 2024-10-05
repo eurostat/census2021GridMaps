@@ -3,13 +3,13 @@ import svgwrite
 from trivariate import trivariate_classifier
 import pypdf
 from shapely.geometry import shape
-from atlas_params import scale, width_mm, height_mm, width_m, height_m, res
+from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder
 
 font_name='Myriad Pro'
 colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"}
 
 
-def make_svg_page(page, out_folder):
+def make_svg_page(page):
     print("page", page.code, page.title)
 
     # transform for europe view
