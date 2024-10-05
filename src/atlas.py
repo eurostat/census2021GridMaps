@@ -40,13 +40,16 @@ print(len(pages), "pages")
 make_index_page(pages)
 
 
+#make all pages
 def make_svg_pages():
     #launch parallel computation   
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_svg) as executor:
         tasks_to_do = {executor.submit(make_svg_page, page): page for page in pages}
-        for task_output in concurrent.futures.as_completed(tasks_to_do): pass
+        concurrent.futures.as_completed(tasks_to_do)
 
 
+
+#convert to pdf
 def make_pdf_pages():
 
     #make pdfs
