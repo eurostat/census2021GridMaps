@@ -7,7 +7,7 @@ print("Start")
 
 #TODO
 # simplify signature
-# waters: blue gray. central value darker. nuts 3 in gray.
+# check MD,BELA boundaries are out
 # inland waters
 
 #improve index page - 54-55,92,110, 69,70, 51

@@ -78,7 +78,7 @@ def make_svg_map(
     power = 0.25
 
 
-    water_color = '#ebf2f7'
+    water_color = '#f5f8fa' # '#ebf2f7'
 
     # Set the background color
     dwg.add(dwg.rect(transform=transform_str, insert=(x_min, y_min), size=(width_m, height_m), fill=water_color))
