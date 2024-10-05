@@ -6,6 +6,10 @@ import concurrent.futures
 print("Start")
 
 #TODO
+# simplify signature
+# waters: blue gray. central value darker. nuts 3 in gray.
+# inland waters
+
 #improve index page - 54-55,92,110, 69,70
 #page odd/even
 #improve title and legend pages. Add metadata.
@@ -13,13 +17,12 @@ print("Start")
 #check greek names on poster
 #show other categories
 #minimap
-#background
 #arrow direction
+#background
 #test borders 1:100k
 # try yellow - blue - red
 #         green   purple   orange
 # rebalance red - green different
-# waters: blue gray. central value darker. nuts 3 in gray.
 
 
 
