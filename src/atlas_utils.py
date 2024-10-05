@@ -3,29 +3,24 @@ import svgwrite
 from trivariate import trivariate_classifier
 import pypdf
 from shapely.geometry import shape
+from atlas import scale, width_mm, height_mm, width_m, height_m, res
 
-def make_svg_map(
-        cells_file,
-        out_svg_path,
-        res = 1000,
-        scale = 1/4500000,
-        width_mm = 841, height_mm = 1189,
-        cx = 4300000, cy = 3300000,
-        colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        font_name='Myriad Pro',
-        title = None,
-        page = None
-        ):
+font_name='Myriad Pro'
+colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"}
+
+
+def make_svg_page(page, out_folder):
+    print("page", page.code, page.title)
 
     # transform for europe view
-    width_m = width_mm / scale / 1000
-    height_m = height_mm / scale / 1000
+    cx = page.x; cy = page.y
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
     bbox = (x_min, y_min, x_max, y_max)
 
     # Create an SVG drawing object
+    out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg",
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
     # Set the viewBox attribute to map the custom coordinates to the SVG canvas
     #dwg.viewbox(x_min, y_min, width_m, height_m)
@@ -33,7 +28,7 @@ def make_svg_map(
 
 
     #load cells
-    cells_ = fiona.open(cells_file, 'r')
+    cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
     cells = list(cells_.items(bbox=bbox))
 
     cells___ = []
@@ -141,7 +136,7 @@ def make_svg_map(
 
     #case where there is no cell to draw
     if no_cells:
-        print("WARNING: empty page", title)
+        print("WARNING: empty page", page.code, "i=", page.i, "j=", page.j)
         return
 
     #land
@@ -226,14 +221,13 @@ def make_svg_map(
         g.add(obj)
         gh.add(obj)
 
+    #code
+    gLayout.add(dwg.rect(insert=(width_px-70, -30), size=(100, 90), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
+    gLayout.add(dwg.text(page.code, insert=(width_px-35, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
 
-    if page:
-        gLayout.add(dwg.rect(insert=(width_px-70, -30), size=(100, 90), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
-        gLayout.add(dwg.text(page, insert=(width_px-35, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
-
-    if title:
-        gLayout.add(dwg.text(title, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
-
+    #title
+    title = "i=" + str(page.i) + "  j=" + str(page.j),
+    gLayout.add(dwg.text(title, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #print("Save SVG", res)
     dwg.save()

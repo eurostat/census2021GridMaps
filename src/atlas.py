@@ -1,4 +1,4 @@
-from atlas_utils import make_svg_map, combine_pdfs
+from atlas_utils import make_svg_page, combine_pdfs
 from atlas_index import get_index, make_index_page
 import cairosvg
 import concurrent.futures
@@ -39,12 +39,12 @@ height_mm = 297 #A4
 width_m = width_mm / scale / 1000
 height_m = height_mm / scale / 1000
 
-overlap_m = 30000
-dx = width_m - overlap_m
-dy = height_m - overlap_m
 
 
 print("Make pages index")
+overlap_m = 30000
+dx = width_m - overlap_m
+dy = height_m - overlap_m
 pages = get_index(dx,dy)
 print(len(pages), "pages")
 
@@ -53,28 +53,10 @@ make_index_page(pages, out_folder + 'index.svg', width_m, height_m)
 
 
 def make_svg_pages():
-
-    # function to make a page
-    def make_page(page):
-        print("page", page.code, page.title)
-
-        make_svg_map(
-            "/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg",
-            out_folder + 'pages_svg/'+str(page.code)+".svg",
-            1000,
-            scale = scale,
-            width_mm = width_mm, height_mm = height_mm,
-            colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"},
-            cx = page.x, cy=page.y,
-            title = "i=" + str(page.i) + "  j=" + str(page.j),
-            page = page.code
-            )
-
     #launch parallel computation   
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_svg) as executor:
-        tasks_to_do = {executor.submit(make_page, page): page for page in pages}
+        tasks_to_do = {executor.submit(make_svg_page, page): page for page in pages}
         for task_output in concurrent.futures.as_completed(tasks_to_do): pass
-
 
 
 def make_pdf_pages():
