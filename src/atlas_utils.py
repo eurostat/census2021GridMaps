@@ -152,17 +152,12 @@ def make_svg_map(
 
     # draw country boundaries
     if boundaries_file:
-
         objs = fiona.open(boundaries_file, 'r')
         objs = list(objs.items(bbox=bbox))
-
         for obj in objs:
             obj = obj[1]
-
-            #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
             colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
             sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 120
-
             geom = obj.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
@@ -170,23 +165,14 @@ def make_svg_map(
 
     # draw nuts boundaries
     if nuts_file:
-
         objs = fiona.open(nuts_file, 'r')
         objs = list(objs.items(bbox=bbox))
-
         for obj in objs:
             obj = obj[1]
-
-            if obj['properties'].get("COAS_FLAG") == 'T': continue
-
-            #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
-            colstr = "#888"
-            sw = 180
-
             geom = obj.geometry
             for line in geom['coordinates']:
                 points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-                gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+                gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=180, stroke_linecap="round", stroke_linejoin="round"))
 
 
 
