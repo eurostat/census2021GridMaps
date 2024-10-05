@@ -12,8 +12,6 @@ def make_svg_map(
         width_mm = 841, height_mm = 1189,
         cx = 4300000, cy = 3300000,
         colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"},
-        nuts_file = None,
-        labels_file = None,
         font_name='Myriad Pro',
         title = None,
         page = None
@@ -103,11 +101,10 @@ def make_svg_map(
     dwg.add(gCircles)
 
     #labels
-    if labels_file: 
-        g = dwg.g(id='labels', font_family=font_name, fill='black')
-        gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
-        dwg.add(gh)
-        dwg.add(g)
+    g = dwg.g(id='labels', font_family=font_name, fill='black')
+    gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
+    dwg.add(gh)
+    dwg.add(g)
 
     #layout
     gLayout = dwg.g(id='layout')
@@ -179,57 +176,55 @@ def make_svg_map(
             gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw nuts boundaries
-    if nuts_file:
-        objs = fiona.open(nuts_file, 'r')
-        objs = list(objs.items(bbox=bbox))
-        for obj in objs:
-            obj = obj[1]
-            geom = obj.geometry
-            for line in geom['coordinates']:
-                points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-                gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=180, stroke_linecap="round", stroke_linejoin="round"))
+    objs = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
+    objs = list(objs.items(bbox=bbox))
+    for obj in objs:
+        obj = obj[1]
+        geom = obj.geometry
+        for line in geom['coordinates']:
+            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+            gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=180, stroke_linecap="round", stroke_linejoin="round"))
 
 
 
-    if labels_file:
+    # draw labels
+    #coordinates conversion functions
+    width_px = width_mm * 96 / 25.4
+    height_px = height_mm * 96 / 25.4
+    def geoToPixX(xg): return (xg-x_min)/width_m * width_px
+    def geoToPixY(yg): return (1-(yg-y_min)/height_m) * height_px
 
-        #coordinates conversion functions
-        width_px = width_mm * 96 / 25.4
-        height_px = height_mm * 96 / 25.4
-        def geoToPixX(xg): return (xg-x_min)/width_m * width_px
-        def geoToPixY(yg): return (1-(yg-y_min)/height_m) * height_px
+    #load labels
+    labels_ = fiona.open("assets/labels.gpkg", "r")
+    labels = list(labels_.items(bbox=bbox))
 
-        #load labels
-        labels_ = fiona.open(labels_file, "r")
-        labels = list(labels_.items(bbox=bbox))
+    for obj in labels:
+        obj = obj[1]
 
-        for obj in labels:
-            obj = obj[1]
+        rs = obj['properties']['rs']
+        if(rs<210): continue
 
-            rs = obj['properties']['rs']
-            if(rs<210): continue
-
-            cc = obj['properties']['cc']
-            if cc=="UK": continue
-            if cc=="UA": continue
-            if cc=="MD": continue
-            if cc=="RS": continue
-            if cc=="XK": continue
-            if cc=="BA": continue
-            if cc=="AL": continue
-            if cc=="ME": continue
-            if cc=="IS": continue
-            if cc=="MK": continue
-            if cc=="FO": continue
-            if cc=="SJ": continue
-            if cc=="AD": continue
-            x, y = obj['geometry']['coordinates']
-            name = obj['properties']['name']
-            r1 = obj['properties']['r1']
-            font_size="9px" if r1<800 else "11px"
-            obj = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
-            g.add(obj)
-            gh.add(obj)
+        cc = obj['properties']['cc']
+        if cc=="UK": continue
+        if cc=="UA": continue
+        if cc=="MD": continue
+        if cc=="RS": continue
+        if cc=="XK": continue
+        if cc=="BA": continue
+        if cc=="AL": continue
+        if cc=="ME": continue
+        if cc=="IS": continue
+        if cc=="MK": continue
+        if cc=="FO": continue
+        if cc=="SJ": continue
+        if cc=="AD": continue
+        x, y = obj['geometry']['coordinates']
+        name = obj['properties']['name']
+        r1 = obj['properties']['r1']
+        font_size="9px" if r1<800 else "11px"
+        obj = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
+        g.add(obj)
+        gh.add(obj)
 
 
     if page:

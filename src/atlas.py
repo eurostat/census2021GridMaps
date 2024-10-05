@@ -66,8 +66,6 @@ def make_svg_pages():
             width_mm = width_mm, height_mm = height_mm,
             colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"},
             cx = page.x, cy=page.y,
-            nuts_file = "assets/NUTS_BN_1M.gpkg",
-            labels_file = "assets/labels.gpkg",
             title = "i=" + str(page.i) + "  j=" + str(page.j),
             page = page.code
             )
