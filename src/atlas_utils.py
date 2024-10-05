@@ -216,8 +216,11 @@ def make_svg_page(page):
         gh.add(obj)
 
     #code
-    gLayout.add(dwg.rect(insert=(width_px-70, -30), size=(100, 90), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
-    gLayout.add(dwg.text(page.code, insert=(width_px-35, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
+    case = page.code % 2 != 0
+    xr = 70 if case else width_px-70
+    xt = 35 if case else width_px-35
+    gLayout.add(dwg.rect(insert=(xr, -30), size=(100, 90), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
+    gLayout.add(dwg.text(page.code, insert=(xt, 30), font_size="18px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
 
     #title
     title = "i=" + str(page.i) + "  j=" + str(page.j),
