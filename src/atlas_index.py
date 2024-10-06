@@ -38,10 +38,9 @@ def get_index():
             if i==7 and j==6: oy_ = -70000
             if i==13 and j==6: ox_ = -80000
             if i==3 and j==5: oy_ = -150000 #britanny
-            if i==13 and j==5: oy_ = -200000
-            if i==14 and j==5: oy_ = -150000
+            if i==13 and j==5: oy_ = -180000
             if i==4 and j==4: ox_ = 80000
-            if i==15 and j==4: ox_ = -60000; oy_ = -100000
+            if i==15 and j==4: ox_ = -60000
             if i==11 and j==3: ox_ = -100000
             if i==12 and j==3: ox_ = 50000
             if i==1 and j==2: ox_ = 80000
@@ -71,7 +70,7 @@ def get_index():
         elif  j==6:
             make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
             make_sub_row(j, range(7, 14, 1), -100000, 0, dx)
-        elif  j==5: make_sub_row(j, range(3, 15, 1), 120000, 0, dx)
+        elif  j==5: make_sub_row(j, range(3, 14, 1), 180000, 0, dx)
         elif  j==4: make_sub_row(j, range(4, 16, 1), 0, 0, dx)
         elif  j==3: make_sub_row(j, range(1, 15, 1), 100000, 0, dx)
         elif  j==2:
