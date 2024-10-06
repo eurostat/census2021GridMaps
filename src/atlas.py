@@ -12,7 +12,7 @@ print("Start")
 # inland waters
 #page odd/even
 
-#improve index page - 54-55,92,110, 69,70, 51
+#improve index page - 91,109, 68,69
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
 #check greek names on poster
@@ -38,7 +38,7 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-exit()
+#exit()
 
 #make all pages
 def make_svg_pages():
