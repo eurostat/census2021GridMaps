@@ -7,11 +7,10 @@ from atlas_params import out_folder
 print("Start")
 
 #TODO
-#move britanny raw back west
-#improve index page - 91,109, 68,69
 
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
+
 #check greek names on poster
 #show other categories
 #minimap
@@ -33,7 +32,7 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-#exit()
+exit()
 
 #make all pages
 def make_svg_pages():

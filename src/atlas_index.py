@@ -41,6 +41,8 @@ def get_index():
             if i==13 and j==5: oy_ = -180000
             if i==4 and j==4: ox_ = 80000
             if i==15 and j==4: ox_ = -60000
+            if i==2 and j==3: oy_ = -40000
+            if i==3 and j==3: oy_ = -90000
             if i==11 and j==3: ox_ = -100000
             if i==12 and j==3: ox_ = 50000
             if i==1 and j==2: ox_ = 80000
@@ -56,6 +58,7 @@ def get_index():
             if i==6 and j==1: oy_ = 200000; ox_ = -50000
             if i==8 and j==1: oy_ = 180000; ox_ = -50000 #sardinia
             if i==10 and j==0: oy_ = 80000 #malta
+            if i==9 and j==0: ox_ = 90000 #lampedusa
             pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
     for j in range(12, -1, -1):
@@ -82,7 +85,7 @@ def get_index():
             make_sub_row(j, range(10, 12, 1), -100000, 30000, dx)
             make_sub_row(j, range(13, 17, 1), -80000, 30000, dx)
         elif  j==0:
-            make_sub_row(j, range(3, 4, 1), 0, 200000, dx)
+            make_sub_row(j, range(3, 4, 1), 0, 240000, dx)
             make_sub_row(j, range(9, 11, 1), 0, 120000, dx)
             make_sub_row(j, range(14, 16, 1), 0, 220000, dx)
 
