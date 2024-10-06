@@ -7,12 +7,12 @@ from atlas_params import out_folder
 print("Start")
 
 #TODO
-# simplify signature
+#move britanny raw back west
+#improve index page - 91,109, 68,69
 # check MD,BELA boundaries are out
 # inland waters
-#page odd/even
+# page odd/even
 
-#improve index page - 91,109, 68,69
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
 #check greek names on poster

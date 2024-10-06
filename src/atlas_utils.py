@@ -34,6 +34,7 @@ classifier = trivariate_classifier(
 #
 cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
 land = fiona.open("assets/LAND_1M.gpkg", 'r')
+water = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc.gpkg", 'r')
 cnt_bn = fiona.open("assets/BN_1M.gpkg", 'r')
 nuts_bn = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
 labels = fiona.open("assets/labels.gpkg", "r")
@@ -89,9 +90,9 @@ def make_svg_page(page):
 
     #make groups
 
-    #land
-    gLand = dwg.g(id='land', transform=transform_str)
-    dwg.add(gLand)
+    #land + waters
+    gLandWaters = dwg.g(id='land', transform=transform_str)
+    dwg.add(gLandWaters)
 
     #boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str)
@@ -151,10 +152,24 @@ def make_svg_page(page):
         if geom.geom_type == 'MultiPolygon':
             for polygon in geom.geoms:
                 exterior_coords = transform_coords(list(polygon.exterior.coords))
-                gLand.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+                gLandWaters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
                 interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
                 for hole_coords in interior_coords_list:
-                    gLand.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+                    gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+        else: print(geom.geom_type)
+
+    #waters
+    waters = list(water.items(bbox=bbox))
+    for obj in waters:
+        obj = obj[1]
+        geom = shape(obj['geometry'])
+        if geom.geom_type == 'MultiPolygon':
+            for polygon in geom.geoms:
+                exterior_coords = transform_coords(list(polygon.exterior.coords))
+                gLandWaters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
+                interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
+                for hole_coords in interior_coords_list:
+                    gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
         else: print(geom.geom_type)
 
     # draw country boundaries
