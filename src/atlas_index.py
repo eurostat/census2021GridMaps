@@ -38,7 +38,7 @@ def get_index():
             if i==7 and j==6: oy_ = -70000
             if i==13 and j==6: ox_ = -80000
             if i==3 and j==5: oy_ = -150000 #britanny
-            if i==13 and j==5: oy_ = -150000
+            if i==13 and j==5: oy_ = -200000
             if i==14 and j==5: oy_ = -150000
             if i==4 and j==4: ox_ = 80000
             if i==15 and j==4: ox_ = -60000; oy_ = -100000
