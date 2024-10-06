@@ -10,6 +10,7 @@ print("Start")
 
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
+# https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
 #check greek names on poster
 #show other categories

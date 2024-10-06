@@ -153,7 +153,7 @@ def make_index_page(pages):
         geom = boundary[1].geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke="black", fill="none", stroke_width=6000, stroke_linecap="round", stroke_linejoin="round"))
+            gBN.add(dwg.polyline(points, stroke="#404040", fill="none", stroke_width=6000, stroke_linecap="round", stroke_linejoin="round"))
 
 
     #print("Save SVG", res)
