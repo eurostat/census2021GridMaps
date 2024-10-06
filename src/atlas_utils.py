@@ -228,10 +228,10 @@ def make_svg_page(page):
 
     #code
     case = page.code % 2 == 0
-    xcr = -20 if case else width_px-70
-    wr = 100; hr = 90
-    gLayout.add(dwg.rect(insert=(xcr, -20), size=(wr, hr), fill='black', stroke='none', stroke_width=0, fill_opacity=0.4, rx=20, ry=20))
-    gLayout.add(dwg.text(page.code, insert=(xcr+wr/2, (hr-20)/2), font_size="22px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='white'))
+    wr = 100; hr = 100; rnd = 30
+    xcr = -rnd if case else width_px - wr + rnd
+    gLayout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
+    gLayout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="26px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
 
     #title
     title = "i=" + str(page.i) + "  j=" + str(page.j)

@@ -70,7 +70,7 @@ def get_index():
         elif  j==6:
             make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
             make_sub_row(j, range(7, 14, 1), -100000, 0, dx)
-        elif  j==5: make_sub_row(j, range(3, 14, 1), 180000, 0, dx)
+        elif  j==5: make_sub_row(j, range(3, 14, 1), 160000, 0, dx)
         elif  j==4: make_sub_row(j, range(4, 16, 1), 0, 0, dx)
         elif  j==3: make_sub_row(j, range(1, 15, 1), 100000, 0, dx)
         elif  j==2:

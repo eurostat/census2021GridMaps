@@ -9,8 +9,6 @@ print("Start")
 #TODO
 #move britanny raw back west
 #improve index page - 91,109, 68,69
-# check MD,BELA boundaries are out
-# inland waters
 # page odd/even
 
 #improve title and legend pages. Add metadata.
@@ -19,8 +17,6 @@ print("Start")
 #show other categories
 #minimap
 #arrow direction
-#background
-#test borders 1:100k
 # try yellow - blue - red
 #         green   purple   orange
 # rebalance red - green different
