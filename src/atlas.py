@@ -9,7 +9,6 @@ print("Start")
 #TODO
 #move britanny raw back west
 #improve index page - 91,109, 68,69
-# page odd/even
 
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
