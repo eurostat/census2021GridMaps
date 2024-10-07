@@ -41,21 +41,27 @@ def get_index():
             if i==13 and j==5: oy_ = -180000
             if i==4 and j==4: ox_ = 80000
             if i==15 and j==4: ox_ = -60000
+
             if i==2 and j==3: oy_ = -40000
             if i==3 and j==3: oy_ = -90000
+            if i==6 and j==3: oy_ = 50000 #marseille
+            if i==7 and j==3: oy_ = 50000 #genoa
+            if i==8 and j==3: oy_ = 50000 #firenze
             if i==11 and j==3: ox_ = -100000
             if i==12 and j==3: ox_ = 50000
+
             if i==1 and j==2: ox_ = 80000
             if i==12 and j==2: oy_ = -100000
             if i==15 and j==2: ox_ = -70000
             if i==6 and j==2: oy_ = 150000; ox_ = -70000
             if i==8 and j==2: oy_ = 100000; ox_ = 70000 #corsica
             if i==9 and j==2: oy_ = 100000; ox_ = 80000 #roma
+
             if i==1 and j==1: oy_ = 170000
             if i==3 and j==1: oy_ = 50000
             if i==4 and j==1: oy_ = 80000
             if i==5 and j==1: oy_ = 200000
-            if i==6 and j==1: oy_ = 200000; ox_ = -50000
+            if i==6 and j==1: oy_ = 200000; ox_ = -70000
             if i==8 and j==1: oy_ = 180000; ox_ = -50000 #sardinia
             if i==10 and j==0: oy_ = 80000 #malta
             if i==9 and j==0: ox_ = 90000 #lampedusa

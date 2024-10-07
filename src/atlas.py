@@ -8,6 +8,7 @@ print("Start")
 
 #TODO
 
+# index marseille, genoa
 # rebalance red - green different
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
@@ -33,7 +34,7 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-exit()
+#exit()
 
 #make all pages
 def make_svg_pages():

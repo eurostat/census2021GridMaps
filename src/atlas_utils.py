@@ -9,7 +9,7 @@ from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out
 colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
 water_color = '#ebf2f7'
 
-show_debug_code = False
+show_debug_code = True
 
 
 #the maximum population threshold - depends on the resolution
