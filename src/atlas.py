@@ -33,7 +33,7 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-#exit()
+exit()
 
 #make all pages
 def make_svg_pages():
