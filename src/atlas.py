@@ -3,6 +3,7 @@ from atlas_index import get_index, make_index_page
 import cairosvg
 import concurrent.futures
 from atlas_params import out_folder
+import subprocess
 
 print("Start")
 
@@ -45,29 +46,27 @@ def make_svg_pages():
 
 
 #convert to pdf
-def make_pdf_pages():
+def make_pdf_pages(do_all_pages = True):
 
     #make pdfs
-    cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
-    cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
+    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', out_folder + "doc_start.docx", '--outdir', out_folder])
+    #cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
+    #cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
     cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 
     #make pages pdf, in parellel
-    def make(p):
-        print("pdf", p.code)
-        cairosvg.svg2pdf(url=out_folder + 'pages_svg/'+str(p.code)+".svg", write_to = out_folder + 'pages_pdf/'+str(p.code)+".pdf")
-    with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_pdf) as executor:
-        tasks_to_do = {executor.submit(make, p): p for p in pages}
-        concurrent.futures.as_completed(tasks_to_do)
+    if do_all_pages:
+        def make(p):
+            print("pdf", p.code)
+            cairosvg.svg2pdf(url=out_folder + 'pages_svg/'+str(p.code)+".svg", write_to = out_folder + 'pages_pdf/'+str(p.code)+".pdf")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_pdf) as executor:
+            tasks_to_do = {executor.submit(make, p): p for p in pages}
+            concurrent.futures.as_completed(tasks_to_do)
 
     #combine PDF pages
     pdfs = [
-        out_folder + 'title.pdf',
-        out_folder + 'blank.pdf',
-        out_folder + 'legend.pdf',
-        #out_folder + 'blank.pdf',
+        out_folder + "doc_start.pdf",
         out_folder + 'index.pdf',
-        #out_folder + 'blank.pdf'
             ]
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
@@ -76,5 +75,5 @@ def make_pdf_pages():
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
 
-make_svg_pages()
-make_pdf_pages()
+#make_svg_pages()
+make_pdf_pages(False)
