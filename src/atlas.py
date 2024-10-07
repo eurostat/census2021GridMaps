@@ -8,7 +8,6 @@ print("Start")
 
 #TODO
 
-# index marseille, genoa
 # rebalance red - green different
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
