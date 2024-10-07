@@ -6,7 +6,10 @@ from shapely.geometry import shape
 from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name
 
 
-colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
+#colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
+#colors = {"0": "#51cc3d", "1": "#3d81cd", "2": "#cd3e3f", "m0": "#9036b2", "m1": "#b29536", "m2": "#35b29c", "center": "#777777"}
+#colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#ac00bf", "m1": "#bf9300", "m2": "#00a7b2", "center": "#808080"}
+colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#ab6090", "m1": "#ae9330", "m2": "#4f9596", "center": "#808080"}
 water_color = '#ebf2f7'
 
 show_debug_code = False
@@ -229,10 +232,10 @@ def make_svg_page(page):
 
     #code
     case = page.code % 2 == 0
-    wr = 100; hr = 100; rnd = 30
+    wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
     gLayout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
-    gLayout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="26px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
+    gLayout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
 
     #debug code
     if show_debug_code:

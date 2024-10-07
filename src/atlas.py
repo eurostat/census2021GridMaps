@@ -9,7 +9,10 @@ print("Start")
 
 #TODO
 
-# rebalance red - green different
+# try yellow - blue - red
+#         green   purple   orange
+
+
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
 # https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
@@ -18,8 +21,6 @@ print("Start")
 #show other categories
 #minimap
 #arrow direction
-# try yellow - blue - red
-#         green   purple   orange
 
 
 
@@ -63,6 +64,10 @@ def make_pdf_pages(do_all_pages = True):
             tasks_to_do = {executor.submit(make, p): p for p in pages}
             concurrent.futures.as_completed(tasks_to_do)
 
+
+#combine all pdf pages into a single pdf document
+def combine_pdf_pages():
+
     #combine PDF pages
     pdfs = [
         out_folder + "doc_start.pdf",
@@ -75,5 +80,6 @@ def make_pdf_pages(do_all_pages = True):
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
 
-#make_svg_pages()
-make_pdf_pages(False)
+make_svg_pages()
+make_pdf_pages()
+combine_pdf_pages()
