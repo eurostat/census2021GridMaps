@@ -6,9 +6,10 @@ from shapely.geometry import shape
 from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name
 
 
-colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#666"}
+colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
 water_color = '#ebf2f7'
 
+show_debug_code = False
 
 
 #the maximum population threshold - depends on the resolution
@@ -233,9 +234,10 @@ def make_svg_page(page):
     gLayout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
     gLayout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="26px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
 
-    #title
-    title = "i=" + str(page.i) + "  j=" + str(page.j)
-    gLayout.add(dwg.text(title, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
+    #debug code
+    if show_debug_code:
+        dc = "i=" + str(page.i) + "  j=" + str(page.j)
+        gLayout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #print("Save SVG", res)
     dwg.save()

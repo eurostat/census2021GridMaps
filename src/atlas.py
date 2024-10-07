@@ -8,6 +8,7 @@ print("Start")
 
 #TODO
 
+# rebalance red - green different
 #improve title and legend pages. Add metadata.
 #euronym for non greek characters
 # https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
@@ -18,7 +19,6 @@ print("Start")
 #arrow direction
 # try yellow - blue - red
 #         green   purple   orange
-# rebalance red - green different
 
 
 
