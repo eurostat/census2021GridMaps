@@ -8,8 +8,8 @@ from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out
 #colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
 #colors = {"0": "#51cc3d", "1": "#3d81cd", "2": "#cd3e3f", "m0": "#9036b2", "m1": "#b29536", "m2": "#35b29c", "center": "#777777"}
 #colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#ac00bf", "m1": "#bf9300", "m2": "#00a7b2", "center": "#808080"}
-colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#ab6090", "m1": "#ae9330", "m2": "#4f9596", "center": "#808080"}
-water_color = '#ebf2f7'
+colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#9d4a9e", "m1": "#ba9b00", "m2": "#0d9467", "center": "#808080"}
+water_color = '#ebeff2' #'#ebf2f7'
 
 show_debug_code = False
 
