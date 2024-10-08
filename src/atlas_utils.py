@@ -3,8 +3,7 @@ import svgwrite
 from trivariate import trivariate_classifier
 import pypdf
 from shapely.geometry import shape
-from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name
-
+from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient
 
 #colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
 #colors = {"0": "#51cc3d", "1": "#3d81cd", "2": "#cd3e3f", "m0": "#9036b2", "m1": "#b29536", "m2": "#35b29c", "center": "#777777"}
@@ -29,9 +28,9 @@ power = 0.25
 
 #define the trivariate classifier
 classifier = trivariate_classifier(
-    ['Y_LT15', 'Y_1564', 'Y_GE65'],
+    tri_variable,
     lambda cell:cell["T_"],
-    {'center': [0.15, 0.64, 0.21], 'centerCoefficient': 0.25}
+    {'center': tri_center, 'centerCoefficient': center_coefficient}
     )
 
 
