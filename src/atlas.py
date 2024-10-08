@@ -13,7 +13,6 @@ print("Start")
 
 # try yellow - blue - red
 #         green   purple   orange
-#try color merge
 
 #euronym for non greek characters
 # https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
@@ -50,7 +49,7 @@ def make_svg_pages():
 def make_pdf_pages(do_all_pages = True):
 
     #make pdfs
-    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', out_folder + "doc_start.docx", '--outdir', out_folder])
+    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/doc_start.docx", '--outdir', out_folder])
     #cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
     #cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
     cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
@@ -76,11 +75,11 @@ def combine_pdf_pages():
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
-    pdfs.append(out_folder + "blank.pdf")
+    pdfs.append("docs/blank.pdf")
 
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
-make_svg_pages()
-make_pdf_pages()
+#make_svg_pages()
+make_pdf_pages(False)
 combine_pdf_pages()
