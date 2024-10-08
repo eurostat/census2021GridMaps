@@ -77,10 +77,11 @@ def combine_pdf_pages():
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
+    pdfs.append(out_folder + "blank.pdf")
+
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
-
-#make_svg_pages()
-make_pdf_pages(False)
+make_svg_pages()
+make_pdf_pages()
 combine_pdf_pages()
