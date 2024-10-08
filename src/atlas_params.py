@@ -24,3 +24,4 @@ tri_center = [0.15, 0.64, 0.21]
 #moving
 #tri_variable = ['CHG_OUT', 'SAME', 'CHG_IN']
 #tri_center = [0.01, 0.897, 0.093]
+
