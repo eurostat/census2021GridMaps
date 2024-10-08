@@ -9,10 +9,12 @@ print("Start")
 
 #TODO
 
+#Add 2 pages: Introduction. Methodology (with data sources)+ Page with online link - QR code.
+
 # try yellow - blue - red
 #         green   purple   orange
+#try color merge
 
-#improve title and legend pages. Add metadata.
 #euronym for non greek characters
 # https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
