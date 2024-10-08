@@ -11,6 +11,16 @@ height_m = height_mm / scale / 1000
 font_name='Myriad Pro'
 
 
-tri_variable = ['Y_LT15', 'Y_1564', 'Y_GE65']
-tri_center = [0.15, 0.64, 0.21]
 center_coefficient = 0.25
+
+#age
+#tri_variable = ['Y_LT15', 'Y_1564', 'Y_GE65']
+#tri_center = [0.15, 0.64, 0.21]
+
+#birth
+tri_variable = ['OTH', 'NAT', 'EU_OTH']
+tri_center = [0.09, 0.87, 0.04]
+
+#moving
+#tri_variable = ['CHG_OUT', 'SAME', 'CHG_IN']
+#tri_center = [0.01, 0.9, 0.09]

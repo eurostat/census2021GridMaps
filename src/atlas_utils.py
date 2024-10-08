@@ -77,10 +77,10 @@ def make_svg_page(page):
 
         cell['T'] = int(cell['T'])
 
-        cell['Y_LT15'] = 0 if cell['Y_LT15']==None else int(cell['Y_LT15'])
-        cell['Y_1564'] = 0 if cell['Y_1564']==None else int(cell['Y_1564'])
-        cell['Y_GE65'] = 0 if cell['Y_GE65']==None else int(cell['Y_GE65'])
-        cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
+        cell["T_"] = 0
+        for var in tri_variable:
+            cell[var] = 0 if cell[var]==None else int(cell[var])
+            cell["T_"] += cell[var]
 
         cells___.append(cell)
     cells = cells___
