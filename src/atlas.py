@@ -46,6 +46,7 @@ def make_svg_pages():
 
 #convert to pdf
 def make_pdf_pages(do_all_pages = True):
+    print("Make PDF pages")
 
     #make pdfs
     subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/doc_start.docx", '--outdir', out_folder])
@@ -65,6 +66,7 @@ def make_pdf_pages(do_all_pages = True):
 
 #combine all pdf pages into a single pdf document
 def combine_pdf_pages():
+    print("combine PDF pages")
 
     #combine PDF pages
     pdfs = [
@@ -76,9 +78,9 @@ def combine_pdf_pages():
 
     pdfs.append("docs/blank.pdf")
 
-    print("combine", len(pdfs), "pages")
+    print("   ", len(pdfs), "pages to combine")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
-#make_svg_pages()
-make_pdf_pages(False)
+make_svg_pages()
+make_pdf_pages()
 combine_pdf_pages()
