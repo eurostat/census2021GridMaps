@@ -32,7 +32,7 @@ classifier = trivariate_classifier(
 #
 cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
 land = fiona.open("assets/LAND_1M.gpkg", 'r')
-water = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc.gpkg", 'r')
+water = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc__.gpkg", 'r')
 cnt_bn = fiona.open("assets/BN_1M.gpkg", 'r')
 nuts_bn = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
 labels = fiona.open("assets/labels.gpkg", "r")
