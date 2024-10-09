@@ -2,7 +2,7 @@
 <svg
    height="20mm"
    version="1.1"
-   width="107mm"
+   width="30mm"
    id="svg1271"
    sodipodi:docname="legend_size.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
@@ -22,8 +22,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.0000001"
-     inkscape:cx="168.74999"
-     inkscape:cy="38.249998"
+     inkscape:cx="168.99999"
+     inkscape:cy="38.749998"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -697,10 +697,5 @@
        x="172.70287"
        y="50.555511"
        id="tspan347158-2"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997">The larger a dot, the more population.</tspan></text>
-  <path
-     style="display:inline;fill:none;stroke:#535353;stroke-width:1.33333;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-7-9-7-3)"
-     d="m 166.74616,47.865856 c -17.2682,-0.16044 -35.20196,-0.745943 -53.44204,-8.785062"
-     id="path358592-2-7"
-     sodipodi:nodetypes="cc" />
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997" /></text>
 </svg>

@@ -9,6 +9,9 @@ print("Start")
 
 #TODO
 
+#poster
+#check greek names on poster
+
 #euronym for non greek characters
 
 # try yellow - blue - red
@@ -16,9 +19,6 @@ print("Start")
 
 #minimap
 #arrow direction
-
-#poster
-#check greek names on poster
 
 # Use more of: https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
