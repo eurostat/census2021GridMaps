@@ -2,7 +2,7 @@
 <svg
    height="20mm"
    version="1.1"
-   width="30mm"
+   width="107mm"
    id="svg1271"
    sodipodi:docname="legend_size.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
@@ -21,9 +21,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="2.8284273"
-     inkscape:cx="71.771335"
-     inkscape:cy="104.82858"
+     inkscape:zoom="2.0000001"
+     inkscape:cx="179.49999"
+     inkscape:cy="58.249996"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -624,53 +624,83 @@
          style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
          id="path359593-6-6-6-0-3-2" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Mend-9-7-9-7-3"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path359593-6-6-3-7-6" />
+    </marker>
   </defs>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
-     x="34.503513"
+     x="28.503513"
      y="18.024765"
      id="text2020192-0-0-7"><tspan
        sodipodi:role="line"
        id="tspan365719-4"
-       x="34.503513"
+       x="28.503513"
        y="18.024765">&gt; 30 0000</tspan></text>
   <circle
      style="fill:#0a0000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
      id="path373293"
-     cx="12.598728"
+     cx="6.5987282"
      cy="13.091413"
      r="2.9539795" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
-     x="33.692844"
+     x="27.692844"
      y="44.545113"
      id="text2020192-0-0-7-8"><tspan
        sodipodi:role="line"
        id="tspan365719-4-5"
-       x="33.692844"
+       x="27.692844"
        y="44.545113">1500</tspan></text>
   <circle
      style="fill:#0a0000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
      id="path373293-1"
-     cx="12.598728"
+     cx="6.5987282"
      cy="39.611767"
      r="1.5096436" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
-     x="33.692844"
+     x="27.692844"
      y="70.948341"
      id="text2020192-0-0-7-8-9"><tspan
        sodipodi:role="line"
        id="tspan365719-4-5-7"
-       x="33.692844"
+       x="27.692844"
        y="70.948341">15</tspan></text>
   <circle
      style="fill:#0a0000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
      id="path373293-5"
-     cx="12.598728"
+     cx="6.5987282"
      cy="66.132301"
      r="0.82019043" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
+     x="172.28764"
+     y="52.150646"
+     id="text2020192-4"><tspan
+       sodipodi:role="line"
+       x="172.28764"
+       y="52.150646"
+       id="tspan347158-2"
+       style="stroke-width:0.999997">The larger a dot, the more population.</tspan></text>
+  <path
+     style="display:inline;fill:none;stroke:#535353;stroke-width:1.99999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-7-9-7-3)"
+     d="M 166.74616,47.865856 C 149.67545,46.911302 131.5442,47.119913 113.30412,39.080794"
+     id="path358592-2-7"
+     sodipodi:nodetypes="cc" />
 </svg>

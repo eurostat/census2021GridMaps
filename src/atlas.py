@@ -10,12 +10,12 @@ print("Start")
 #TODO
 
 # canary island - land missing
+#euronym for non greek characters
+# https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
 # try yellow - blue - red
 #         green   purple   orange
 
-#euronym for non greek characters
-# https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
 #check greek names on poster
 #minimap
@@ -80,6 +80,6 @@ def combine_pdf_pages():
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
-#make_svg_pages()
-make_pdf_pages(False)
+make_svg_pages()
+make_pdf_pages()
 combine_pdf_pages()
