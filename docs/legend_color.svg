@@ -22,8 +22,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.0000001"
-     inkscape:cx="294.24999"
-     inkscape:cy="118.25"
+     inkscape:cx="291.49999"
+     inkscape:cy="100.24999"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -628,30 +628,30 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:16.8264px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;stroke-width:1.10547"
-     x="357.26724"
-     y="200.78973"
+     x="375.89679"
+     y="193.56177"
      id="text2020192-0-9-6-8-47-7-0"
      transform="rotate(-0.6760021)"
      inkscape:transform-center-x="38.893634"
      inkscape:transform-center-y="29.488562"><tspan
        sodipodi:role="line"
        id="tspan991476-0"
-       x="357.26724"
-       y="200.78973"
+       x="375.89679"
+       y="193.56177"
        style="stroke-width:1.10547">≥ 65 years</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:16.8264px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;stroke-width:1.10547"
-     x="124.29504"
-     y="198.80205"
+     x="107.59209"
+     y="191.73535"
      id="text2020192-0-9-6-8-47-7-2-4"
      transform="rotate(-0.6760021)"
      inkscape:transform-center-x="38.893634"
      inkscape:transform-center-y="29.488562"><tspan
        sodipodi:role="line"
        id="tspan991478-62"
-       x="124.29504"
-       y="198.80205"
+       x="107.59209"
+       y="191.73535"
        style="stroke-width:1.10547">&lt; 15 years</tspan></text>
   <text
      xml:space="preserve"
@@ -670,82 +670,54 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="4.8686466"
-     y="85.930473"
-     id="text2020192-0-9"><tspan
-       sodipodi:role="line"
-       x="4.8686466"
-       y="85.930473"
-       id="tspan347160-7"
-       style="stroke-width:0.999997">Under representation of &quot;≥65 years&quot;.</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="60.202667"
-     y="37.273834"
+     x="58.202667"
+     y="39.273834"
      id="text2020192-1"><tspan
        sodipodi:role="line"
-       x="60.202667"
-       y="37.273834"
+       x="58.202667"
+       y="39.273834"
        id="tspan347158"
        style="stroke-width:0.999997">Predominance of &quot;15 to 64 years&quot;.</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="325.3468"
-     y="57.812508"
-     id="text2020192-0-0-8"><tspan
-       sodipodi:role="line"
-       x="325.3468"
-       y="57.812508"
-       id="tspan347162-0"
-       style="stroke-width:0.999997">Under representation of &quot;&lt;15 years&quot;.</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="382.16183"
+     x="384.16183"
      y="160.95024"
      id="text2020192-0-8"><tspan
        sodipodi:role="line"
-       x="382.16183"
+       x="384.16183"
        y="160.95024"
        id="tspan347160"
        style="stroke-width:0.999997">Predominance of &quot;≥65 years&quot;.</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="366.21155"
-     y="102.87329"
+     x="368.21155"
+     y="94.873291"
      id="text2020192-4"><tspan
        sodipodi:role="line"
        id="tspan365599-5"
-       x="366.21155"
-       y="102.87329"
-       style="stroke-width:0.999997;-inkscape-font-specification:'Myriad Pro, Bold';font-family:'Myriad Pro';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:14.39540005px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Balanced representation of</tspan><tspan
+       x="368.21155"
+       y="94.873291"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.3954px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997">No predominance.</tspan><tspan
        sodipodi:role="line"
-       x="366.21155"
-       y="120.86754"
+       x="368.21155"
+       y="112.86754"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.3954px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997"
+       id="tspan963">Balanced representation of</tspan><tspan
+       sodipodi:role="line"
+       x="368.21155"
+       y="130.86179"
        id="tspan347158-2"
-       style="stroke-width:0.999997;-inkscape-font-specification:'Myriad Pro, Bold';font-family:'Myriad Pro';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:14.39540005px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">the three age groups.</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.3954px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997">the three age groups.</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="183.52469"
-     y="221.14005"
-     id="text2020192-9"><tspan
-       sodipodi:role="line"
-       x="183.52469"
-       y="221.14005"
-       id="tspan347158-1"
-       style="stroke-width:0.999997">Under representation of &quot;15 to 64 years&quot;</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="29.383034"
+     x="27.383034"
      y="135.55591"
      id="text2020192-0-0-79"><tspan
        sodipodi:role="line"
-       x="29.383034"
+       x="27.383034"
        y="135.55591"
        id="tspan347162"
        style="stroke-width:0.999997">Predominance of &quot;&lt;15 years&quot;.</tspan></text>
@@ -819,7 +791,7 @@
      sodipodi:nodetypes="cc" />
   <path
      style="display:inline;fill:none;stroke:#535353;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-1-3-5-2)"
-     d="m 294.21589,205.9663 c -2.33648,-6.02483 -6.77622,-25.90371 -16.02721,-41.96393"
+     d="m 295.1612,206.58349 c -2.33648,-6.02483 -7.72153,-30.5209 -16.97252,-46.58112"
      id="path358592-2-8-7"
      sodipodi:nodetypes="cc" />
   <path
@@ -827,4 +799,37 @@
      d="m 176.65492,143.45557 c 11.90776,7.42504 21.66826,13.81403 51.70967,7.99844"
      id="path358592-2-8-5"
      sodipodi:nodetypes="cc" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
+     x="4.2351151"
+     y="85.106041"
+     id="text2020192-0-8-2"><tspan
+       sodipodi:role="line"
+       x="4.2351151"
+       y="85.106041"
+       id="tspan347160-7"
+       style="stroke-width:0.999997">Under representation of &quot;≥65 years&quot;.</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
+     x="169.29749"
+     y="219.60603"
+     id="text2020192-1-0"><tspan
+       sodipodi:role="line"
+       x="169.29749"
+       y="219.60603"
+       id="tspan347158-9"
+       style="stroke-width:0.999997">Under representation of &quot;15 to 64 years&quot;.</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
+     x="329.59448"
+     y="57.941982"
+     id="text2020192-0-0-79-3"><tspan
+       sodipodi:role="line"
+       x="329.59448"
+       y="57.941982"
+       id="tspan347162-6"
+       style="stroke-width:0.999997">Under representation of &quot;&lt;15 years&quot;.</tspan></text>
 </svg>
