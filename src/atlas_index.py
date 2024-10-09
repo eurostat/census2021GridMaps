@@ -64,8 +64,8 @@ def get_index():
             if i==5 and j==1: oy_ = 200000
             if i==6 and j==1: oy_ = 200000; ox_ = -70000
             if i==8 and j==1: oy_ = 180000; ox_ = -50000 #sardinia
-            if i==10 and j==1: oy_ = -80000 #sicilia east
-            if i==9 and j==0: ox_ = 135000 #lampedusa malta
+            if i==10 and j==1: oy_ = -90000; ox_ = -10000 #sicilia east
+            if i==9 and j==0: ox_ = 150000 #lampedusa malta
             pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
 
     for j in range(12, -1, -1):
