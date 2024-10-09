@@ -9,19 +9,18 @@ print("Start")
 
 #TODO
 
-# canary island - land missing
 #euronym for non greek characters
-# https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
 # try yellow - blue - red
 #         green   purple   orange
 
-
-#check greek names on poster
 #minimap
 #arrow direction
 
+#poster
+#check greek names on poster
 
+# Use more of: https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
 
 
 num_processors_svg = 1
