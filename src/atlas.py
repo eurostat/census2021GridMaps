@@ -79,6 +79,6 @@ def combine_pdf_pages():
     print("combine", len(pdfs), "pages")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
-make_svg_pages()
-make_pdf_pages()
+#make_svg_pages()
+make_pdf_pages(False)
 combine_pdf_pages()
