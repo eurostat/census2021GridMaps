@@ -44,17 +44,11 @@ def make_svg_pages():
 
 
 
-#convert to pdf
+# convert to pdf
 def make_pdf_pages(do_all_pages = True):
     print("Make PDF pages")
 
-    #make pdfs
-    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/doc_start.docx", '--outdir', out_folder])
-    #cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
-    #cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
-    cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
-
-    #make pages pdf, in parellel
+    # make pages pdf, in parallel
     if do_all_pages:
         def make(p):
             print("pdf", p.code)
@@ -63,12 +57,17 @@ def make_pdf_pages(do_all_pages = True):
             tasks_to_do = {executor.submit(make, p): p for p in pages}
             concurrent.futures.as_completed(tasks_to_do)
 
+    # other pages
+    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/doc_start.docx", '--outdir', out_folder])
+    #cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
+    #cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
+    cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 
-#combine all pdf pages into a single pdf document
+# combine all pdf pages into a single pdf document
 def combine_pdf_pages():
     print("combine PDF pages")
 
-    #combine PDF pages
+    # combine PDF pages
     pdfs = [
         out_folder + "doc_start.pdf",
         out_folder + 'index.pdf',
@@ -80,6 +79,7 @@ def combine_pdf_pages():
 
     print("   ", len(pdfs), "pages to combine")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
+
 
 make_svg_pages()
 make_pdf_pages()
