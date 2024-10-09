@@ -22,8 +22,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.0000001"
-     inkscape:cx="179.49999"
-     inkscape:cy="58.249996"
+     inkscape:cx="168.74999"
+     inkscape:cy="38.249998"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -689,18 +689,18 @@
      r="0.82019043" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3954px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
-     x="172.28764"
-     y="52.150646"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
+     x="172.70287"
+     y="50.555511"
      id="text2020192-4"><tspan
        sodipodi:role="line"
-       x="172.28764"
-       y="52.150646"
+       x="172.70287"
+       y="50.555511"
        id="tspan347158-2"
-       style="stroke-width:0.999997">The larger a dot, the more population.</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997">The larger a dot, the more population.</tspan></text>
   <path
-     style="display:inline;fill:none;stroke:#535353;stroke-width:1.99999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-7-9-7-3)"
-     d="M 166.74616,47.865856 C 149.67545,46.911302 131.5442,47.119913 113.30412,39.080794"
+     style="display:inline;fill:none;stroke:#535353;stroke-width:1.33333;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-7-9-7-3)"
+     d="m 166.74616,47.865856 c -17.2682,-0.16044 -35.20196,-0.745943 -53.44204,-8.785062"
      id="path358592-2-7"
      sodipodi:nodetypes="cc" />
 </svg>
