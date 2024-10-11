@@ -25,15 +25,18 @@ max_diameter = res * 1.6
 #print(min_diameter, max_diameter)
 power = 0.25
 
+
+#define the colors, for each trivariate class
+#colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
+from atlas_params import colors, tri_center, center_coefficient
+
+
 #define the trivariate classifier
 classifier = trivariate_classifier(
     ['Y_LT15', 'Y_1564', 'Y_GE65'],
     lambda cell:cell["T_"],
-    {'center': [0.15, 0.6, 0.25], 'centerCoefficient': 0.25}
+    {'center': tri_center, 'centerCoefficient': center_coefficient}
     )
-
-#define the colors, for each trivariate class
-colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
 
 
 def make_map(path_svg,
