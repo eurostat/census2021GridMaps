@@ -2,7 +2,7 @@
 <svg
    height="20mm"
    version="1.1"
-   width="30mm"
+   width="25mm"
    id="svg1271"
    sodipodi:docname="legend_size.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
@@ -23,7 +23,7 @@
      showgrid="false"
      inkscape:zoom="2.0000001"
      inkscape:cx="168.99999"
-     inkscape:cy="38.749998"
+     inkscape:cy="39.249998"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -648,7 +648,7 @@
        sodipodi:role="line"
        id="tspan365719-4"
        x="28.503513"
-       y="18.024765">&gt; 30 0000</tspan></text>
+       y="18.024765">&gt; 30 000</tspan></text>
   <circle
      style="fill:#0a0000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
      id="path373293"
