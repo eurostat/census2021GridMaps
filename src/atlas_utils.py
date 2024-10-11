@@ -175,7 +175,7 @@ def make_svg_page(page):
         obj = obj[1]
         #if obj['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
-        sw = 300 if obj['properties'].get("COAS_FLAG") == 'F' else 60
+        sw = 350 if obj['properties'].get("COAS_FLAG") == 'F' else 60
         for line in obj.geometry['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
             gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
@@ -186,7 +186,7 @@ def make_svg_page(page):
         geom = obj.geometry
         for line in geom['coordinates']:
             points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=180, stroke_linecap="round", stroke_linejoin="round"))
+            gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=170, stroke_linecap="round", stroke_linejoin="round"))
 
 
     # draw labels
