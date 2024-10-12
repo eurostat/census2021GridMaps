@@ -1,5 +1,4 @@
 import svgwrite
-import csv
 import fiona
 from trivariate import trivariate_classifier
 
@@ -8,7 +7,6 @@ out_folder = '/home/juju/gisco/census_2021_map/'
 
 #the grid resolution in meters
 res = 5000
-in_CSV = '/home/juju/geodata/census/out/ESTAT_Census_2021_V2_'+str(res)+'.csv'
 
 #the maximum population threshold - depends on the resolution
 max_pop = res * 60
@@ -28,12 +26,12 @@ power = 0.25
 
 #define the colors, for each trivariate class
 #colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
-from atlas_params import colors, tri_center, center_coefficient
+from atlas_params import colors, tri_center, center_coefficient, tri_variable
 
 
 #define the trivariate classifier
 classifier = trivariate_classifier(
-    ['Y_LT15', 'Y_1564', 'Y_GE65'],
+    tri_variable,
     lambda cell:cell["T_"],
     {'center': tri_center, 'centerCoefficient': center_coefficient}
     )
@@ -61,45 +59,49 @@ def make_map(path_svg,
 
 
     #print("Load cell data", res)
+
+    cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
+    cells_ = list(cells_.items())
     cells = []
-    with open(in_CSV, mode='r', newline='') as file:
-        csv_reader = csv.DictReader(file)
-        for cell in csv_reader:
-            if cell['T'] == '0' or cell['T'] == '': continue
-            del cell['M']
-            del cell['F']
-            del cell['EMP']
-            del cell['NAT']
-            del cell['EU_OTH']
-            del cell['OTH']
-            del cell['SAME']
-            del cell['CHG_IN']
-            del cell['CHG_OUT']
-            del cell['NB']
-            del cell['CONFIDENTIALSTATUS']
-            del cell['POPULATED']
-            del cell['LAND_SURFACE']
+    for cell in cells_:
+        cell = cell[1]
+        cell = cell['properties']
+        del cell['M']
+        del cell['F']
+        del cell['EMP']
+        del cell['NAT']
+        del cell['EU_OTH']
+        del cell['OTH']
+        del cell['SAME']
+        del cell['CHG_IN']
+        del cell['CHG_OUT']
+        del cell['NB']
+        del cell['CONFIDENTIALSTATUS']
+        del cell['POPULATED']
+        del cell['LAND_SURFACE']
 
-            cell['x'] = int(cell['x'])
-            cell['y'] = int(cell['y'])
-            cell['T'] = int(cell['T'])
+        if cell['T'] == 0 or cell['T'] == None: continue
 
-            cell['Y_LT15'] = 0 if cell['Y_LT15']=="" else int(cell['Y_LT15'])
-            cell['Y_1564'] = 0 if cell['Y_1564']=="" else int(cell['Y_1564'])
-            cell['Y_GE65'] = 0 if cell['Y_GE65']=="" else int(cell['Y_GE65'])
-            cell["T_"] = cell['Y_LT15'] + cell['Y_1564'] + cell['Y_GE65']
+        sp = cell["GRD_ID"].split('N')[1].split('E')
+        cell['x'] = int(sp[1])
+        cell['y'] = int(sp[0])
 
-            cells.append(cell)
+        cell['T'] = int(cell['T'])
+
+        cell["T_"] = 0
+        for var in tri_variable:
+            cell[var] = 0 if cell[var]==None else int(cell[var])
+            cell["T_"] += cell[var]
+
+        cells.append(cell)
+    cells_ = None
+
 
     #print(len(cells), "cells loaded")
     #print(cells[0])
 
     #print("Sort cells")
     cells.sort(key=lambda d: (-d['y'], d['x']))
-
-
-    # Set the background color to white
-    #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
 
 
     #print("Draw cells")
