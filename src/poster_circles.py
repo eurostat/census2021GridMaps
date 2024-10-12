@@ -61,6 +61,7 @@ def make_map(path_svg,
     #print("Load cell data", res)
 
     cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
+    #TODO bbox
     cells_ = list(cells_.items())
     cells = []
     for cell in cells_:
@@ -78,7 +79,7 @@ def make_map(path_svg,
         c["T_"] = 0
         for var in tri_variable:
             c[var] = 0 if cell[var]==None else int(cell[var])
-            c["T_"] += cell[var]
+            c["T_"] += c[var]
 
         cells.append(c)
     cells_ = None
