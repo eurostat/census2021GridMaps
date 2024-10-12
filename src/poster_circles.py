@@ -68,18 +68,19 @@ def make_map(path_svg,
         cell = cell['properties']
         if cell['T'] == 0 or cell['T'] == None: continue
 
+        c = {}
         sp = cell["GRD_ID"].split('N')[1].split('E')
-        cell['x'] = int(sp[1])
-        cell['y'] = int(sp[0])
+        c['x'] = int(sp[1])
+        c['y'] = int(sp[0])
 
-        cell['T'] = int(cell['T'])
+        c['T'] = int(cell['T'])
 
-        cell["T_"] = 0
+        c["T_"] = 0
         for var in tri_variable:
-            cell[var] = 0 if cell[var]==None else int(cell[var])
-            cell["T_"] += cell[var]
+            c[var] = 0 if cell[var]==None else int(cell[var])
+            c["T_"] += cell[var]
 
-        cells.append(cell)
+        cells.append(c)
     cells_ = None
 
 
