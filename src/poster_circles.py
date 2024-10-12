@@ -66,20 +66,6 @@ def make_map(path_svg,
     for cell in cells_:
         cell = cell[1]
         cell = cell['properties']
-        del cell['M']
-        del cell['F']
-        del cell['EMP']
-        del cell['NAT']
-        del cell['EU_OTH']
-        del cell['OTH']
-        del cell['SAME']
-        del cell['CHG_IN']
-        del cell['CHG_OUT']
-        del cell['NB']
-        del cell['CONFIDENTIALSTATUS']
-        del cell['POPULATED']
-        del cell['LAND_SURFACE']
-
         if cell['T'] == 0 or cell['T'] == None: continue
 
         sp = cell["GRD_ID"].split('N')[1].split('E')
