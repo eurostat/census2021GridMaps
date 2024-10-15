@@ -198,7 +198,7 @@ def make_svg_page(page):
         obj = obj[1]
 
         rs = obj['properties']['rs']
-        if(rs<200): continue
+        if(rs<210): continue
 
         cc = obj['properties']['cc']
         #TODO simplify

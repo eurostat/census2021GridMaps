@@ -9,9 +9,9 @@ import subprocess
 print("Start")
 
 #TODO
+#venezia
 #poster
 #projection - test
-#venezia
 #minimap
 #arrow direction
 # Use more of: https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
