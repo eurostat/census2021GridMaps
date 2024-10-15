@@ -9,9 +9,6 @@ print("Start")
 
 #TODO
 
-#check greek names on poster
-#euronym for non greek characters
-
 # try yellow - blue - red
 #         green   purple   orange
 
