@@ -1,6 +1,7 @@
-from atlas_utils import make_svg_page, combine_pdfs
+from atlas_page import make_svg_page, combine_pdfs
 from atlas_index import get_index, make_index_page
 import cairosvg
+import pypdf
 import concurrent.futures
 from atlas_params import out_folder
 import subprocess
@@ -52,8 +53,6 @@ def make_pdf_pages(do_all_pages = True):
 
     # other pages
     subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/doc_start.docx", '--outdir', out_folder])
-    #cairosvg.svg2pdf(url=out_folder + 'title.svg', write_to=out_folder + 'title.pdf')
-    #cairosvg.svg2pdf(url=out_folder + 'legend.svg', write_to=out_folder + 'legend.pdf')
     cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 
 # combine all pdf pages into a single pdf document
@@ -72,6 +71,26 @@ def combine_pdf_pages():
 
     print("   ", len(pdfs), "pages to combine")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
+
+
+# Function to combine multiple PDF files into one
+def combine_pdfs(pdf_list, output_pdf_path):
+    pdf_writer = pypdf.PdfWriter()  # Use 'pypdf.PdfWriter()' for pypdf library
+
+    # Loop through all PDFs in the list
+    for pdf_file in pdf_list:
+        pdf_reader = pypdf.PdfReader(pdf_file)  # Use 'pypdf.PdfReader()' for pypdf
+        # Add each page to the writer object
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            pdf_writer.add_page(page)
+    
+    # Write the combined PDF to the output file
+    with open(output_pdf_path, 'wb') as output_file:
+        pdf_writer.write(output_file)
+
+
+
 
 
 make_svg_pages()

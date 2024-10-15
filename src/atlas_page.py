@@ -1,7 +1,6 @@
 import fiona
 import svgwrite
 from trivariate import trivariate_classifier
-import pypdf
 from shapely.geometry import shape
 from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient, colors, water_color
 
@@ -238,23 +237,5 @@ def make_svg_page(page):
 
     #print("Save SVG", res)
     dwg.save()
-
-
-
-# Function to combine multiple PDF files into one
-def combine_pdfs(pdf_list, output_pdf_path):
-    pdf_writer = pypdf.PdfWriter()  # Use 'pypdf.PdfWriter()' for pypdf library
-
-    # Loop through all PDFs in the list
-    for pdf_file in pdf_list:
-        pdf_reader = pypdf.PdfReader(pdf_file)  # Use 'pypdf.PdfReader()' for pypdf
-        # Add each page to the writer object
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
-            pdf_writer.add_page(page)
-    
-    # Write the combined PDF to the output file
-    with open(output_pdf_path, 'wb') as output_file:
-        pdf_writer.write(output_file)
 
 
