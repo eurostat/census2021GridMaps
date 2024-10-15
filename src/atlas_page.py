@@ -28,7 +28,7 @@ classifier = trivariate_classifier(
     )
 
 
-#
+#pre-open the files
 cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
 land = fiona.open("assets/LAND_1M.gpkg", 'r')
 water = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc___.gpkg", 'r')
@@ -198,7 +198,7 @@ def make_svg_page(page):
         obj = obj[1]
 
         rs = obj['properties']['rs']
-        if(rs<210): continue
+        if(rs<200): continue
 
         cc = obj['properties']['cc']
         #TODO simplify
