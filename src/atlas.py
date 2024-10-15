@@ -73,19 +73,14 @@ def combine_pdf_pages():
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
 
 
-# Function to combine multiple PDF files into one
+#combine multiple PDF files into one
 def combine_pdfs(pdf_list, output_pdf_path):
-    pdf_writer = pypdf.PdfWriter()  # Use 'pypdf.PdfWriter()' for pypdf library
-
-    # Loop through all PDFs in the list
+    pdf_writer = pypdf.PdfWriter()
     for pdf_file in pdf_list:
-        pdf_reader = pypdf.PdfReader(pdf_file)  # Use 'pypdf.PdfReader()' for pypdf
-        # Add each page to the writer object
+        pdf_reader = pypdf.PdfReader(pdf_file)
         for page_num in range(len(pdf_reader.pages)):
             page = pdf_reader.pages[page_num]
             pdf_writer.add_page(page)
-    
-    # Write the combined PDF to the output file
     with open(output_pdf_path, 'wb') as output_file:
         pdf_writer.write(output_file)
 
