@@ -8,11 +8,12 @@ import subprocess
 print("Start")
 
 #TODO
-
+#poster
+#projection - test
 # try yellow - blue - red
 #         green   purple   orange
 
-#venezia
+# venezia
 
 #minimap
 #arrow direction

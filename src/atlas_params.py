@@ -16,7 +16,13 @@ font_name='Myriad Pro'
 #colors = {"0": "#51cc3d", "1": "#3d81cd", "2": "#cd3e3f", "m0": "#9036b2", "m1": "#b29536", "m2": "#35b29c", "center": "#777777"}
 #colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#ac00bf", "m1": "#bf9300", "m2": "#00a7b2", "center": "#808080"}
 
-colors = {"0": "#e3db00", "1": "blue", "2": "red", "m0": "purple", "m1": "orange", "m2": "green", "center": "#808080"}
+
+#yellow blue red
+#purple orange green
+colors = {"0": "#ffff33", "1": "#377eb8", "2": "#e41a1c",
+          "m0": "#984ea3", "m1": "#ff7f00", "m2": "#4daf4a",
+          "center": "#808080"}
+
 
 #colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#9d4a9e", "m1": "#ba9b00", "m2": "#0d9467", "center": "#808080"}
 
