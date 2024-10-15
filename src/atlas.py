@@ -1,4 +1,4 @@
-from atlas_page import make_svg_page, combine_pdfs
+from atlas_page import make_svg_page
 from atlas_index import get_index, make_index_page
 import cairosvg
 import pypdf
