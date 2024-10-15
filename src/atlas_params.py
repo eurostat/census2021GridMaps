@@ -18,10 +18,10 @@ font_name='Myriad Pro'
 
 
 #yellow blue red
-colors = {"0": "#b3b300", "1": "#377eb8", "2": "#e41a1c",
 #purple orange green
-          "m0": "#984ea3", "m1": "#ff7f00", "m2": "#4daf4a",
-          "center": "#808080"}
+#colors = {"0": "#b3b300", "1": "#377eb8", "2": "#e41a1c",
+#          "m0": "#984ea3", "m1": "#ff7f00", "m2": "#4daf4a",
+#          "center": "#808080"}
 
 
 #colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#9d4a9e", "m1": "#ba9b00", "m2": "#0d9467", "center": "#808080"}
