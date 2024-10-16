@@ -13,13 +13,20 @@ max_pop = res * 60
 
 #style parameters
 
-#minimum circle size: 0.25 mm
-#TODO check what is the unit there. mm?
-min_diameter = 0.3 #0.25 #/ 1000 / scale
-#maximum diameter: 1.6*resolution
-max_diameter = 5  # res * 1.6   * scale*1000 *****
+#minimum circle size, in mm
+min_diameter = 0.3
+#maximum diameter, in mm
+max_diameter = 5
 #print(min_diameter, max_diameter)
 power = 0.25
+
+
+#coordinates conversion functions
+width_px = width_mm * 96 / 25.4
+height_px = height_mm * 96 / 25.4
+def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, 1)
+def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, 1)
+
 
 #define the trivariate classifier
 classifier = trivariate_classifier(
@@ -47,12 +54,6 @@ def make_svg_page(page):
     y_min, y_max = cy - height_m/2, cy + height_m/2
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
     bbox = (x_min, y_min, x_max, y_max)
-
-    #coordinates conversion functions
-    width_px = width_mm * 96 / 25.4
-    height_px = height_mm * 96 / 25.4
-    def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, 1)
-    def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, 1)
 
     # Create an SVG drawing object
     out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
