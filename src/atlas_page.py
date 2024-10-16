@@ -16,7 +16,7 @@ max_pop = res * 60
 #minimum circle size, in mm
 min_diameter = 0.4
 #maximum diameter, in mm
-max_diameter = 5
+max_diameter = 6
 #print(min_diameter, max_diameter)
 power = 0.25
 
