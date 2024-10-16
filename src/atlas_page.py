@@ -14,9 +14,10 @@ max_pop = res * 60
 #style parameters
 
 #minimum circle size: 0.25 mm
-min_diameter = 0.25 / 1000 / scale
+#TODO check what is the unit there. mm?
+min_diameter = 0.3 #0.25 #/ 1000 / scale
 #maximum diameter: 1.6*resolution
-max_diameter = res * 1.6
+max_diameter = 5  # res * 1.6   * scale*1000 *****
 #print(min_diameter, max_diameter)
 power = 0.25
 
@@ -37,7 +38,6 @@ nuts_bn = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
 labels = fiona.open("assets/labels.gpkg", "r")
 
 
-
 def make_svg_page(page):
     print("page", page.code, page.title)
 
@@ -47,6 +47,12 @@ def make_svg_page(page):
     y_min, y_max = cy - height_m/2, cy + height_m/2
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
     bbox = (x_min, y_min, x_max, y_max)
+
+    #coordinates conversion functions
+    width_px = width_mm * 96 / 25.4
+    height_px = height_mm * 96 / 25.4
+    def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, 1)
+    def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, 1)
 
     # Create an SVG drawing object
     out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
@@ -65,9 +71,19 @@ def make_svg_page(page):
 
         if cell['T'] == 0 or cell['T'] == None: continue
 
+        #get cell x/y
         sp = cell["GRD_ID"].split('N')[1].split('E')
-        cell['x'] = int(sp[1])
-        cell['y'] = int(sp[0])
+        x = int(sp[1])
+        y = int(sp[0])
+
+        if x+res < x_min: continue
+        if x > x_max: continue
+        if y+res < y_min: continue
+        if y > y_max: continue
+
+        cell['x'] = geoToPixX(x + res/2)
+        cell['y'] = geoToPixY(y + res/2)
+
 
         cell['T'] = int(cell['T'])
 
@@ -96,7 +112,7 @@ def make_svg_page(page):
     dwg.add(gBN)
 
     #circles
-    gCircles = dwg.g(id='circles', transform=transform_str)
+    gCircles = dwg.g(id='circles') #, transform=transform_str)
     dwg.add(gCircles)
 
     #labels
@@ -114,10 +130,6 @@ def make_svg_page(page):
     #print("Draw cells")
     no_cells = True
     for cell in cells:
-        if cell['x']+res < x_min: continue
-        if cell['x'] > x_max: continue
-        if cell['y']+res < y_min: continue
-        if cell['y'] > y_max: continue
         no_cells = False
 
         #compute diameter from total population
@@ -133,7 +145,8 @@ def make_svg_page(page):
         color = colors[cl]
 
         #draw circle
-        gCircles.add(dwg.circle(center=(round(cell['x']+res/2), round(y_min + y_max - cell['y']-res/2)), r=round(diameter/2), fill=color))
+        #gCircles.add(dwg.circle(center=(round(cell['x']+res/2), round(y_min + y_max - cell['y']-res/2)), r=round(diameter/2), fill=color))
+        gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2,1), fill=color))
 
     #case where there is no cell to draw
     if no_cells:
@@ -189,11 +202,6 @@ def make_svg_page(page):
 
 
     # draw labels
-    #coordinates conversion functions
-    width_px = width_mm * 96 / 25.4
-    height_px = height_mm * 96 / 25.4
-    def geoToPixX(xg): return (xg-x_min)/width_m * width_px
-    def geoToPixY(yg): return (1-(yg-y_min)/height_m) * height_px
     for obj in list(labels.items(bbox=bbox)):
         obj = obj[1]
 
