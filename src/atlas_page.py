@@ -14,7 +14,7 @@ max_pop = res * 60
 #style parameters
 
 #minimum circle size, in mm
-min_diameter = 0.3
+min_diameter = 0.4
 #maximum diameter, in mm
 max_diameter = 5
 #print(min_diameter, max_diameter)
