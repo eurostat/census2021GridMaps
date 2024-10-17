@@ -14,6 +14,7 @@ max_pop = res * 60
 #style parameters
 
 #minimum circle size, in mm ?
+#check in svg
 min_diameter = 1
 #maximum diameter, in mm ?
 max_diameter = 5
