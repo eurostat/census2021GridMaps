@@ -20,7 +20,7 @@ max_pop = res * 60
 #minimum circle diameter
 min_diameter = 0.25 * mm_to_px
 #maximum diameter
-max_diameter = 1.3 * mm_to_px
+max_diameter = 1.2 * mm_to_px
 #print(min_diameter, max_diameter)
 power = 0.25
 
@@ -246,7 +246,7 @@ def make_svg_page(page):
         name = obj['properties']['name']
         r1 = obj['properties']['r1']
         font_size="9px" if r1<800 else "11px"
-        obj = dwg.text(name, insert=(5+geoToPixX(x), -5+geoToPixY(y)), font_size=font_size)
+        obj = dwg.text(name, insert=(5.0+geoToPixX(x), -5.0+geoToPixY(y)), font_size=font_size)
         g.add(obj)
         gh.add(obj)
 
