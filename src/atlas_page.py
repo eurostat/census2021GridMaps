@@ -51,6 +51,7 @@ def make_svg_page(page):
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     bbox = (x_min, y_min, x_max, y_max)
+    bbox_ = box(x_min, y_min, x_max, y_max)
 
     #coordinates conversion functions
     decimals = 1
@@ -159,31 +160,52 @@ def make_svg_page(page):
 
     #land
     lands = list(land.items(bbox=bbox))
+
+    def draw_land_polygon(polygon):
+        exterior_coords = transform_coords(list(polygon.exterior.coords))
+        gLandWaters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+        interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
+        for hole_coords in interior_coords_list:
+            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+
     for obj in lands:
         obj = obj[1]
+
         geom = shape(obj['geometry'])
-        if geom.geom_type == 'MultiPolygon':
-            for polygon in geom.geoms:
-                exterior_coords = transform_coords(list(polygon.exterior.coords))
-                gLandWaters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
-                interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
-                for hole_coords in interior_coords_list:
-                    gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'Polygon': draw_land_polygon(geom)
+        elif geom.geom_type == 'MultiPolygon':
+            for polygon in geom.geoms: draw_land_polygon(polygon)
         else: print(geom.geom_type)
+
+
 
     #inland waters
     waters = list(water.items(bbox=bbox))
+
+    def draw_water_polygon(polygon):
+        exterior_coords = transform_coords(list(polygon.exterior.coords))
+        gLandWaters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
+        interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
+        for hole_coords in interior_coords_list:
+            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
+
     for obj in waters:
         obj = obj[1]
         geom = shape(obj['geometry'])
-        if geom.geom_type == 'MultiPolygon':
-            for polygon in geom.geoms:
-                exterior_coords = transform_coords(list(polygon.exterior.coords))
-                gLandWaters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
-                interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
-                for hole_coords in interior_coords_list:
-                    gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
+
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'Polygon': draw_water_polygon(geom)
+        elif geom.geom_type == 'MultiPolygon':
+            for polygon in geom.geoms: draw_water_polygon(polygon)
         else: print(geom.geom_type)
+
+
 
     # draw country boundaries
     for obj in list(cnt_bn.items(bbox=bbox)):
