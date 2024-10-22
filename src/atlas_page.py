@@ -35,12 +35,12 @@ classifier = ternary_classifier(
 
 
 #pre-open the files
-cells_ = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
-land = fiona.open("assets/LAND_1M.gpkg", 'r')
-water = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc___.gpkg", 'r')
-cnt_bn = fiona.open("assets/BN_1M.gpkg", 'r')
-nuts_bn = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
-labels = fiona.open("assets/labels.gpkg", "r")
+cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
+land_file = fiona.open("assets/LAND_1M.gpkg", 'r')
+water_file = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc___.gpkg", 'r')
+cnt_bn_file = fiona.open("assets/BN_1M.gpkg", 'r')
+nuts_bn_file = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
+labels_file = fiona.open("assets/labels.gpkg", "r")
 
 
 def make_svg_page(page):
@@ -68,7 +68,7 @@ def make_svg_page(page):
     #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
 
     #load cells
-    cells = list(cells_.items(bbox=bbox))
+    cells = list(cells_file.items(bbox=bbox))
 
     cells___ = []
     for cell in cells:
@@ -159,7 +159,7 @@ def make_svg_page(page):
         return
 
     #land
-    lands = list(land.items(bbox=bbox))
+    lands = list(land_file.items(bbox=bbox))
 
     def draw_land_polygon(polygon):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
@@ -183,7 +183,7 @@ def make_svg_page(page):
 
 
     #inland waters
-    waters = list(water.items(bbox=bbox))
+    waters = list(water_file.items(bbox=bbox))
 
     def draw_water_polygon(polygon):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
@@ -208,7 +208,7 @@ def make_svg_page(page):
 
 
     # draw country boundaries
-    for obj in list(cnt_bn.items(bbox=bbox)):
+    for obj in list(cnt_bn_file.items(bbox=bbox)):
         obj = obj[1]
         #if obj['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
@@ -221,7 +221,7 @@ def make_svg_page(page):
     # draw nuts boundaries
     #width, in mm
     sw = 0.5
-    for obj in list(nuts_bn.items(bbox=bbox)):
+    for obj in list(nuts_bn_file.items(bbox=bbox)):
         obj = obj[1]
         geom = obj.geometry
         for line in geom['coordinates']:
@@ -229,7 +229,7 @@ def make_svg_page(page):
             gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw labels
-    for obj in list(labels.items(bbox=bbox)):
+    for obj in list(labels_file.items(bbox=bbox)):
         obj = obj[1]
 
         #skip too high density
