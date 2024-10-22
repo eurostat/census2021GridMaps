@@ -16,8 +16,6 @@ max_pop = res * 60
 #the visualisation scale
 scale = 1/4500000
 
-#style parameters
-
 mm_to_px = 96 / 25.4  #in px/mm
 #minimum circle size: 0.25 mm
 min_diameter = 0.25 * mm_to_px
@@ -60,7 +58,9 @@ def make_map(path_svg,
     cells___ = []
     for cell in cells:
         cell = cell[1]
+        #cell = cell.copy()
         cell = cell['properties']
+        #cell = copy.deepcopy(cell)
 
         if cell['T'] == 0 or cell['T'] == None: continue
 

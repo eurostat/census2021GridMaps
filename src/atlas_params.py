@@ -23,7 +23,6 @@ font_name='Myriad Pro'
 #          "m0": "#984ea3", "m1": "#ff7f00", "m2": "#4daf4a",
 #          "center": "#808080"}
 
-
 colors = {"0": "#18b200", "1": "#005cbf", "2": "#bf0001", "m0": "#9d4a9e", "m1": "#ba9b00", "m2": "#0d9467", "center": "#808080"}
 
 water_color = '#ebeff2' #'#ebf2f7'
