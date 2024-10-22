@@ -1,13 +1,11 @@
 import svgwrite
 import fiona
-#from shapely.geometry import shape, box
-from ternary import ternary_classifier
-
+from atlas_params import classifier, tri_variable, colors
 
 out_folder = '/home/juju/gisco/census_2021_map/'
 
 cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
-lines_file = fiona.open('assets/BN_3M.gpkg') 
+lines_file = fiona.open('assets/BN_3M.gpkg', 'r')
 
 #the grid resolution in meters
 res = 5000
@@ -28,18 +26,6 @@ max_diameter = 1.6 * res * scale * 1000 * mm_to_px
 
 power = 0.25
 
-
-#define the colors, for each ternary class
-#colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
-from atlas_params import colors, tri_center, center_coefficient, tri_variable
-
-
-#define the ternary classifier
-classifier = ternary_classifier(
-    tri_variable,
-    lambda cell:cell["T_"],
-    {'center': tri_center, 'centerCoefficient': center_coefficient}
-    )
 
 
 def make_map(path_svg,
@@ -62,17 +48,10 @@ def make_map(path_svg,
     decimals = 1
     def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, decimals)
     def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, decimals)
-    #def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
-
-    transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
+    def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
 
     # Create an SVG drawing object with A0 dimensions in landscape orientation
     dwg = svgwrite.Drawing(path_svg, size=(f'{width_mm}mm', f'{height_mm}mm'))
-    # Set the viewBox attribute to map the custom coordinates to the SVG canvas
-    #dwg.viewbox(x_min, y_min, width_m, height_m)
-    #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
-
-
 
     #load cell data
     #load cells
@@ -98,7 +77,6 @@ def make_map(path_svg,
         cell['x'] = geoToPixX(x + res/2)
         cell['y'] = geoToPixY(y + res/2)
 
-
         cell['T'] = int(cell['T'])
 
         cell["T_"] = 0
@@ -109,16 +87,13 @@ def make_map(path_svg,
         cells___.append(cell)
     cells = cells___
 
-    #print(len(cells), "cells loaded")
-    #print(cells[0])
-
-    #print("Sort cells")
+    #sort cells
     cells.sort(key=lambda d: (-d['y'], d['x']))
 
-
-    #print("Draw cells")
-    gCircles = dwg.g(id='circles') #, transform=transform_str)
+    #draw cells
+    gCircles = dwg.g(id='circles')
     for cell in cells:
+
         #compute diameter from total population
         t = cell['T']
         t = t / max_pop
@@ -135,7 +110,7 @@ def make_map(path_svg,
         gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     # draw boundaries
-    gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
+    gBN = dwg.g(id='boundaries', fill="none", stroke_width=0.5, stroke_linecap="round", stroke_linejoin="round")
     lines_ = list(lines_file.items(bbox=bbox))
     for feature in lines_:
         feature = feature[1]
@@ -145,9 +120,10 @@ def make_map(path_svg,
 
         geom = feature.geometry
         for line in geom['coordinates']:
-            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+            #def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
+            points = transform_coords(line)
+            #points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
             gBN.add(dwg.polyline(points, stroke=colstr))
-
 
     dwg.add(gBN)
     dwg.add(gCircles)

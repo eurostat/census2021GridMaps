@@ -2,7 +2,8 @@ import fiona
 import svgwrite
 from ternary import ternary_classifier
 from shapely.geometry import shape, box
-from atlas_params import width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient, colors, water_color
+from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name, colors, water_color
+from atlas_params import classifier, tri_variable
 
 
 show_debug_code = False
@@ -17,21 +18,13 @@ max_pop = res * 60
 
 #style parameters
 
-#minimum circle diameter
+#minimum circle size: 0.25 mm
 min_diameter = 0.25 * mm_to_px
-#maximum diameter
-max_diameter = 1.2 * mm_to_px
-#print(min_diameter, max_diameter)
+#maximum diameter: 1.6*res
+max_diameter = 1.6 * res * scale * 1000 * mm_to_px
+
 power = 0.25
 
-
-
-#define the ternary classifier
-classifier = ternary_classifier(
-    tri_variable,
-    lambda cell:cell["T_"],
-    {'center': tri_center, 'centerCoefficient': center_coefficient}
-    )
 
 
 #pre-open the files
@@ -89,7 +82,6 @@ def make_svg_page(page):
 
         cell['x'] = geoToPixX(x + res/2)
         cell['y'] = geoToPixY(y + res/2)
-
 
         cell['T'] = int(cell['T'])
 

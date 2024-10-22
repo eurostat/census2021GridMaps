@@ -1,3 +1,4 @@
+from ternary import ternary_classifier
 
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
@@ -48,3 +49,9 @@ tri_center = [0.15, 0.64, 0.21]
 #tri_variable = ['CHG_OUT', 'SAME', 'CHG_IN']
 #tri_center = [0.01, 0.897, 0.093]
 
+#define the ternary classifier
+classifier = ternary_classifier(
+    tri_variable,
+    lambda cell:cell["T_"],
+    {'center': tri_center, 'centerCoefficient': center_coefficient}
+    )
