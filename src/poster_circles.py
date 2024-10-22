@@ -60,7 +60,7 @@ def make_map(path_svg,
 
     #print("Load cell data", res)
 
-    cells_ = fiona.open("/home/juju/geodata/census/Eurostat_Census-GRID_2021_V2-0/ESTAT_Census_2021_V2.gpkg", 'r')
+    cells_ = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
     #TODO bbox
     cells_ = list(cells_.items())
     cells = []
