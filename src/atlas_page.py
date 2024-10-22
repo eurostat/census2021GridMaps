@@ -213,7 +213,7 @@ def make_svg_page(page):
         #if obj['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
         #width, in mm
-        sw = 1.0 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
+        sw = 1.2 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
         for line in obj.geometry['coordinates']:
             points = transform_coords(list(line))
             gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
