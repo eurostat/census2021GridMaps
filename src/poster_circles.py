@@ -1,6 +1,6 @@
 import svgwrite
 import fiona
-from shapely.geometry import shape, box
+#from shapely.geometry import shape, box
 from ternary import ternary_classifier
 
 
@@ -20,10 +20,15 @@ scale = 1/4500000
 
 #style parameters
 
+mm_to_px = 96 / 25.4  #in px/mm
 #minimum circle size: 0.25 mm
-min_diameter = 0.25 / 1000 / scale
+min_diameter = 0.25 * mm_to_px
+#maximum diameter
+max_diameter = 1.2 * mm_to_px
+
+#min_diameter = 0.25 / 1000 / scale
 #maximum diameter: 1.6*resolution
-max_diameter = res * 1.6
+#max_diameter = res * 1.6
 #print(min_diameter, max_diameter)
 power = 0.25
 
@@ -50,10 +55,18 @@ def make_map(path_svg,
     # A0 dimensions in millimeters
     width_m = width_mm / scale / 1000
     height_m = height_mm / scale / 1000
+    width_px = width_mm * mm_to_px
+    height_px = height_mm * mm_to_px
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     bbox = (x_min, y_min, x_max, y_max)
-    bbox_ = box(x_min, y_min, x_max, y_max)
+    #bbox_ = box(x_min, y_min, x_max, y_max)
+
+    #coordinates conversion functions
+    decimals = 1
+    def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, decimals)
+    def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, decimals)
+    #def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
 
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
 
@@ -75,8 +88,10 @@ def make_map(path_svg,
 
         c = {}
         sp = cell["GRD_ID"].split('N')[1].split('E')
-        c['x'] = int(sp[1])
-        c['y'] = int(sp[0])
+        x = int(sp[1])
+        y = int(sp[0])
+        c['x'] = geoToPixX(x + res/2)
+        c['y'] = geoToPixY(y + res/2)
 
         c['T'] = int(cell['T'])
 
@@ -97,7 +112,7 @@ def make_map(path_svg,
 
 
     #print("Draw cells")
-    gCircles = dwg.g(id='circles', transform=transform_str)
+    gCircles = dwg.g(id='circles') #, transform=transform_str)
     for cell in cells:
         if cell['x']<x_min: continue
         if cell['x']>x_max: continue
@@ -117,8 +132,7 @@ def make_map(path_svg,
         color = colors[cl]
 
         #draw circle
-        gCircles.add(dwg.circle(center=(round(cell['x']+res/2), round(y_min + y_max - cell['y']-res/2)), r=round(diameter/2), fill=color))
-
+        gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     # draw boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
