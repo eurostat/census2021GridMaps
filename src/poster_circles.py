@@ -23,13 +23,9 @@ scale = 1/4500000
 mm_to_px = 96 / 25.4  #in px/mm
 #minimum circle size: 0.25 mm
 min_diameter = 0.25 * mm_to_px
-#maximum diameter
-max_diameter = 1.2 * mm_to_px
+#maximum diameter: 1.6*res
+max_diameter = 1.6 * res * scale * 1000 * mm_to_px
 
-#min_diameter = 0.25 / 1000 / scale
-#maximum diameter: 1.6*resolution
-#max_diameter = res * 1.6
-#print(min_diameter, max_diameter)
 power = 0.25
 
 
@@ -79,30 +75,39 @@ def make_map(path_svg,
 
 
     #load cell data
-    cells_ = list(cells_file.items(bbox=bbox))
-    cells = []
-    for cell in cells_:
+    #load cells
+    cells = list(cells_file.items(bbox=bbox))
+
+    cells___ = []
+    for cell in cells:
         cell = cell[1]
         cell = cell['properties']
+
         if cell['T'] == 0 or cell['T'] == None: continue
 
-        c = {}
+        #get cell x/y
         sp = cell["GRD_ID"].split('N')[1].split('E')
         x = int(sp[1])
         y = int(sp[0])
-        c['x'] = geoToPixX(x + res/2)
-        c['y'] = geoToPixY(y + res/2)
 
-        c['T'] = int(cell['T'])
+        if x+res < x_min: continue
+        if x > x_max: continue
+        if y+res < y_min: continue
+        if y > y_max: continue
 
-        c["T_"] = 0
+        cell['x'] = geoToPixX(x + res/2)
+        cell['y'] = geoToPixY(y + res/2)
+
+
+        cell['T'] = int(cell['T'])
+
+        cell["T_"] = 0
         for var in tri_variable:
-            c[var] = 0 if cell[var]==None else int(cell[var])
-            c["T_"] += c[var]
+            cell[var] = 0 if cell[var]==None else int(cell[var])
+            cell["T_"] += cell[var]
 
-        cells.append(c)
-    cells_ = None
-
+        cells___.append(cell)
+    cells = cells___
 
     #print(len(cells), "cells loaded")
     #print(cells[0])
@@ -114,11 +119,6 @@ def make_map(path_svg,
     #print("Draw cells")
     gCircles = dwg.g(id='circles') #, transform=transform_str)
     for cell in cells:
-        if cell['x']<x_min: continue
-        if cell['x']>x_max: continue
-        if cell['y']<y_min: continue
-        if cell['y']>y_max: continue
-
         #compute diameter from total population
         t = cell['T']
         t = t / max_pop
