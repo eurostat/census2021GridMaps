@@ -1,9 +1,13 @@
 import svgwrite
 import fiona
+from shapely.geometry import shape, box
 from ternary import ternary_classifier
 
 
 out_folder = '/home/juju/gisco/census_2021_map/'
+
+cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
+lines_file = fiona.open('assets/BN_3M.gpkg') 
 
 #the grid resolution in meters
 res = 5000
@@ -48,6 +52,9 @@ def make_map(path_svg,
     height_m = height_mm / scale / 1000
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
+    bbox = (x_min, y_min, x_max, y_max)
+    bbox_ = box(x_min, y_min, x_max, y_max)
+
     transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
 
     # Create an SVG drawing object with A0 dimensions in landscape orientation
@@ -58,11 +65,8 @@ def make_map(path_svg,
 
 
 
-    #print("Load cell data", res)
-
-    cells_ = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
-    #TODO bbox
-    cells_ = list(cells_.items())
+    #load cell data
+    cells_ = list(cells_file.items(bbox=bbox))
     cells = []
     for cell in cells_:
         cell = cell[1]
@@ -118,8 +122,9 @@ def make_map(path_svg,
 
     # draw boundaries
     gBN = dwg.g(id='boundaries', transform=transform_str, fill="none", stroke_width=1500, stroke_linecap="round", stroke_linejoin="round")
-    lines = fiona.open('assets/BN_3M.gpkg') 
-    for feature in lines:
+    lines_ = list(lines_file.items(bbox=bbox))
+    for feature in lines_:
+        feature = feature[1]
 
         #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
@@ -138,11 +143,13 @@ def make_map(path_svg,
 
 
 
-print("Make europe map")
-make_map(out_folder + 'map_age_EUR.svg')
+#print("Make europe map")
+#make_map(out_folder + 'map_age_EUR.svg')
 
 print("Make CY map")
 make_map(path_svg = out_folder + 'map_age_CY.svg', width_mm = 50, height_mm = 40, cx = 6438000, cy = 1678693)
+
+exit()
 print("Make Canaries map")
 make_map(path_svg = out_folder + 'map_age_cana.svg', width_mm = 120, height_mm = 60, cx = 1805783, cy = 1020991)
 print("Make Madeira map")
