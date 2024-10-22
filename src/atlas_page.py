@@ -7,17 +7,20 @@ from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out
 
 show_debug_code = False
 
+mm_to_px = 96 / 25.4  #px/mm
+width_px = width_mm * mm_to_px
+height_px = height_mm * mm_to_px
+
 
 #the maximum population threshold - depends on the resolution
 max_pop = res * 60
 
 #style parameters
 
-#minimum circle size, in mm ?
-#check in svg
-min_diameter = 1
-#maximum diameter, in mm ?
-max_diameter = 5
+#minimum circle diameter
+min_diameter = 0.3 * mm_to_px
+#maximum diameter
+max_diameter = 2 * mm_to_px
 #print(min_diameter, max_diameter)
 power = 0.25
 
@@ -47,14 +50,14 @@ def make_svg_page(page):
     cx = page.x; cy = page.y
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
-    transform_str = f"scale({scale*1000*96/25.4} {scale*1000*96/25.4}) translate({-x_min} {-y_min})"
     bbox = (x_min, y_min, x_max, y_max)
 
     #coordinates conversion functions
-    width_px = width_mm * 96 / 25.4
-    height_px = height_mm * 96 / 25.4
-    def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, 1)
-    def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, 1)
+    decimals = 1
+    def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, decimals)
+    def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, decimals)
+    def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
+
 
     # Create an SVG drawing object
     out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
@@ -101,20 +104,20 @@ def make_svg_page(page):
     #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
 
     # Set the background color
-    dwg.add(dwg.rect(transform=transform_str, insert=(x_min, y_min), size=(width_m, height_m), fill=water_color))
+    dwg.add(dwg.rect(insert=(0, 0), size=(width_px, height_px), fill=water_color))
 
     #make groups
 
     #land + waters
-    gLandWaters = dwg.g(id='land', transform=transform_str)
+    gLandWaters = dwg.g(id='land')
     dwg.add(gLandWaters)
 
     #boundaries
-    gBN = dwg.g(id='boundaries', transform=transform_str)
+    gBN = dwg.g(id='boundaries')
     dwg.add(gBN)
 
     #circles
-    gCircles = dwg.g(id='circles') #, transform=transform_str)
+    gCircles = dwg.g(id='circles')
     dwg.add(gCircles)
 
     #labels
@@ -148,7 +151,7 @@ def make_svg_page(page):
 
         #draw circle
         #gCircles.add(dwg.circle(center=(round(cell['x']+res/2), round(y_min + y_max - cell['y']-res/2)), r=round(diameter/2), fill=color))
-        gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2,1), fill=color))
+        gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     #case where there is no cell to draw
     if no_cells:
@@ -156,7 +159,6 @@ def make_svg_page(page):
         return
 
     #land
-    def transform_coords(coords): return [(x, y_min + y_max - y) for x, y in coords]
     lands = list(land.items(bbox=bbox))
     for obj in lands:
         obj = obj[1]
@@ -189,18 +191,21 @@ def make_svg_page(page):
         obj = obj[1]
         #if obj['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
-        sw = 350 if obj['properties'].get("COAS_FLAG") == 'F' else 60
+        #width, in mm
+        sw = 1.0 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
         for line in obj.geometry['coordinates']:
-            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
+            points = transform_coords(list(line))
             gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw nuts boundaries
+    #width, in mm
+    sw = 0.5
     for obj in list(nuts_bn.items(bbox=bbox)):
         obj = obj[1]
         geom = obj.geometry
         for line in geom['coordinates']:
-            points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
-            gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=170, stroke_linecap="round", stroke_linejoin="round"))
+            points = transform_coords(list(line))
+            gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
 
     # draw labels
