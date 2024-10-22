@@ -150,7 +150,6 @@ def make_svg_page(page):
         color = colors[cl]
 
         #draw circle
-        #gCircles.add(dwg.circle(center=(round(cell['x']+res/2), round(y_min + y_max - cell['y']-res/2)), r=round(diameter/2), fill=color))
         gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     #case where there is no cell to draw
@@ -172,7 +171,7 @@ def make_svg_page(page):
                     gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
         else: print(geom.geom_type)
 
-    #waters
+    #inland waters
     waters = list(water.items(bbox=bbox))
     for obj in waters:
         obj = obj[1]
@@ -207,38 +206,30 @@ def make_svg_page(page):
             points = transform_coords(list(line))
             gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
-
     # draw labels
     for obj in list(labels.items(bbox=bbox)):
         obj = obj[1]
 
+        #skip too high density
         rs = obj['properties']['rs']
         if(rs<210): continue
 
+        #skip countries
         cc = obj['properties']['cc']
-        #TODO simplify
-        if cc=="UK": continue
-        if cc=="UA": continue
-        if cc=="MD": continue
-        if cc=="RS": continue
-        if cc=="XK": continue
-        if cc=="BA": continue
-        if cc=="AL": continue
-        if cc=="ME": continue
-        if cc=="IS": continue
-        if cc=="MK": continue
-        if cc=="FO": continue
-        if cc=="SJ": continue
-        if cc=="AD": continue
+        skip_countries = ["UK", "UA", "MD", "RS", "XK", "BA", "AL", "ME", "IS", "MK", "FO", "SJ", "AD"]
+        if cc in skip_countries: continue
+
+        #draw label
         x, y = obj['geometry']['coordinates']
         name = obj['properties']['name']
         r1 = obj['properties']['r1']
         font_size="9px" if r1<800 else "11px"
-        obj = dwg.text(name, insert=(5+round(geoToPixX(x)), -5+round(geoToPixY(y))), font_size=font_size)
+        obj = dwg.text(name, insert=(5+geoToPixX(x), -5+geoToPixY(y)), font_size=font_size)
         g.add(obj)
         gh.add(obj)
 
-    #code
+    #page code
+    #case wether to show it on the left or on the right
     case = page.code % 2 == 0
     wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
