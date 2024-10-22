@@ -1,6 +1,6 @@
 import svgwrite
 import fiona
-from trivariate import trivariate_classifier
+from ternary import ternary_classifier
 
 
 out_folder = '/home/juju/gisco/census_2021_map/'
@@ -24,13 +24,13 @@ max_diameter = res * 1.6
 power = 0.25
 
 
-#define the colors, for each trivariate class
+#define the colors, for each ternary class
 #colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#999"}
 from atlas_params import colors, tri_center, center_coefficient, tri_variable
 
 
-#define the trivariate classifier
-classifier = trivariate_classifier(
+#define the ternary classifier
+classifier = ternary_classifier(
     tri_variable,
     lambda cell:cell["T_"],
     {'center': tri_center, 'centerCoefficient': center_coefficient}

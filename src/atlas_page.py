@@ -1,6 +1,6 @@
 import fiona
 import svgwrite
-from trivariate import trivariate_classifier
+from ternary import ternary_classifier
 from shapely.geometry import shape
 from atlas_params import width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient, colors, water_color
 
@@ -26,8 +26,8 @@ power = 0.25
 
 
 
-#define the trivariate classifier
-classifier = trivariate_classifier(
+#define the ternary classifier
+classifier = ternary_classifier(
     tri_variable,
     lambda cell:cell["T_"],
     {'center': tri_center, 'centerCoefficient': center_coefficient}
