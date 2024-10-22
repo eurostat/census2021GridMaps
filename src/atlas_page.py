@@ -18,9 +18,9 @@ max_pop = res * 60
 #style parameters
 
 #minimum circle diameter
-min_diameter = 0.3 * mm_to_px
+min_diameter = 0.25 * mm_to_px
 #maximum diameter
-max_diameter = 2 * mm_to_px
+max_diameter = 1.5 * mm_to_px
 #print(min_diameter, max_diameter)
 power = 0.25
 
