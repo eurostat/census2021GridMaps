@@ -1,7 +1,7 @@
 import fiona
 import svgwrite
 from ternary import ternary_classifier
-from shapely.geometry import shape
+from shapely.geometry import shape, box
 from atlas_params import width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient, colors, water_color
 
 
@@ -20,7 +20,7 @@ max_pop = res * 60
 #minimum circle diameter
 min_diameter = 0.25 * mm_to_px
 #maximum diameter
-max_diameter = 1.5 * mm_to_px
+max_diameter = 1.3 * mm_to_px
 #print(min_diameter, max_diameter)
 power = 0.25
 
