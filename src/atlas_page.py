@@ -2,12 +2,12 @@ import fiona
 import svgwrite
 from trivariate import trivariate_classifier
 from shapely.geometry import shape
-from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient, colors, water_color
+from atlas_params import width_mm, height_mm, width_m, height_m, res, out_folder, font_name, tri_variable, tri_center, center_coefficient, colors, water_color
 
 
 show_debug_code = False
 
-mm_to_px = 96 / 25.4  #px/mm
+mm_to_px = 96 / 25.4  #in px/mm
 width_px = width_mm * mm_to_px
 height_px = height_mm * mm_to_px
 
