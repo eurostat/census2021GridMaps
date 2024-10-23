@@ -97,16 +97,15 @@ def make_map(path_svg,
 
 
 
-#print("Make europe map")
-#make_map(out_folder + 'map_age_EUR.svg')
-
 print("Make CY map")
 make_map(path_svg = out_folder + 'map_age_CY.svg', width_mm = 50, height_mm = 40, cx = 6438000, cy = 1678693)
-
-exit()
+#exit()
 print("Make Canaries map")
 make_map(path_svg = out_folder + 'map_age_cana.svg', width_mm = 120, height_mm = 60, cx = 1805783, cy = 1020991)
 print("Make Madeira map")
 make_map(path_svg = out_folder + 'map_age_madeira.svg', width_mm = 30, height_mm = 15, cx = 1841039, cy = 1522346)
 print("Make Azores map")
 make_map(path_svg = out_folder + 'map_age_azor.svg', width_mm = 110, height_mm = 140, cx = 1140466, cy = 2505249)
+
+print("Make europe map")
+make_map(out_folder + 'map_age_EUR.svg')
