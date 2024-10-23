@@ -61,16 +61,16 @@ def get_cells(bbox, res, geoToPixX, geoToPixY):
 
         if cell['T'] == 0 or cell['T'] == None: continue
 
+        #get cell x/y
+        sp = cell["GRD_ID"].split('N')[1].split('E')
+        x = int(sp[1])
+        y = int(sp[0])
+
         (x_min, y_min, x_max, y_max) = bbox
         if x+res < x_min: continue
         if x > x_max: continue
         if y+res < y_min: continue
         if y > y_max: continue
-
-        #get cell x/y
-        sp = cell["GRD_ID"].split('N')[1].split('E')
-        x = int(sp[1])
-        y = int(sp[0])
 
         cell['x'] = geoToPixX(x + res/2)
         cell['y'] = geoToPixY(y + res/2)
