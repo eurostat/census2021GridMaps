@@ -1,6 +1,6 @@
 import svgwrite
 import fiona
-from common import get_cells, classifier, colors
+from common import get_cells, classifier, colors, mm_to_px
 
 
 out_folder = '/home/juju/gisco/census_2021_map/'
@@ -18,7 +18,6 @@ max_pop = res * 60
 #the visualisation scale
 scale = 1/4500000
 
-mm_to_px = 96 / 25.4  #in px/mm
 #minimum circle size: 0.25 mm
 min_diameter = 0.25 * mm_to_px
 #maximum diameter: 1.6*res

@@ -3,6 +3,7 @@ from ternary import ternary_classifier
 
 
 font_name='Myriad Pro'
+mm_to_px = 96 / 25.4  #in px/mm
 
 
 #colors = {"0": "#4daf4a", "1": "#377eb8", "2": "#e41a1c", "m0": "#ab606a", "m1": "#ae7f30", "m2": "#4f9685", "center": "#777"}
@@ -59,6 +60,12 @@ def get_cells(bbox, res, geoToPixX, geoToPixY):
         #cell = copy.deepcopy(cell)
 
         if cell['T'] == 0 or cell['T'] == None: continue
+
+        (x_min, y_min, x_max, y_max) = bbox
+        if x+res < x_min: continue
+        if x > x_max: continue
+        if y+res < y_min: continue
+        if y > y_max: continue
 
         #get cell x/y
         sp = cell["GRD_ID"].split('N')[1].split('E')

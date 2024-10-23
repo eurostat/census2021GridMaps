@@ -2,12 +2,11 @@ import fiona
 import svgwrite
 from shapely.geometry import shape, box
 from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, water_color
-from common import get_cells, classifier, tri_variable, font_name, colors
+from common import get_cells, classifier, font_name, colors, mm_to_px
 
 
 show_debug_code = False
 
-mm_to_px = 96 / 25.4  #in px/mm
 width_px = width_mm * mm_to_px
 height_px = height_mm * mm_to_px
 
