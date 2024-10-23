@@ -1,4 +1,4 @@
-import fiona
+import csv
 from ternary import ternary_classifier
 
 
@@ -49,15 +49,49 @@ classifier = ternary_classifier(
 
 
 def get_cells(bbox, res, geoToPixX, geoToPixY):
+    with open("/home/juju/geodata/census/2021/aggregated/"+res+".csv", mode='r') as file:
+        csv_reader = csv.DictReader(file)
+
+        cells = []
+        (x_min, y_min, x_max, y_max) = bbox
+        for cell in csv_reader:
+            if cell['T'] == "0" or cell['T'] == 0 or cell['T'] == None: continue
+
+            #get cell x/y
+            sp = cell["GRD_ID"].split('N')[1].split('E')
+            x = int(sp[1])
+            y = int(sp[0])
+
+            if x+res < x_min: continue
+            if x > x_max: continue
+            if y+res < y_min: continue
+            if y > y_max: continue
+
+            cell['x'] = geoToPixX(x + res/2)
+            cell['y'] = geoToPixY(y + res/2)
+
+            cell['T'] = int(cell['T'])
+
+            cell["T_"] = 0
+            for var in tri_variable:
+                cell[var] = 0 if cell[var]==None else int(cell[var])
+                cell["T_"] += cell[var]
+
+            cells.append(cell)
+
+        return cells
+
+
+'''''
+def get_cells2(bbox, res, geoToPixX, geoToPixY):
     cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
     cells = list(cells_file.items(bbox=bbox))
 
     cells___ = []
+    (x_min, y_min, x_max, y_max) = bbox
     for cell in cells:
         cell = cell[1]
-        #cell = cell.copy()
         cell = cell['properties']
-        #cell = copy.deepcopy(cell)
 
         if cell['T'] == 0 or cell['T'] == None: continue
 
@@ -66,7 +100,6 @@ def get_cells(bbox, res, geoToPixX, geoToPixY):
         x = int(sp[1])
         y = int(sp[0])
 
-        (x_min, y_min, x_max, y_max) = bbox
         if x+res < x_min: continue
         if x > x_max: continue
         if y+res < y_min: continue
@@ -84,3 +117,4 @@ def get_cells(bbox, res, geoToPixX, geoToPixY):
 
         cells___.append(cell)
     return cells___
+'''''

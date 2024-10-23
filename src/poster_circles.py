@@ -58,8 +58,13 @@ def make_map(path_svg,
     #sort cells
     cells.sort(key=lambda d: (-d['y'], d['x']))
 
-    #draw cells
+    #create svg groups
     gCircles = dwg.g(id='circles')
+    gBN = dwg.g(id='boundaries', fill="none", stroke_width=0.5, stroke_linecap="round", stroke_linejoin="round")
+    dwg.add(gBN)
+    dwg.add(gCircles)
+
+    #draw cells
     for cell in cells:
 
         #compute diameter from total population
@@ -78,23 +83,14 @@ def make_map(path_svg,
         gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     # draw boundaries
-    gBN = dwg.g(id='boundaries', fill="none", stroke_width=0.5, stroke_linecap="round", stroke_linejoin="round")
     lines_ = list(lines_file.items(bbox=bbox))
     for feature in lines_:
         feature = feature[1]
-
-        #if (feature['properties'].get("EU_FLAG") == 'T' or feature['properties'].get("CNTR_CODE") == 'NO') and feature['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
-
         geom = feature.geometry
         for line in geom['coordinates']:
-            #def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
             points = transform_coords(line)
-            #points = [ (round(x), round(y_min + y_max - y)) for x, y in line]
             gBN.add(dwg.polyline(points, stroke=colstr))
-
-    dwg.add(gBN)
-    dwg.add(gCircles)
 
     print("Save SVG", res)
     dwg.save()

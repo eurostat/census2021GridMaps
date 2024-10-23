@@ -36,85 +36,72 @@ labels_file = fiona.open("assets/labels.gpkg", "r")
 def make_svg_page(page):
     print("page", page.code, page.title)
 
-    # transform for europe view
     cx = page.x; cy = page.y
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     bbox = (x_min, y_min, x_max, y_max)
     bbox_ = box(x_min, y_min, x_max, y_max)
 
-    #coordinates conversion functions
+    # coordinates conversion functions
     decimals = 1
     def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, decimals)
     def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, decimals)
     def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
 
 
-    # Create an SVG drawing object
+    # create SVG
     out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
-    # Set the viewBox attribute to map the custom coordinates to the SVG canvas
-    #dwg.viewbox(x_min, y_min, width_m, height_m)
-    #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
 
-    #load cells
+    # load cells
     cells = get_cells(bbox, res, geoToPixX, geoToPixY)
 
-    # Set the background color
+    # case where there is no cell to draw
+    if len(cells) == 0:
+        print("WARNING: empty page", page.code, "i=", page.i, "j=", page.j)
+        return
+
+    # background color
     dwg.add(dwg.rect(insert=(0, 0), size=(width_px, height_px), fill=water_color))
 
-    #make groups
-
-    #land + waters
+    # make groups
+    # land + waters
     gLandWaters = dwg.g(id='land')
     dwg.add(gLandWaters)
-
-    #boundaries
+    # boundaries
     gBN = dwg.g(id='boundaries')
     dwg.add(gBN)
-
-    #circles
+    # circles
     gCircles = dwg.g(id='circles')
     dwg.add(gCircles)
-
-    #labels
+    # labels
     g = dwg.g(id='labels', font_family=font_name, fill='black')
     gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
     dwg.add(gh)
     dwg.add(g)
-
-    #layout
+    # layout
     gLayout = dwg.g(id='layout')
     dwg.add(gLayout)
 
-
-
-    #print("Draw cells")
-    no_cells = True
+    # draw cells
     for cell in cells:
-        no_cells = False
 
-        #compute diameter from total population
+        # compute diameter from total population
         t = cell['T']
         t = t / max_pop
         if t>1: t=1
         t = pow(t, power)
         diameter = min_diameter + t * (max_diameter - min_diameter)
 
-        #get color
+        # get color
         cl = classifier(cell)
         if cell['T_'] == 0 and cl is None: cl = "center"
         color = colors[cl]
 
-        #draw circle
+        # draw circle
         gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
-    #case where there is no cell to draw
-    if no_cells:
-        print("WARNING: empty page", page.code, "i=", page.i, "j=", page.j)
-        return
-
-    #land
+    # draw land
     lands = list(land_file.items(bbox=bbox))
 
     def draw_land_polygon(polygon):
@@ -137,8 +124,7 @@ def make_svg_page(page):
         else: print(geom.geom_type)
 
 
-
-    #inland waters
+    # draw inland waters
     waters = list(water_file.items(bbox=bbox))
 
     def draw_water_polygon(polygon):
@@ -162,7 +148,6 @@ def make_svg_page(page):
         else: print(geom.geom_type)
 
 
-
     # draw country boundaries
     for obj in list(cnt_bn_file.items(bbox=bbox)):
         obj = obj[1]
@@ -174,7 +159,7 @@ def make_svg_page(page):
             gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw nuts boundaries
-    #width, in mm
+    # width, in mm
     sw = 0.5
     for obj in list(nuts_bn_file.items(bbox=bbox)):
         obj = obj[1]
