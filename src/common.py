@@ -49,7 +49,7 @@ classifier = ternary_classifier(
 
 
 def get_cells(bbox, res, geoToPixX, geoToPixY):
-    with open("/home/juju/geodata/census/2021/aggregated/"+res+".csv", mode='r') as file:
+    with open("/home/juju/geodata/census/2021/aggregated/" + str(res) + ".csv", mode='r') as file:
         csv_reader = csv.DictReader(file)
 
         cells = []
@@ -57,10 +57,8 @@ def get_cells(bbox, res, geoToPixX, geoToPixY):
         for cell in csv_reader:
             if cell['T'] == "0" or cell['T'] == 0 or cell['T'] == None: continue
 
-            #get cell x/y
-            sp = cell["GRD_ID"].split('N')[1].split('E')
-            x = int(sp[1])
-            y = int(sp[0])
+            x = int(cell['x'])
+            y = int(cell['y'])
 
             if x+res < x_min: continue
             if x > x_max: continue
