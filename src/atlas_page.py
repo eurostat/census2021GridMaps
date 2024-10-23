@@ -2,7 +2,7 @@ import fiona
 import svgwrite
 from shapely.geometry import shape, box
 from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, water_color
-from common import get_cells, classifier, font_name, colors, mm_to_px
+from common import get_cells_1000_gpkg, classifier, font_name, colors, mm_to_px
 
 
 show_debug_code = False
@@ -54,7 +54,7 @@ def make_svg_page(page):
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
 
     # load cells
-    cells = get_cells(bbox, res, geoToPixX, geoToPixY)
+    cells = get_cells_1000_gpkg(bbox, res, geoToPixX, geoToPixY)
 
     # case where there is no cell to draw
     if len(cells) == 0:

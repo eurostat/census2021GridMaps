@@ -1,4 +1,5 @@
 import csv
+import fiona
 from ternary import ternary_classifier
 
 
@@ -48,7 +49,7 @@ classifier = ternary_classifier(
     )
 
 
-def get_cells(bbox, res, geoToPixX, geoToPixY):
+def get_cells_csv(bbox, res, geoToPixX, geoToPixY):
     with open("/home/juju/geodata/census/2021/aggregated/" + str(res) + ".csv", mode='r') as file:
         csv_reader = csv.DictReader(file)
 
@@ -80,8 +81,8 @@ def get_cells(bbox, res, geoToPixX, geoToPixY):
         return cells
 
 
-'''''
-def get_cells2(bbox, res, geoToPixX, geoToPixY):
+
+def get_cells_1000_gpkg(bbox, res, geoToPixX, geoToPixY):
     cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
     cells = list(cells_file.items(bbox=bbox))
 
@@ -115,4 +116,4 @@ def get_cells2(bbox, res, geoToPixX, geoToPixY):
 
         cells___.append(cell)
     return cells___
-'''''
+

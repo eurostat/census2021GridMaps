@@ -1,6 +1,6 @@
 import svgwrite
 import fiona
-from common import get_cells, classifier, colors, mm_to_px
+from common import get_cells_csv, classifier, colors, mm_to_px
 
 
 out_folder = '/home/juju/gisco/census_2021_map/'
@@ -53,7 +53,7 @@ def make_map(path_svg,
     dwg = svgwrite.Drawing(path_svg, size=(f'{width_mm}mm', f'{height_mm}mm'))
 
     #load cells
-    cells = get_cells(bbox, res, geoToPixX, geoToPixY)
+    cells = get_cells_csv(bbox, res, geoToPixX, geoToPixY)
 
     #sort cells
     cells.sort(key=lambda d: (-d['y'], d['x']))
