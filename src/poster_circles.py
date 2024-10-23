@@ -53,7 +53,7 @@ def make_map(path_svg,
     dwg = svgwrite.Drawing(path_svg, size=(f'{width_mm}mm', f'{height_mm}mm'))
 
     #load cells
-    cells = get_cells(bbox, res, geoToPixX, geoToPixX)
+    cells = get_cells(bbox, res, geoToPixX, geoToPixY)
 
     #sort cells
     cells.sort(key=lambda d: (-d['y'], d['x']))

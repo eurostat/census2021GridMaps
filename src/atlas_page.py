@@ -58,7 +58,7 @@ def make_svg_page(page):
     #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
 
     #load cells
-    cells = get_cells(bbox, res, geoToPixX, geoToPixX)
+    cells = get_cells(bbox, res, geoToPixX, geoToPixY)
 
     # Set the background color
     dwg.add(dwg.rect(insert=(0, 0), size=(width_px, height_px), fill=water_color))
