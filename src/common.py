@@ -1,3 +1,4 @@
+import fiona
 from ternary import ternary_classifier
 
 
@@ -44,3 +45,35 @@ classifier = ternary_classifier(
     lambda cell:cell["T_"],
     {'center': tri_center, 'centerCoefficient': center_coefficient}
     )
+
+
+def get_cells(bbox, res, geoToPixX, geoToPixY):
+    cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
+    cells = list(cells_file.items(bbox=bbox))
+
+    cells___ = []
+    for cell in cells:
+        cell = cell[1]
+        #cell = cell.copy()
+        cell = cell['properties']
+        #cell = copy.deepcopy(cell)
+
+        if cell['T'] == 0 or cell['T'] == None: continue
+
+        #get cell x/y
+        sp = cell["GRD_ID"].split('N')[1].split('E')
+        x = int(sp[1])
+        y = int(sp[0])
+
+        cell['x'] = geoToPixX(x + res/2)
+        cell['y'] = geoToPixY(y + res/2)
+
+        cell['T'] = int(cell['T'])
+
+        cell["T_"] = 0
+        for var in tri_variable:
+            cell[var] = 0 if cell[var]==None else int(cell[var])
+            cell["T_"] += cell[var]
+
+        cells___.append(cell)
+    return cells___

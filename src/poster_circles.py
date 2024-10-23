@@ -1,11 +1,13 @@
 import svgwrite
 import fiona
-from atlas_params import classifier, tri_variable, colors
+from common import get_cells, classifier, colors
+
 
 out_folder = '/home/juju/gisco/census_2021_map/'
 
-cells_file = fiona.open("/home/juju/geodata/census/2021/ESTAT_Census_2021_V2.gpkg", 'r')
 lines_file = fiona.open('assets/BN_3M.gpkg', 'r')
+
+
 
 #the grid resolution in meters
 res = 5000
@@ -51,41 +53,8 @@ def make_map(path_svg,
     # Create an SVG drawing object with A0 dimensions in landscape orientation
     dwg = svgwrite.Drawing(path_svg, size=(f'{width_mm}mm', f'{height_mm}mm'))
 
-    #load cell data
     #load cells
-    cells = list(cells_file.items(bbox=bbox))
-
-    cells___ = []
-    for cell in cells:
-        cell = cell[1]
-        #cell = cell.copy()
-        cell = cell['properties']
-        #cell = copy.deepcopy(cell)
-
-        if cell['T'] == 0 or cell['T'] == None: continue
-
-        #get cell x/y
-        sp = cell["GRD_ID"].split('N')[1].split('E')
-        x = int(sp[1])
-        y = int(sp[0])
-
-        if x+res < x_min: continue
-        if x > x_max: continue
-        if y+res < y_min: continue
-        if y > y_max: continue
-
-        cell['x'] = geoToPixX(x + res/2)
-        cell['y'] = geoToPixY(y + res/2)
-
-        cell['T'] = int(cell['T'])
-
-        cell["T_"] = 0
-        for var in tri_variable:
-            cell[var] = 0 if cell[var]==None else int(cell[var])
-            cell["T_"] += cell[var]
-
-        cells___.append(cell)
-    cells = cells___
+    cells = get_cells(bbox, res, geoToPixX, geoToPixX)
 
     #sort cells
     cells.sort(key=lambda d: (-d['y'], d['x']))

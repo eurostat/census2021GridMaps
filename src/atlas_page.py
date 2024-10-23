@@ -1,9 +1,8 @@
 import fiona
 import svgwrite
-from ternary import ternary_classifier
 from shapely.geometry import shape, box
-from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, font_name, colors, water_color
-from atlas_params import classifier, tri_variable
+from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, water_color
+from common import get_cells, classifier, tri_variable, font_name, colors
 
 
 show_debug_code = False
@@ -61,40 +60,7 @@ def make_svg_page(page):
     #dwg.viewbox(0, 0, width_mm/1000*96/25.4, height_mm/1000*96/25.4)
 
     #load cells
-    cells = list(cells_file.items(bbox=bbox))
-
-    cells___ = []
-    for cell in cells:
-        cell = cell[1]
-        cell = cell['properties']
-
-        if cell['T'] == 0 or cell['T'] == None: continue
-
-        #get cell x/y
-        sp = cell["GRD_ID"].split('N')[1].split('E')
-        x = int(sp[1])
-        y = int(sp[0])
-
-        if x+res < x_min: continue
-        if x > x_max: continue
-        if y+res < y_min: continue
-        if y > y_max: continue
-
-        cell['x'] = geoToPixX(x + res/2)
-        cell['y'] = geoToPixY(y + res/2)
-
-        cell['T'] = int(cell['T'])
-
-        cell["T_"] = 0
-        for var in tri_variable:
-            cell[var] = 0 if cell[var]==None else int(cell[var])
-            cell["T_"] += cell[var]
-
-        cells___.append(cell)
-    cells = cells___
-
-    # Set the background color to white
-    #dwg.add(dwg.rect(insert=(x_min, y_min), size=(width_m, height_m), fill='#dfdfdf'))
+    cells = get_cells(bbox, res, geoToPixX, geoToPixX)
 
     # Set the background color
     dwg.add(dwg.rect(insert=(0, 0), size=(width_px, height_px), fill=water_color))
