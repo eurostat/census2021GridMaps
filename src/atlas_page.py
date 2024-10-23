@@ -166,7 +166,6 @@ def make_svg_page(page):
     # draw country boundaries
     for obj in list(cnt_bn_file.items(bbox=bbox)):
         obj = obj[1]
-        #if obj['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
         #width, in mm
         sw = 1.2 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
