@@ -123,6 +123,34 @@ def make_map(path_svg,
             for polygon in geom.geoms: draw_land_polygon(polygon)
         else: print(geom.geom_type)
 
+
+    # draw inland waters
+    waters = list(water_file.items(bbox=bbox))
+
+    def draw_water_polygon(polygon):
+        exterior_coords = transform_coords(list(polygon.exterior.coords))
+        gLandWaters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
+        interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
+        for hole_coords in interior_coords_list:
+            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
+
+    for obj in waters:
+        obj = obj[1]
+        geom = shape(obj['geometry'])
+
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'Polygon': draw_water_polygon(geom)
+        elif geom.geom_type == 'MultiPolygon':
+            for polygon in geom.geoms: draw_water_polygon(polygon)
+        else: print(geom.geom_type)
+
+
+
+
+
     print("Save SVG", res)
     dwg.save()
 
