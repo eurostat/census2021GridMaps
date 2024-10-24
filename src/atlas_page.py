@@ -62,7 +62,7 @@ def make_svg_page(page):
         return
 
     # background color
-    dwg.add(dwg.rect(insert=(0, 0), size=(width_px, height_px), fill=water_color))
+    dwg.add(dwg.rect(insert=(0, 0), size=('100%', '100%'), fill=water_color))
 
     # make groups
     # land + waters

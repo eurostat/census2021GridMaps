@@ -1,11 +1,13 @@
 import svgwrite
 import fiona
+from shapely.geometry import shape, box
 from common import get_cells_csv, classifier, colors, mm_to_px
 
 
 out_folder = '/home/juju/gisco/census_2021_poster/'
 
 lines_file = fiona.open('assets/BN_3M.gpkg', 'r')
+land_file = fiona.open("assets/LAND_3M.gpkg", 'r')
 
 
 
@@ -41,7 +43,7 @@ def make_map(path_svg,
     x_min, x_max = cx - width_m/2, cx + width_m/2
     y_min, y_max = cy - height_m/2, cy + height_m/2
     bbox = (x_min, y_min, x_max, y_max)
-    #bbox_ = box(x_min, y_min, x_max, y_max)
+    bbox_ = box(x_min, y_min, x_max, y_max)
 
     #coordinates conversion functions
     decimals = 1
@@ -52,6 +54,10 @@ def make_map(path_svg,
     # Create an SVG drawing object with A0 dimensions in landscape orientation
     dwg = svgwrite.Drawing(path_svg, size=(f'{width_mm}mm', f'{height_mm}mm'))
 
+    # background color
+    water_color = '#ebeff2' #'#ebf2f7'
+    dwg.add(dwg.rect(insert=(0, 0), size=('100%', '100%'), fill=water_color))
+
     #load cells
     cells = get_cells_csv(bbox, res, geoToPixX, geoToPixY)
 
@@ -59,8 +65,10 @@ def make_map(path_svg,
     cells.sort(key=lambda d: (-d['y'], d['x']))
 
     #create svg groups
-    gCircles = dwg.g(id='circles')
+    gLandWaters = dwg.g(id='land')
     gBN = dwg.g(id='boundaries', fill="none", stroke_width=0.5, stroke_linecap="round", stroke_linejoin="round")
+    gCircles = dwg.g(id='circles')
+    dwg.add(gLandWaters)
     dwg.add(gBN)
     dwg.add(gCircles)
 
@@ -91,6 +99,28 @@ def make_map(path_svg,
         for line in geom['coordinates']:
             points = transform_coords(line)
             gBN.add(dwg.polyline(points, stroke=colstr))
+
+    # draw land
+    lands = list(land_file.items(bbox=bbox))
+
+    def draw_land_polygon(polygon):
+        exterior_coords = transform_coords(list(polygon.exterior.coords))
+        gLandWaters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+        interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
+        for hole_coords in interior_coords_list:
+            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+
+    for obj in lands:
+        obj = obj[1]
+
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'Polygon': draw_land_polygon(geom)
+        elif geom.geom_type == 'MultiPolygon':
+            for polygon in geom.geoms: draw_land_polygon(polygon)
+        else: print(geom.geom_type)
 
     print("Save SVG", res)
     dwg.save()
