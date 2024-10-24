@@ -97,7 +97,7 @@ def make_map(path_svg,
         feature = feature[1]
         # skip coastals
         if feature['properties'].get("COAS_FLAG") == 'T': continue
-        colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
+        colstr = "#888" #if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
         geom = feature.geometry
         for line in geom['coordinates']:
             points = transform_coords(line)
