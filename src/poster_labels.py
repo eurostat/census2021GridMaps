@@ -2,7 +2,7 @@ import svgwrite
 import fiona
 
 
-out_folder = '/home/juju/gisco/census_2021_map/'
+out_folder = '/home/juju/gisco/census_2021_poster/'
 
 
 out_path_svg = out_folder + 'map_age_labels.svg'

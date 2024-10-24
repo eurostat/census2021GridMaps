@@ -3,7 +3,7 @@ import fiona
 from common import get_cells_csv, classifier, colors, mm_to_px
 
 
-out_folder = '/home/juju/gisco/census_2021_map/'
+out_folder = '/home/juju/gisco/census_2021_poster/'
 
 lines_file = fiona.open('assets/BN_3M.gpkg', 'r')
 
