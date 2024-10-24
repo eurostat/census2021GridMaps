@@ -57,7 +57,7 @@ def make_map(path_svg,
 
     # background color
     water_color = '#ebeff2' #'#ebf2f7'
-    dwg.add(dwg.rect(insert=(0, 0), size=('100%', '100%'), fill=water_color))
+    dwg.add(dwg.rect(insert=(0, 0), size=(f'{width_mm}mm', f'{height_mm}mm'), fill=water_color))
 
     #load cells
     cells = get_cells_csv(bbox, res, geoToPixX, geoToPixY)
@@ -95,6 +95,8 @@ def make_map(path_svg,
     lines_ = list(lines_file.items(bbox=bbox))
     for feature in lines_:
         feature = feature[1]
+        # skip coastals
+        if feature['properties'].get("COAS_FLAG") == 'T': continue
         colstr = "#888" if feature['properties'].get("COAS_FLAG") == 'F' else "#cacaca"
         geom = feature.geometry
         for line in geom['coordinates']:
