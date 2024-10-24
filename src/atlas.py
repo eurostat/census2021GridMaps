@@ -9,8 +9,17 @@ import subprocess
 print("Start")
 
 #TODO
+
 #poster
+#make land_3k
+#show white land
+#check/fix lines widths
+#toponyms
+#venezia
+
+#atlas
 #arrow direction
+#toponyms
 #venezia
 #minimap
 # Use more of: https://ec.europa.eu/component-library/v1.15.0/eu/components/detail/eu-style-color/
