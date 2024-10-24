@@ -8,6 +8,7 @@ out_folder = '/home/juju/gisco/census_2021_poster/'
 
 lines_file = fiona.open('assets/BN_3M.gpkg', 'r')
 land_file = fiona.open("assets/LAND_3M.gpkg", 'r')
+water_file = fiona.open("/home/juju/gisco/census_2021_poster/data/waters.gpkg", 'r')
 
 
 
