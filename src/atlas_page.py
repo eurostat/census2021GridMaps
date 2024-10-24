@@ -66,22 +66,22 @@ def make_svg_page(page):
 
     # make groups
     # land + waters
-    gLandWaters = dwg.g(id='land')
-    dwg.add(gLandWaters)
+    g_land_waters = dwg.g(id='land')
+    dwg.add(g_land_waters)
     # boundaries
-    gBN = dwg.g(id='boundaries')
-    dwg.add(gBN)
+    g_boundaries = dwg.g(id='boundaries')
+    dwg.add(g_boundaries)
     # circles
-    gCircles = dwg.g(id='circles')
-    dwg.add(gCircles)
+    g_circles = dwg.g(id='circles')
+    dwg.add(g_circles)
     # labels
-    g = dwg.g(id='labels', font_family=font_name, fill='black')
-    gh = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
-    dwg.add(gh)
-    dwg.add(g)
+    g_labels = dwg.g(id='labels', font_family=font_name, fill='black')
+    g_labels_halo = dwg.g(id='labels_halo', font_family=font_name, fill='none', stroke="white", stroke_width="2")
+    dwg.add(g_labels_halo)
+    dwg.add(g_labels)
     # layout
-    gLayout = dwg.g(id='layout')
-    dwg.add(gLayout)
+    g_layout = dwg.g(id='layout')
+    dwg.add(g_layout)
 
     # draw cells
     for cell in cells:
@@ -99,17 +99,17 @@ def make_svg_page(page):
         color = colors[cl]
 
         # draw circle
-        gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
+        g_circles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     # draw land
     lands = list(land_file.items(bbox=bbox))
 
     def draw_land_polygon(polygon):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
-        gLandWaters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+        g_land_waters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
-            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+            g_land_waters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
 
     for obj in lands:
         obj = obj[1]
@@ -129,10 +129,10 @@ def make_svg_page(page):
 
     def draw_water_polygon(polygon):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
-        gLandWaters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
+        g_land_waters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
-            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
+            g_land_waters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
 
     for obj in waters:
         obj = obj[1]
@@ -156,7 +156,7 @@ def make_svg_page(page):
         sw = 1.2 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
         for line in obj.geometry['coordinates']:
             points = transform_coords(list(line))
-            gBN.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+            g_boundaries.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw nuts boundaries
     # width, in mm
@@ -166,7 +166,7 @@ def make_svg_page(page):
         geom = obj.geometry
         for line in geom['coordinates']:
             points = transform_coords(list(line))
-            gBN.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+            g_boundaries.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
 
     # draw labels
     for obj in list(labels_file.items(bbox=bbox)):
@@ -187,21 +187,21 @@ def make_svg_page(page):
         r1 = obj['properties']['r1']
         font_size="9px" if r1<800 else "11px"
         obj = dwg.text(name, insert=(5.0+geoToPixX(x), -5.0+geoToPixY(y)), font_size=font_size)
-        g.add(obj)
-        gh.add(obj)
+        g_labels.add(obj)
+        g_labels_halo.add(obj)
 
     #page code
     #case wether to show it on the left or on the right
     case = page.code % 2 == 0
     wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
-    gLayout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
-    gLayout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
+    g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
+    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
 
     #debug code
     if show_debug_code:
         dc = "i=" + str(page.i) + "  j=" + str(page.j)
-        gLayout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
+        g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #print("Save SVG", res)
     dwg.save()

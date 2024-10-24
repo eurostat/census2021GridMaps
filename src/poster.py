@@ -59,19 +59,19 @@ def make_map(path_svg,
     water_color = '#ebeff2' #'#ebf2f7'
     dwg.add(dwg.rect(insert=(0, 0), size=(f'{width_mm}mm', f'{height_mm}mm'), fill=water_color))
 
+    #create svg groups
+    g_land_waters = dwg.g(id='land')
+    dwg.add(g_land_waters)
+    g_boundaries = dwg.g(id='boundaries', fill="none", stroke_width=0.5, stroke_linecap="round", stroke_linejoin="round")
+    dwg.add(g_boundaries)
+    g_circles = dwg.g(id='circles')
+    dwg.add(g_circles)
+
     #load cells
     cells = get_cells_csv(bbox, res, geoToPixX, geoToPixY)
 
     #sort cells
     cells.sort(key=lambda d: (-d['y'], d['x']))
-
-    #create svg groups
-    gLandWaters = dwg.g(id='land')
-    gBN = dwg.g(id='boundaries', fill="none", stroke_width=0.5, stroke_linecap="round", stroke_linejoin="round")
-    gCircles = dwg.g(id='circles')
-    dwg.add(gLandWaters)
-    dwg.add(gBN)
-    dwg.add(gCircles)
 
     #draw cells
     for cell in cells:
@@ -89,7 +89,7 @@ def make_map(path_svg,
         color = colors[cl]
 
         #draw circle
-        gCircles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
+        g_circles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
     # draw boundaries
     lines_ = list(lines_file.items(bbox=bbox))
@@ -101,17 +101,17 @@ def make_map(path_svg,
         geom = feature.geometry
         for line in geom['coordinates']:
             points = transform_coords(line)
-            gBN.add(dwg.polyline(points, stroke=colstr))
+            g_boundaries.add(dwg.polyline(points, stroke=colstr))
 
     # draw land
     lands = list(land_file.items(bbox=bbox))
 
     def draw_land_polygon(polygon):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
-        gLandWaters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+        g_land_waters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
-            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+            g_land_waters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
 
     for obj in lands:
         obj = obj[1]
@@ -131,10 +131,10 @@ def make_map(path_svg,
 
     def draw_water_polygon(polygon):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
-        gLandWaters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
+        g_land_waters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
-            gLandWaters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
+            g_land_waters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
 
     for obj in waters:
         obj = obj[1]
