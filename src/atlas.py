@@ -51,7 +51,7 @@ def combine_pdf_pages():
 
     # combine PDF pages
     pdfs = [
-        out_folder + "doc_start.pdf",
+        out_folder + "atlas_first_pages.pdf",
         out_folder + 'index.pdf',
             ]
     for p in pages:
