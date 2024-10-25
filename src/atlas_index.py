@@ -23,6 +23,11 @@ def get_index():
 
     pages = []
 
+    # ireland
+    pages.append(Page(3166000, 3564800, title="Ireland 1"))
+    pages.append(Page(3034000, 3483400, title="Ireland 2"))
+    pages.append(Page(3206000, 3483400, title="Ireland 3"))
+
     #south west position for europe
     xmi = 2500000; ymi = 1350000
 
@@ -32,9 +37,10 @@ def get_index():
             if i==9 and j==12: oy_ = -150000; ox_ = -20000
             if i==10 and j==12: oy_ = -30000
             if i==8 and j==10: ox_ = 70000
-            if i==7 and j==8: ox_ = 60000
+            if i==7 and j==8: ox_ = 80000; oy_ = 60000 #NO SW
             if i==13 and j==8: ox_ = -50000
             if i==13 and j==7: ox_ = -50000
+            #if i==3 and j==6: ox_ = -50000 #dublin
             if i==7 and j==6: oy_ = -70000
             if i==13 and j==6: ox_ = -80000
             if i==3 and j==5: oy_ = -150000 #britanny
@@ -75,10 +81,10 @@ def get_index():
         elif  j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, dx)
         elif  j==8: make_sub_row(j, range(7, 14, 1), 0, 0, dx)
         elif  j==7:
-            make_sub_row(j, range(2, 4, 1), 80000, -40000, dx)
+            #make_sub_row(j, range(3, 4, 1), 0, -70000, dx) #IE north
             make_sub_row(j, range(8, 14, 1), 0, 0, dx)
         elif  j==6:
-            make_sub_row(j, range(2, 4, 1), 50000, 150000, dx)
+            #make_sub_row(j, range(2, 4, 1), 90000, 175000, dx) #IE south
             make_sub_row(j, range(7, 14, 1), -100000, 0, dx)
         elif  j==5: make_sub_row(j, range(3, 14, 1), 160000, 0, dx)
         elif  j==4: make_sub_row(j, range(4, 16, 1), 0, 0, dx)
@@ -111,6 +117,9 @@ def get_index():
     pages.append(Page(1640000, 1080000, title="Canarias"))
     pages.append(Page(1830000, 1080000, title="Canarias"))
     pages.append(Page(1955151, 1080000, title="Canarias"))
+
+    # show info on selected pages
+    #for p in pages: if(p.code == 27 or p.code == 34 or p.code == 35): print(p.code, p.x, p.y)
 
     return pages
 
