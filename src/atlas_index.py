@@ -80,12 +80,8 @@ def get_index():
         elif j==10: make_sub_row(j, range(8, 14, 1), -50000, 0, dx)
         elif  j==9: make_sub_row(j, range(7, 13, 1), 85000, 0, dx)
         elif  j==8: make_sub_row(j, range(7, 14, 1), 0, 0, dx)
-        elif  j==7:
-            #make_sub_row(j, range(3, 4, 1), 0, -70000, dx) #IE north
-            make_sub_row(j, range(8, 14, 1), 0, 0, dx)
-        elif  j==6:
-            #make_sub_row(j, range(2, 4, 1), 90000, 175000, dx) #IE south
-            make_sub_row(j, range(7, 14, 1), -100000, 0, dx)
+        elif  j==7: make_sub_row(j, range(8, 14, 1), 0, 0, dx)
+        elif  j==6: make_sub_row(j, range(7, 14, 1), -100000, 0, dx)
         elif  j==5: make_sub_row(j, range(3, 14, 1), 160000, 0, dx)
         elif  j==4: make_sub_row(j, range(4, 16, 1), 0, 0, dx)
         elif  j==3: make_sub_row(j, range(1, 15, 1), 100000, 0, dx)
@@ -124,10 +120,10 @@ def get_index():
     return pages
 
 
-scale = 1/35000000
+scale = 1/30000000
 def make_index_page(pages):
 
-    cx = 3900000
+    cx = 3700000
     cy = 3300000
 
     # transform for europe view
@@ -139,6 +135,9 @@ def make_index_page(pages):
 
     # Create an SVG drawing object
     dwg = svgwrite.Drawing(out_folder + "index.svg", size=(f'{width_mm}mm', f'{height_mm}mm'))
+
+    #title
+    dwg.add(dwg.text("Index", insert=("25mm", "30mm"), font_size="18pt", fill="black", font_weight='bold'))
 
     #make groups
 
@@ -155,11 +154,12 @@ def make_index_page(pages):
     #draw pages and number
     wp2 = width_m/2
     hp2 = height_m/2
+    fsi = 90000
     for p in pages:
         points = [(p.x-wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y-hp2), (p.x-wp2, y_min + y_max-p.y-hp2)]
         gP.add(dwg.polygon(points, fill='#004494', fill_opacity=0.1, stroke='#004494', stroke_width=5000))
-        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=90000, stroke="white", font_weight='bold', stroke_width=20000))
-        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=90000, fill="#004494", font_weight='bold'))
+        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, stroke="white", font_weight='bold', stroke_width=20000))
+        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, fill="#004494", font_weight='bold'))
 
 
     #draw boundaries
