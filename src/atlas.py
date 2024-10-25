@@ -42,7 +42,7 @@ def make_pdf_pages(do_all_pages = True):
             concurrent.futures.as_completed(tasks_to_do)
 
     # other pages
-    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/doc_start.docx", '--outdir', out_folder])
+    subprocess.run(['libreoffice', '--headless', '--convert-to', 'pdf', "docs/atlas_first_pages.docx", '--outdir', out_folder])
     cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 
 # combine all pdf pages into a single pdf document
