@@ -24,9 +24,9 @@ def get_index():
     pages = []
 
     # ireland
-    pages.append(Page(3166000, 3564800, title="Ireland 1"))
-    pages.append(Page(3034000, 3483400, title="Ireland 2"))
-    pages.append(Page(3206000, 3483400, title="Ireland 3"))
+    pages.append(Page(3034000, 3483400, title="Ireland 1"))
+    pages.append(Page(3206000, 3483400, title="Ireland 2"))
+    pages.append(Page(3166000, 3564800, title="Ireland 3"))
 
     #south west position for europe
     xmi = 2500000; ymi = 1350000
