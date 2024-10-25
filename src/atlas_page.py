@@ -192,7 +192,7 @@ def make_svg_page(page):
 
     #page code
     #case wether to show it on the left or on the right
-    case = page.code % 2 == 0
+    case = page.code % 2 == 1
     wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
     g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
