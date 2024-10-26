@@ -196,7 +196,13 @@ def make_svg_page(page):
     wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
     g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
-    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='	#ffd617', font_family=font_name))
+    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='#ffd617', font_family=font_name))
+
+
+    # arrows
+    for arr in page.arrows:
+        g_layout.add(dwg.text(arr.code, insert=(geoToPixX(arr.x), geoToPixY(arr.y)), font_size="30px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='black', font_family=font_name))
+
 
     #debug code
     if show_debug_code:
