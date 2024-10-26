@@ -31,7 +31,7 @@ class Page:
             if inter.area < 10000000: continue
 
             #compute ring around bbox
-            inside = self.box.buffer(-10000)
+            inside = self.box.buffer(-11000)
             ring = self.box.difference(inside)
 
             #line between centers
