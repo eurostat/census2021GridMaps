@@ -1,5 +1,6 @@
 import svgwrite
 import fiona
+from shapely.geometry import box, LineString
 from atlas_params import width_m, height_m, width_mm, height_mm, out_folder
 
 
@@ -8,20 +9,58 @@ dx = width_m - overlap_m
 dy = height_m - overlap_m
 
 
+class Page:
+    CODE = 1
+    def __init__(self, x: float, y: float, i: int = None, j: int = None, title: str = None):
+        self.code = Page.CODE
+        Page.CODE += 1
+        self.x = x
+        self.y = y
+        self.i = i
+        self.j = j
+        self.box = box(x-width_m/2, y-height_m/2, x+width_m/2, y+height_m/2)
+        self.title = title
+        self.arrows = []
+
+    def make_arrows(self, pages):
+        for p in pages:
+            inter = self.box.intersection(p.box)
+
+            # no arrow necessary
+            if inter.is_empty: continue
+            if inter.area < 10000000: continue
+
+            #compute ring around bbox
+            inside = self.box.buffer(-20000)
+            ring = self.box.difference(inside)
+
+            #line between centers
+            line = LineString([(self.x, self.y), (p.x, p.y)])
+            #TODO compute orientation
+
+            #
+            loc = line.buffer(20000).intersection(ring)
+            if loc.is_empty: continue
+            loc = loc.centroid
+
+            self.arrows.append(Arrow(p.code, loc.x, loc.y, 0))
+
+
+class Arrow:
+    def __init__(self, code:int, x: float, y: float, orientation: float):
+        self.code = code
+        self.x = x
+        self.y = y
+        self.orientation = orientation
+
+
+
+
 def get_index():
 
-    class Page:
-        CODE = 1
-        def __init__(self, x: float, y: float, i: int = None, j: int = None, title: str = None):
-            self.code = Page.CODE
-            Page.CODE += 1
-            self.x = x
-            self.y = y
-            self.i = i
-            self.j = j
-            self.title = title
-
     pages = []
+
+
 
     # ireland
     pages.append(Page(3034000, 3483400, title="Ireland 1"))
@@ -116,6 +155,9 @@ def get_index():
 
     # show info on selected pages
     #for p in pages: if(p.code == 27 or p.code == 34 or p.code == 35): print(p.code, p.x, p.y)
+
+    # make arrows
+    for p in pages: p.make_arrows(pages)
 
     return pages
 
