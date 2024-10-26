@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   height="15mm"
+   height="21mm"
    version="1.1"
-   width="80mm"
+   width="75mm"
    id="svg1271"
    sodipodi:docname="legend_other.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
@@ -22,8 +22,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2.8284273"
-     inkscape:cx="117.20294"
-     inkscape:cy="60.28085"
+     inkscape:cx="158.03836"
+     inkscape:cy="67.351917"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -641,26 +641,6 @@
   </defs>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
-     x="69.692841"
-     y="20.024765"
-     id="text2020192-0-0-7"><tspan
-       sodipodi:role="line"
-       id="tspan365719-4"
-       x="69.692841"
-       y="20.024765">Country boundary</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
-     x="69.692841"
-     y="46.545113"
-     id="text2020192-0-0-7-8"><tspan
-       sodipodi:role="line"
-       id="tspan365719-4-5"
-       x="69.692841"
-       y="46.545113">Other administrative boundary</tspan></text>
-  <text
-     xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#535353;fill-opacity:1;stroke-width:0.999997"
      x="172.70287"
      y="50.555511"
@@ -670,12 +650,65 @@
        y="50.555511"
        id="tspan347158-2"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999997" /></text>
-  <path
-     style="fill:none;stroke:#888888;stroke-width:4.53543;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
-     d="m 10.558595,15.778107 c 44.242186,0 44.242186,0 44.242186,0"
-     id="path1088" />
-  <path
-     style="fill:none;stroke:#888888;stroke-width:1.88976;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
-     d="m 10.558595,42.298454 c 44.242186,0 44.242186,0 44.242186,0"
-     id="path1088-7" />
+  <g
+     id="g2766"
+     transform="translate(-4,-2)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
+       x="57.692841"
+       y="20.024765"
+       id="text2020192-0-0-7"><tspan
+         sodipodi:role="line"
+         id="tspan365719-4"
+         x="57.692841"
+         y="20.024765">Country boundary</tspan></text>
+    <path
+       style="fill:none;stroke:#888888;stroke-width:4.53544;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+       d="m 12.1011,15.778107 c 31.992114,0 31.992114,0 31.992114,0"
+       id="path1088" />
+  </g>
+  <g
+     id="g3006"
+     transform="translate(-4,1)">
+    <g
+       id="g2527"
+       transform="translate(0,1.5379543)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
+         x="57.692841"
+         y="40.545113"
+         id="text2020192-0-0-7-8"><tspan
+           sodipodi:role="line"
+           id="tspan365719-4-5"
+           x="57.692841"
+           y="40.545113">Other administrative boundary</tspan></text>
+      <path
+         style="fill:none;stroke:#888888;stroke-width:1.88976;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+         d="m 12.1011,36.298454 c 31.992114,0 31.992114,0 31.992114,0"
+         id="path1088-7" />
+    </g>
+  </g>
+  <g
+     id="g2288"
+     transform="translate(-4,-8)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3333px;line-height:1.25;font-family:'Myriad Pro';-inkscape-font-specification:'Myriad Pro, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.999995"
+       x="58.056839"
+       y="79.300858"
+       id="text2020192-0-0-7-1"><tspan
+         sodipodi:role="line"
+         id="tspan365719-4-2"
+         x="58.056839"
+         y="79.300858">Water bodies</tspan></text>
+    <rect
+       style="fill:#ebeff2;fill-opacity:1;stroke:#3b3b3b;stroke-width:1.33334;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
+       id="rect1261"
+       width="33.18568"
+       height="17.482939"
+       x="11.504316"
+       y="64.501396" />
+  </g>
 </svg>
