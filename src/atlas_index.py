@@ -31,12 +31,12 @@ class Page:
             if inter.area < 10000000: continue
 
             #compute ring around bbox
-            inside = self.box.buffer(-20000)
+            inside = self.box.buffer(-10000)
             ring = self.box.difference(inside)
 
             #line between centers
             line = LineString([(self.x, self.y), (p.x, p.y)])
-            #TODO compute orientation
+            #TODO compute orientation ?
 
             #
             loc = line.buffer(20000).intersection(ring)
