@@ -148,10 +148,10 @@ def make_svg_page(page):
         else: print(geom.geom_type)
 
 
-    # draw country boundaries
+    # draw country boundaries and coast line
     for obj in list(cnt_bn_file.items(bbox=bbox)):
         obj = obj[1]
-        colstr = "#999" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
+        colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
         #width, in mm
         sw = 1.2 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
         for line in obj.geometry['coordinates']:
