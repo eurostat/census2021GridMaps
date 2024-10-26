@@ -201,7 +201,10 @@ def make_svg_page(page):
 
     # arrows
     for arr in page.arrows:
-        g_layout.add(dwg.text(arr.code, insert=(geoToPixX(arr.x), geoToPixY(arr.y)), font_size="25px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='black', font_family=font_name))
+        x = geoToPixX(arr.x)
+        y = geoToPixY(arr.y)
+        g_circles.add(dwg.circle(center=(x, y), r=10, fill='#004494'))
+        g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="10px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='#ffd617', font_family=font_name))
 
 
     #debug code
