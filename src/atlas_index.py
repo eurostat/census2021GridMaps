@@ -25,6 +25,7 @@ class Page:
 
     def make_arrows(self, pages):
         for p in pages:
+            if(p.code == self.code): continue
 
             #compute intersection of pages
             inter = self.box.intersection(p.box)

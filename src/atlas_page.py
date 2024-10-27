@@ -207,7 +207,7 @@ def make_svg_page(page):
         y = geoToPixY(arr.y)
         c = math.cos(arr.orientation)
         s = math.sin(arr.orientation)
-        g_layout.add(dwg.polyline([(x,y),(x+2*r*c, y+2*r*s)], stroke="#004494", fill="none", stroke_width=3, stroke_linecap="round", stroke_linejoin="round"))
+        g_layout.add(dwg.polyline([(x,y),(x+2*r*c, y-2*r*s)], stroke="#004494", fill="none", stroke_width=3, stroke_linecap="round", stroke_linejoin="round"))
         g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=0.8, fill='#004494'))
         g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="6pt", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='#ffd617', font_family=font_name))
 
