@@ -30,18 +30,20 @@ class Page:
             inter = self.box.intersection(p.box)
 
             # intersection too small: no arrow necessary
-            if inter.is_empty or inter.area < 500000000: continue
+            if inter.is_empty or inter.area < 2000000000: continue
 
             # compute page frame
             frame = self.box.buffer(-11000)
             frame = self.box.difference(frame)
 
             # compute arrow orientation
-            orientation = math.atan2(self.y-p.y, self.x-p.x)
+            orientation = math.atan2(p.y-self.y, p.x-self.x)
 
             # make ray line from page center to far away in the direction
-            far = 10e10
+            far = 10e6
+            #TODO fix that
             ray_line = LineString([(self.x, self.y), (self.x + far*math.cos(orientation), self.y + far*math.sin(orientation))])
+            #ray_line = LineString([(self.x, self.y), (p.x,p.y)])
 
             # compute arrow position from intersection of ray line and frame
             position = ray_line.intersection(frame)
