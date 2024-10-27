@@ -30,7 +30,7 @@ class Page:
             inter = self.box.intersection(p.box)
 
             # intersection too small: no arrow necessary
-            if inter.is_empty or inter.area < 400000000: continue
+            if inter.is_empty or inter.area < 500000000: continue
 
             # compute page frame
             frame = self.box.buffer(-11000)

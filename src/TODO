@@ -4,6 +4,7 @@ legend ternary: swap predominance text
 --- poster
 
 --- atlas
+draw arrow
 compute intersection boundaries
 minimap
 
