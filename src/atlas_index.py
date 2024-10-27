@@ -29,7 +29,7 @@ class Page:
             inter = self.box.intersection(p.box)
 
             # intersection too small: no arrow necessary
-            if inter.is_empty or inter.area < 4000000000: continue
+            if inter.is_empty or inter.area < 3500000000: continue
 
             # compute page frame
             frame = self.box.buffer(-11000)
@@ -158,13 +158,10 @@ def get_index():
     # show info on selected pages
     #for p in pages: if(p.code == 27 or p.code == 34 or p.code == 35): print(p.code, p.x, p.y)
 
-    # make arrows
-    for p in pages: p.make_arrows(pages)
-
-    #count arrows
+    # make arrows and count them
     cnt = 0
-    for p in pages: cnt += len(p.arrows)
-    print(cnt)
+    for p in pages: p.make_arrows(pages); cnt += len(p.arrows)
+    print(cnt, "arrows")
 
     return pages
 
