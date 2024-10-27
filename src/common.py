@@ -4,6 +4,9 @@ from ternary import ternary_classifier
 
 
 font_name='Myriad Pro'
+blue_eu = '#004494'
+yellow_eu = '#ffd617'
+
 mm_to_px = 96 / 25.4  #in px/mm
 
 

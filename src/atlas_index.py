@@ -3,6 +3,7 @@ import fiona
 import math
 from shapely.geometry import box, LineString
 from atlas_params import width_m, height_m, width_mm, height_mm, out_folder
+from common import blue_eu
 
 
 overlap_m = 30000
@@ -71,9 +72,9 @@ def get_index():
 
 
     # ireland
-    pages.append(Page(3034000, 3483400, title="Ireland 1"))
-    pages.append(Page(3206000, 3483400, title="Ireland 2"))
-    pages.append(Page(3166000, 3564800, title="Ireland 3"))
+    pages.append(Page(3034000, 3483400, title="ireland 1"))
+    pages.append(Page(3206000, 3483400, title="ireland 2"))
+    pages.append(Page(3166000, 3564800, title="ireland 3"))
 
     #south west position for europe
     xmi = 2500000; ymi = 1350000
@@ -209,9 +210,9 @@ def make_index_page(pages):
     fsi = 90000
     for p in pages:
         points = [(p.x-wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y-hp2), (p.x-wp2, y_min + y_max-p.y-hp2)]
-        gP.add(dwg.polygon(points, fill='#004494', fill_opacity=0.1, stroke='#004494', stroke_width=5000))
+        gP.add(dwg.polygon(points, fill=blue_eu, fill_opacity=0.1, stroke=blue_eu, stroke_width=5000))
         gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, stroke="white", font_weight='bold', stroke_width=20000))
-        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, fill="#004494", font_weight='bold'))
+        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, fill=blue_eu, font_weight='bold'))
 
 
     #draw boundaries

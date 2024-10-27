@@ -1,9 +1,9 @@
 import fiona
-import math
+from math import cos,sin,pi
 import svgwrite
 from shapely.geometry import shape, box
 from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, water_color
-from common import get_cells_1000_gpkg, classifier, font_name, colors, mm_to_px
+from common import get_cells_1000_gpkg, classifier, font_name, colors, mm_to_px, blue_eu, yellow_eu
 
 
 show_debug_code = False
@@ -191,25 +191,27 @@ def make_svg_page(page):
         g_labels.add(obj)
         g_labels_halo.add(obj)
 
+
+
     #page code
     #case wether to show it on the left or on the right
     case = page.code % 2 == 1
     wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
-    g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill='#004494', fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
-    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='#ffd617', font_family=font_name))
+    g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill=blue_eu, fill_opacity=0.8, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
+    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
 
     # arrows
     r = 11
+    ea = pi/3
     for arr in page.arrows:
         x = geoToPixX(arr.x)
         y = geoToPixY(arr.y)
-        c = math.cos(arr.orientation)
-        s = math.sin(arr.orientation)
-        g_layout.add(dwg.polyline([(x,y),(x+2*r*c, y-2*r*s)], stroke="#004494", fill="none", stroke_width=3, stroke_linecap="round", stroke_linejoin="round"))
-        g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=0.8, fill='#004494'))
-        g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="6pt", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill='#ffd617', font_family=font_name))
+        ori = arr.orientation
+        g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y+r*sin(ori+ea)), (x,y), (x+r*cos(ori-ea),y+r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], stroke=blue_eu, fill="none", stroke_width=3, stroke_linecap="round", stroke_linejoin="round"))
+        g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=0.8, fill=blue_eu))
+        g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="6pt", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
 
     #debug code
