@@ -103,10 +103,10 @@ def get_cells_1000_gpkg(bbox, res, geoToPixX, geoToPixY):
         x = int(sp[1])
         y = int(sp[0])
 
-        if x+res < x_min: continue
-        if x > x_max: continue
-        if y+res < y_min: continue
-        if y > y_max: continue
+        if x+res <= x_min: continue
+        if x >= x_max: continue
+        if y+res <= y_min: continue
+        if y >= y_max: continue
 
         cell['x'] = geoToPixX(x + res/2)
         cell['y'] = geoToPixY(y + res/2)
