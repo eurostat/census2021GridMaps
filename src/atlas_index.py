@@ -24,26 +24,28 @@ class Page:
 
     def make_arrows(self, pages):
         for p in pages:
+
+            #compute intersection of pages
             inter = self.box.intersection(p.box)
 
-            # no arrow necessary
-            if inter.is_empty: continue
-            if inter.area < 10000000: continue
+            # intersection too small: no arrow necessary
+            if inter.is_empty or inter.area < 4000000000: continue
 
-            #compute ring around bbox
-            inside = self.box.buffer(-11000)
-            ring = self.box.difference(inside)
+            # compute page frame
+            frame = self.box.buffer(-11000)
+            frame = self.box.difference(frame)
 
-            #line between centers
+            # line between centres
             line = LineString([(self.x, self.y), (p.x, p.y)])
-            #TODO compute orientation ?
+            #TODO compute orientation to draw arrow ?
 
-            #
-            loc = line.buffer(20000).intersection(ring)
-            if loc.is_empty: continue
-            loc = loc.centroid
+            # compute arrow position from intersection of line and frame
+            position = line.intersection(frame)
+            if position.is_empty: continue
+            position = position.centroid
 
-            self.arrows.append(Arrow(p.code, loc.x, loc.y, 0))
+            # add arrow
+            self.arrows.append(Arrow(p.code, position.x, position.y, 0))
 
 
 class Arrow:
