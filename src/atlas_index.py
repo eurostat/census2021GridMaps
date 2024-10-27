@@ -1,5 +1,6 @@
 import svgwrite
 import fiona
+import math
 from shapely.geometry import box, LineString
 from atlas_params import width_m, height_m, width_mm, height_mm, out_folder
 
@@ -29,23 +30,26 @@ class Page:
             inter = self.box.intersection(p.box)
 
             # intersection too small: no arrow necessary
-            if inter.is_empty or inter.area < 3500000000: continue
+            if inter.is_empty or inter.area < 400000000: continue
 
             # compute page frame
             frame = self.box.buffer(-11000)
             frame = self.box.difference(frame)
 
-            # line between centres
-            line = LineString([(self.x, self.y), (p.x, p.y)])
-            #TODO compute orientation to draw arrow ?
+            # compute arrow orientation
+            orientation = math.atan2(self.y-p.y, self.x-p.x)
 
-            # compute arrow position from intersection of line and frame
-            position = line.intersection(frame)
+            # make ray line from page center to far away in the direction
+            far = 10e10
+            ray_line = LineString([(self.x, self.y), (self.x + far*math.cos(orientation), self.y + far*math.sin(orientation))])
+
+            # compute arrow position from intersection of ray line and frame
+            position = ray_line.intersection(frame)
             if position.is_empty: continue
             position = position.centroid
 
             # add arrow
-            self.arrows.append(Arrow(p.code, position.x, position.y, 0))
+            self.arrows.append(Arrow(p.code, position.x, position.y, orientation))
 
 
 class Arrow:
