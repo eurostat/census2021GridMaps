@@ -34,7 +34,7 @@ class Page:
             if inter.is_empty or inter.area < 2000000000: continue
 
             # compute page frame
-            frame = self.box.buffer(-11000)
+            frame = self.box.buffer(-20000)
             frame = self.box.difference(frame)
 
             # compute arrow orientation
@@ -42,7 +42,6 @@ class Page:
 
             # make ray line from page center to far away in the direction
             far = 10e6
-            #TODO fix that
             ray_line = LineString([(self.x, self.y), (self.x + far*math.cos(orientation), self.y + far*math.sin(orientation))])
             #ray_line = LineString([(self.x, self.y), (p.x,p.y)])
 
