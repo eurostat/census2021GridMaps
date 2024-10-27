@@ -150,24 +150,42 @@ def make_svg_page(page):
 
 
     # draw country boundaries and coast line
+    def draw_boundary_line(line, colstr, sw):
+        points = transform_coords(list(line.coords))
+        g_boundaries.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+
+
     for obj in list(cnt_bn_file.items(bbox=bbox)):
         obj = obj[1]
+
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
         colstr = "#888" if obj['properties'].get("COAS_FLAG") == 'F' else "#ccc"
         #width, in mm
         sw = 1.2 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
-        for line in obj.geometry['coordinates']:
-            points = transform_coords(list(line))
-            g_boundaries.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+
+        if geom.geom_type == 'LineString': draw_boundary_line(geom, colstr, sw)
+        elif geom.geom_type == 'MultiLineString':
+            for line in geom.geoms: draw_boundary_line(line, colstr, sw)
+        else: print(geom.geom_type)
 
     # draw nuts boundaries
     # width, in mm
     sw = 0.5
+    colstr = "#888"
     for obj in list(nuts_bn_file.items(bbox=bbox)):
         obj = obj[1]
-        geom = obj.geometry
-        for line in geom['coordinates']:
-            points = transform_coords(list(line))
-            g_boundaries.add(dwg.polyline(points, stroke="#888", fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'LineString': draw_boundary_line(geom, colstr, sw)
+        elif geom.geom_type == 'MultiLineString':
+            for line in geom.geoms: draw_boundary_line(line, colstr, sw)
+        else: print(geom.geom_type)
+
 
     # draw labels
     for obj in list(labels_file.items(bbox=bbox)):
