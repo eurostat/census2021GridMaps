@@ -159,6 +159,11 @@ def get_index():
     # make arrows
     for p in pages: p.make_arrows(pages)
 
+    #count arrows
+    cnt = 0
+    for p in pages: cnt += len(p.arrows)
+    print(cnt)
+
     return pages
 
 
