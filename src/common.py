@@ -141,7 +141,7 @@ def get_svg_arc_path(x, y, radius, start_angle, end_angle):
     large_arc_flag = 1 #if (end_angle - start_angle) % 360 > 180 else 0
 
     # Determine sweep direction (1 for clockwise, 0 for counterclockwise)
-    sweep_flag = 1 #1 if end_angle > start_angle else 0
+    sweep_flag = 0 #1 if end_angle > start_angle else 0
 
     # Construct the SVG path for the arc, indirectly specifying the center through start and end points
     return (
