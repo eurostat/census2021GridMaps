@@ -1,5 +1,6 @@
 import csv
 import fiona
+import math
 from ternary import ternary_classifier
 
 
@@ -120,3 +121,31 @@ def get_cells_1000_gpkg(bbox, res, geoToPixX, geoToPixY):
         cells___.append(cell)
     return cells___
 
+
+
+
+# use output as: dwg.path(d=arc_path, stroke="black", fill="none")
+def get_svg_arc_path(x, y, radius, start_angle, end_angle):
+
+    # Calculate the start and end points based on center and radius
+    start_point = (
+        x + radius * math.cos(start_angle),
+        y + radius * math.sin(start_angle)
+    )
+    end_point = (
+        x + radius * math.cos(end_angle),
+        y + radius * math.sin(end_angle)
+    )
+
+    # Determine if the arc should be "large" (sweeping more than 180 degrees)
+    large_arc_flag = 1 #if (end_angle - start_angle) % 360 > 180 else 0
+
+    # Determine sweep direction (1 for clockwise, 0 for counterclockwise)
+    sweep_flag = 1 #1 if end_angle > start_angle else 0
+
+    # Construct the SVG path for the arc, indirectly specifying the center through start and end points
+    return (
+        f"M {start_point[0]},{start_point[1]} "
+        f"A {radius},{radius} 0 {large_arc_flag},{sweep_flag} "
+        f"{end_point[0]},{end_point[1]}"
+    )
