@@ -205,12 +205,13 @@ def make_svg_page(page):
     # arrows
     r = 11
     ea = pi/3
+    fo = 1
     for arr in page.arrows:
         x = geoToPixX(arr.x)
         y = geoToPixY(arr.y)
         ori = arr.orientation
-        g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y+r*sin(ori+ea)), (x,y), (x+r*cos(ori-ea),y+r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], stroke=blue_eu, fill="none", stroke_width=3, stroke_linecap="round", stroke_linejoin="round"))
-        g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=0.8, fill=blue_eu))
+        g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y-r*sin(ori+ea)), (x,y), (x+r*cos(ori-ea),y-r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], fill_opacity=fo, fill=blue_eu))
+        g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=fo, fill=blue_eu))
         g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="6pt", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
 
