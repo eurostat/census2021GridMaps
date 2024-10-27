@@ -130,11 +130,11 @@ def get_svg_arc_path(x, y, radius, start_angle, end_angle):
     # Calculate the start and end points based on center and radius
     start_point = (
         x + radius * math.cos(start_angle),
-        y + radius * math.sin(start_angle)
+        y - radius * math.sin(start_angle)
     )
     end_point = (
         x + radius * math.cos(end_angle),
-        y + radius * math.sin(end_angle)
+        y - radius * math.sin(end_angle)
     )
 
     # Determine if the arc should be "large" (sweeping more than 180 degrees)

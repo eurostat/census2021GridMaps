@@ -209,7 +209,7 @@ def make_svg_page(page):
         x = geoToPixX(arr.x)
         y = geoToPixY(arr.y)
         ori = arr.orientation
-        g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y-r*sin(ori+ea)), (x,y), (x+r*cos(ori-ea),y-r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], fill_opacity=f_opacity, fill=blue_eu))
+        g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y-r*sin(ori+ea)), (x+r*cos(ori-ea),y-r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], fill_opacity=f_opacity, fill=blue_eu))
         #g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=f_opacity, fill=blue_eu))
         arc_path = get_svg_arc_path(x, y, r, ori+ea, ori-ea)
         g_layout.add(dwg.path(d=arc_path, fill_opacity=f_opacity, fill=blue_eu))
