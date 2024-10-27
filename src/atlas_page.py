@@ -213,7 +213,7 @@ def make_svg_page(page):
 
     #page code
     #case wether to show it on the left or on the right
-    f_opacity = 0.6
+    f_opacity = 0.5
     case = page.code % 2 == 1
     wr = 75; hr = 75; rnd = 23
     xcr = -rnd if case else width_px - wr + rnd
