@@ -126,6 +126,9 @@ def make_svg_page(page):
         else: print(geom.geom_type)
 
 
+
+
+
     # draw inland waters
     waters = list(water_file.items(bbox=bbox))
 
