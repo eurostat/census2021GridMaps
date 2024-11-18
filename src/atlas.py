@@ -85,49 +85,7 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
-#make_svg_pages()
-#make_pdf_pages()
-#combine_pdf_pages()
-
-
-
-
-
-
-
-
-
-
-
-def add_link_to_pdf2(input_pdf_path, output_pdf_path, link_rectangle, link_page_num, target_page_num):
-    """
-    Add a link to a PDF file that jumps to a specific page when clicked.
-    :param input_pdf_path: The path to the input PDF file.
-    :param output_pdf_path: The path to save the output PDF file with the link.
-    :param link_rectangle: A 4-tuple (x0, y0, x1, y1) specifying the clickable rectangle area.
-    :param link_page_num: The page number (0-based) where the link should be added.
-    :param target_page_num: The page number (0-based) that the link should jump to.
-    """
-
-    # Open the PDF file
-    doc = fitz.open(input_pdf_path)
-
-    # Add a URI link to the specified rectangle area of the page
-    page = doc[link_page_num]
-    link = fitz.Link(target_page_num)  # Create a link to the target page
-    page.insert_link(link_rectangle, link=link)  # Add the link to the page
-
-    # Save the updated PDF
-    doc.save(output_pdf_path)
-
-
-
-# Example Usage
-input_pdf = out_folder + "atlas.pdf"
-output_pdf = out_folder + "atlas2.pdf"
-page_with_link = 1  # Page where the link will be added (0-indexed)
-target_page = 2  # Page to jump to (0-indexed)
-rectangle_coords = [0, 0, 100, 100]  # [x1, y1, x2, y2] in points
-
-add_link_to_pdf(input_pdf, output_pdf, page_with_link, target_page, rectangle_coords)
+make_svg_pages()
+make_pdf_pages()
+combine_pdf_pages()
 
