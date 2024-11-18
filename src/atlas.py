@@ -5,7 +5,15 @@ import pypdf
 import concurrent.futures
 from atlas_params import out_folder
 import subprocess
-import fitz  # pip install PyMuPDF
+#import fitz  # pip install PyMuPDF
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import (
+    DictionaryObject,
+    NumberObject,
+    NameObject,
+    ArrayObject,
+    RectangleObject
+)
 
 print("Start")
 
@@ -77,21 +85,19 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
+#make_svg_pages()
+#make_pdf_pages()
+#combine_pdf_pages()
 
- 
 
-def add_link_to_pdf(pdf_path, link_destination = "page 2", rectangle = (100, 100, 200, 200)):
-    # Open the PDF file
-    doc = fitz.open(pdf_path)
-    # Create a link annotation
-    annot = fitz.annotator(doc, insert=True, highlight=None, underline=None, sticky=None, opacity=1)
-    annot.rect(rectangle)
-    annot.url = link_destination
-    annot.text = "Link"
-    annot.save()
-    # Save the modified PDF file
-    doc.save()
- 
+
+
+
+
+
+
+
+
 
 def add_link_to_pdf2(input_pdf_path, output_pdf_path, link_rectangle, link_page_num, target_page_num):
     """
@@ -116,13 +122,12 @@ def add_link_to_pdf2(input_pdf_path, output_pdf_path, link_rectangle, link_page_
 
 
 
-#make_svg_pages()
-#make_pdf_pages()
-#combine_pdf_pages()
+# Example Usage
+input_pdf = out_folder + "atlas.pdf"
+output_pdf = out_folder + "atlas2.pdf"
+page_with_link = 1  # Page where the link will be added (0-indexed)
+target_page = 2  # Page to jump to (0-indexed)
+rectangle_coords = [0, 0, 100, 100]  # [x1, y1, x2, y2] in points
 
-add_link_to_pdf2(
-    out_folder + "atlas.pdf",
-    out_folder + "atlas2.pdf",
-    (50, 50, 500, 500),
-    0,10
-    )
+add_link_to_pdf(input_pdf, output_pdf, page_with_link, target_page, rectangle_coords)
+
