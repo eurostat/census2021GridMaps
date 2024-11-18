@@ -28,6 +28,7 @@ power = 0.25
 
 #pre-open the files
 land_file = fiona.open("assets/LAND_1M.gpkg", 'r')
+no_data_geo_file = fiona.open("assets/NO_DATA_GEO.gpkg", 'r')
 water_file = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc___.gpkg", 'r')
 cnt_bn_file = fiona.open("assets/BN_1M.gpkg", 'r')
 nuts_bn_file = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
