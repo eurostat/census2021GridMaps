@@ -5,6 +5,7 @@ import pypdf
 import concurrent.futures
 from atlas_params import out_folder
 import subprocess
+import fitz  # pip install PyMuPDF
 
 print("Start")
 
@@ -77,7 +78,51 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
+ 
 
-make_svg_pages()
-make_pdf_pages()
-combine_pdf_pages()
+def add_link_to_pdf(pdf_path, link_destination = "page 2", rectangle = (100, 100, 200, 200)):
+    # Open the PDF file
+    doc = fitz.open(pdf_path)
+    # Create a link annotation
+    annot = fitz.annotator(doc, insert=True, highlight=None, underline=None, sticky=None, opacity=1)
+    annot.rect(rectangle)
+    annot.url = link_destination
+    annot.text = "Link"
+    annot.save()
+    # Save the modified PDF file
+    doc.save()
+ 
+
+def add_link_to_pdf2(input_pdf_path, output_pdf_path, link_rectangle, link_page_num, target_page_num):
+    """
+    Add a link to a PDF file that jumps to a specific page when clicked.
+    :param input_pdf_path: The path to the input PDF file.
+    :param output_pdf_path: The path to save the output PDF file with the link.
+    :param link_rectangle: A 4-tuple (x0, y0, x1, y1) specifying the clickable rectangle area.
+    :param link_page_num: The page number (0-based) where the link should be added.
+    :param target_page_num: The page number (0-based) that the link should jump to.
+    """
+
+    # Open the PDF file
+    doc = fitz.open(input_pdf_path)
+
+    # Add a URI link to the specified rectangle area of the page
+    page = doc[link_page_num]
+    link = fitz.Link(target_page_num)  # Create a link to the target page
+    page.insert_link(link_rectangle, link=link)  # Add the link to the page
+
+    # Save the updated PDF
+    doc.save(output_pdf_path)
+
+
+
+#make_svg_pages()
+#make_pdf_pages()
+#combine_pdf_pages()
+
+add_link_to_pdf2(
+    out_folder + "atlas.pdf",
+    out_folder + "atlas2.pdf",
+    (50, 50, 500, 500),
+    0,10
+    )
