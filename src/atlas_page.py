@@ -239,7 +239,7 @@ def make_svg_page(page):
     dwg.add(g_minimap)
     g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
 
-    sc = 1/250000000
+    sc = 1/300000000
     ww_m = ww_px/mm_to_px / sc / 1000
     hh_m = hh_px/mm_to_px / sc / 1000
 
