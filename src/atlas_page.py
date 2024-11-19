@@ -247,7 +247,8 @@ def make_svg_page(page):
     def geoToPixY_(yg): return round((1-(yg-1100000)/hh_m) * hh_px, decimals)
     def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
 
-    colstr = "#666"
+    #minimap boundaries
+    colstr = "#888"
     sw = 1
     lines = minimap_file.items()
     for obj in list(lines):
@@ -257,6 +258,9 @@ def make_svg_page(page):
         elif geom.geom_type == 'MultiLineString':
             for line in geom.geoms: draw_line(line, transform_coords_, g_minimap, colstr, sw)
         else: print(geom.geom_type)
+
+    #minimap circle
+    g_minimap.add(dwg.circle(center=(geoToPixX_(page.x), geoToPixY_(page.y)), r=3, fill="red"))
 
 
     #print("Save SVG", res)
