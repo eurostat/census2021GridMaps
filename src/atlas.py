@@ -5,29 +5,12 @@ import pypdf
 import concurrent.futures
 from atlas_params import out_folder
 import subprocess
-#import fitz  # pip install PyMuPDF
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import (
-    DictionaryObject,
-    NumberObject,
-    NameObject,
-    ArrayObject,
-    RectangleObject
-)
-import subprocess
 
 
 print("Start")
 
 
-def svg2pdf(svg_filename, pdf_filename):
-    subprocess.run([
-        "inkscape", svg_filename, 
-        "--export-type=pdf", 
-        "--export-filename=" + pdf_filename
-    ])
-
-
+#def svg2pdf(svg_filename, pdf_filename): subprocess.run(["inkscape", svg_filename, "-o", pdf_filename])
 
 
 num_processors_svg = 1
@@ -39,7 +22,7 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-svg2pdf(out_folder + 'index.svg', out_folder + 'index.pdf')
+#svg2pdf(out_folder + 'index.svg', out_folder + 'index.pdf')
 exit()
 
 #make all pages
