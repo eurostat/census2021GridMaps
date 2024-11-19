@@ -125,17 +125,16 @@ def make_svg_page(page):
             else: print(geom.geom_type)
 
     # draw land
-    lands = list(land_file.items(bbox=bbox))
-    draw_polygon_layer(lands, g_land_waters, 'white', water_color)
-
-    # non
-    non = list(no_data_geo_file.items(bbox=bbox))
-    draw_polygon_layer(non, g_land_waters, '#dedede', water_color)
-
+    objs = list(land_file.items(bbox=bbox))
+    draw_polygon_layer(objs, g_land_waters, 'white', water_color)
 
     # draw inland waters
-    waters = list(water_file.items(bbox=bbox))
-    draw_polygon_layer(waters, g_land_waters, water_color, 'white')
+    objs = list(water_file.items(bbox=bbox))
+    draw_polygon_layer(objs, g_land_waters, water_color, 'white')
+
+    # no_data_geo
+    objs = list(no_data_geo_file.items(bbox=bbox))
+    draw_polygon_layer(objs, g_land_waters, '#dedede', water_color)
 
 
 
