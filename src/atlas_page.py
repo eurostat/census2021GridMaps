@@ -8,9 +8,9 @@ from common import get_cells_1000_gpkg, classifier, font_name, colors, mm_to_px,
 
 show_debug_code = False
 
+
 width_px = width_mm * mm_to_px
 height_px = height_mm * mm_to_px
-
 
 #the maximum population threshold - depends on the resolution
 max_pop = res * 60
@@ -33,6 +33,7 @@ water_file = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc___.g
 cnt_bn_file = fiona.open("assets/BN_1M.gpkg", 'r')
 nuts_bn_file = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
 labels_file = fiona.open("assets/labels.gpkg", "r")
+minimap_file = fiona.open("assets/minimap_bn.gpkg", "r")
 
 
 def make_svg_page(page):
@@ -49,7 +50,6 @@ def make_svg_page(page):
     def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, decimals)
     def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, decimals)
     def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
-
 
     # create SVG
     out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
@@ -139,12 +139,12 @@ def make_svg_page(page):
 
 
     # draw country boundaries and coast line
-    def draw_boundary_line(line, colstr, sw):
+    def draw_line(line, transform_coords, group, stroke_color, stroke_width):
         points = transform_coords(list(line.coords))
-        g_boundaries.add(dwg.polyline(points, stroke=colstr, fill="none", stroke_width=sw, stroke_linecap="round", stroke_linejoin="round"))
+        group.add(dwg.polyline(points, stroke=stroke_color, fill="none", stroke_width=stroke_width, stroke_linecap="round", stroke_linejoin="round"))
 
-
-    for obj in list(cnt_bn_file.items(bbox=bbox)):
+    lines = cnt_bn_file.items(bbox=bbox)
+    for obj in list(lines):
         obj = obj[1]
 
         geom = shape(obj['geometry'])
@@ -155,24 +155,25 @@ def make_svg_page(page):
         #width, in mm
         sw = 1.2 if obj['properties'].get("COAS_FLAG") == 'F' else 0.2
 
-        if geom.geom_type == 'LineString': draw_boundary_line(geom, colstr, sw)
+        if geom.geom_type == 'LineString': draw_line(geom, transform_coords, g_boundaries, colstr, sw)
         elif geom.geom_type == 'MultiLineString':
-            for line in geom.geoms: draw_boundary_line(line, colstr, sw)
+            for line in geom.geoms: draw_line(line, transform_coords, g_boundaries, colstr, sw)
         else: print(geom.geom_type)
 
     # draw nuts boundaries
     # width, in mm
     sw = 0.5
     colstr = "#888"
-    for obj in list(nuts_bn_file.items(bbox=bbox)):
+    lines = nuts_bn_file.items(bbox=bbox)
+    for obj in list(lines):
         obj = obj[1]
         geom = shape(obj['geometry'])
         geom = geom.intersection(bbox_)
         if geom.is_empty: continue
 
-        if geom.geom_type == 'LineString': draw_boundary_line(geom, colstr, sw)
+        if geom.geom_type == 'LineString': draw_line(geom, transform_coords, g_boundaries, colstr, sw)
         elif geom.geom_type == 'MultiLineString':
-            for line in geom.geoms: draw_boundary_line(line, colstr, sw)
+            for line in geom.geoms: draw_line(line, transform_coords, g_boundaries, colstr, sw)
         else: print(geom.geom_type)
 
 
@@ -228,13 +229,40 @@ def make_svg_page(page):
         dc = "i=" + str(page.i) + "  j=" + str(page.j)
         g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
-
-    g_minimap = dwg.g(id='minimap')
+    #minimap
+    rnd = 5
+    ww_px = 80
+    hh_px = 60
+    yg = hr + 5
+    xg = -rnd if case else width_px - ww_px + rnd
+    g_minimap = dwg.g(id='minimap', transform="translate("+str(xg)+", "+str(yg)+")")
     dwg.add(g_minimap)
-    g_minimap.add(dwg.rect(insert=(0, 0), size=(100, 100), fill="red", fill_opacity=f_opacity, stroke='black', stroke_width=3, rx=10, ry=10))
+    g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
+
+    sc = 1/200000000
+    ww_m = ww_px/mm_to_px / sc / 1000
+    hh_m = hh_px/mm_to_px / sc / 1000
+
+    def geoToPixX_(xg): return round((xg-2393433)/ww_m * ww_px, decimals)
+    def geoToPixY_(yg): return round((1-(yg-1315141)/hh_m) * hh_px, decimals)
+    def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
+
+    colstr = "black"
+    sw = 1
+    lines = minimap_file.items()
+    for obj in list(lines):
+        obj = obj[1]
+
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'LineString': draw_line(geom, transform_coords_, g_minimap, colstr, sw)
+        elif geom.geom_type == 'MultiLineString':
+            for line in geom.geoms: draw_line(line, transform_coords_, g_minimap, colstr, sw)
+        else: print(geom.geom_type)
 
 
     #print("Save SVG", res)
     dwg.save()
-
 

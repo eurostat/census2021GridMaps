@@ -86,6 +86,6 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 make_svg_pages()
-make_pdf_pages()
-combine_pdf_pages()
+#make_pdf_pages()
+#combine_pdf_pages()
 
