@@ -252,14 +252,14 @@ def make_svg_page(page):
     draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white", f_opacity)
 
     #minimap circle
-    c_radius = 1.5
+    c_radius = 2
     xxx = geoToPixX_(page.x)
     if(xxx<c_radius): xxx = c_radius
     elif(xxx>ww_px-c_radius): xxx = ww_px-c_radius
     yyy = geoToPixY_(page.y)
     if(yyy<c_radius): yyy = c_radius
     elif(yyy>hh_px-c_radius): yyy = hh_px-c_radius
-    g_minimap.add(dwg.circle(center=(xxx, yyy), r=c_radius, fill="red"))
+    g_minimap.add(dwg.circle(center=(xxx, yyy), r=c_radius, fill="red")) #, stroke='#888', stroke_width=1
 
 
     #print("Save SVG", res)
