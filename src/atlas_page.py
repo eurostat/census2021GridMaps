@@ -111,50 +111,32 @@ def make_svg_page(page):
         for hole_coords in interior_coords_list:
             group.add(dwg.polygon(transform_coords(hole_coords), fill=hole_fill_color, stroke='none', stroke_width=0))
 
+    def draw_polygon_layer(objs, group, fill_color, hole_fill_color):
+        for obj in objs:
+            obj = obj[1]
+
+            geom = shape(obj['geometry'])
+            geom = geom.intersection(bbox_)
+            if geom.is_empty: continue
+
+            if geom.geom_type == 'Polygon': draw_polygon(geom, group, fill_color, hole_fill_color)
+            elif geom.geom_type == 'MultiPolygon':
+                for geom_ in geom.geoms: draw_polygon(geom_, group, fill_color, hole_fill_color)
+            else: print(geom.geom_type)
+
     # draw land
     lands = list(land_file.items(bbox=bbox))
-    for obj in lands:
-        obj = obj[1]
-
-        geom = shape(obj['geometry'])
-        geom = geom.intersection(bbox_)
-        if geom.is_empty: continue
-
-        if geom.geom_type == 'Polygon': draw_polygon(geom, g_land_waters, 'white', water_color)
-        elif geom.geom_type == 'MultiPolygon':
-            for geom in geom.geoms: draw_polygon(geom, g_land_waters, 'white', water_color)
-        else: print(geom.geom_type)
-
+    draw_polygon_layer(lands, g_land_waters, 'white', water_color)
 
     # non
     non = list(no_data_geo_file.items(bbox=bbox))
-    for obj in non:
-        obj = obj[1]
-
-        geom = shape(obj['geometry'])
-        geom = geom.intersection(bbox_)
-        if geom.is_empty: continue
-
-        if geom.geom_type == 'Polygon': draw_polygon(geom, g_land_waters, '#dedede', 'white')
-        elif geom.geom_type == 'MultiPolygon':
-            for geom in geom.geoms: draw_polygon(geom, g_land_waters, '#dedede', 'white')
-        else: print(geom.geom_type)
+    draw_polygon_layer(non, g_land_waters, '#dedede', water_color)
 
 
     # draw inland waters
     waters = list(water_file.items(bbox=bbox))
-    for obj in waters:
-        obj = obj[1]
-        geom = shape(obj['geometry'])
+    draw_polygon_layer(waters, g_land_waters, water_color, 'white')
 
-        geom = shape(obj['geometry'])
-        geom = geom.intersection(bbox_)
-        if geom.is_empty: continue
-
-        if geom.geom_type == 'Polygon': draw_polygon(geom, g_land_waters, water_color, 'white')
-        elif geom.geom_type == 'MultiPolygon':
-            for polygon in geom.geoms: draw_polygon(geom, g_land_waters, water_color, 'white')
-        else: print(geom.geom_type)
 
 
     # draw country boundaries and coast line
