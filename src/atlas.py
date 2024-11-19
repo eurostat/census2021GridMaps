@@ -14,8 +14,21 @@ from PyPDF2.generic import (
     ArrayObject,
     RectangleObject
 )
+import subprocess
+
 
 print("Start")
+
+
+def svg2pdf(svg_filename, pdf_filename):
+    subprocess.run([
+        "inkscape", svg_filename, 
+        "--export-type=pdf", 
+        "--export-filename=" + pdf_filename
+    ])
+
+
+
 
 num_processors_svg = 1
 num_processors_pdf = 1
@@ -26,8 +39,8 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-#cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
-#exit()
+svg2pdf(out_folder + 'index.svg', out_folder + 'index.pdf')
+exit()
 
 #make all pages
 def make_svg_pages():
