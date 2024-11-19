@@ -104,14 +104,14 @@ def make_svg_page(page):
         g_circles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
 
-    def draw_polygon(polygon, transform_coords, group, fill_color, hole_fill_color):
+    def draw_polygon(polygon, transform_coords, group, fill_color, hole_fill_color, fill_opacity=1):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
-        group.add(dwg.polygon(exterior_coords, fill=fill_color, stroke='none', stroke_width=0))
+        group.add(dwg.polygon(exterior_coords, fill=fill_color, stroke='none', stroke_width=0, fill_opacity=fill_opacity))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
-            group.add(dwg.polygon(transform_coords(hole_coords), fill=hole_fill_color, stroke='none', stroke_width=0))
+            group.add(dwg.polygon(transform_coords(hole_coords), fill=hole_fill_color, stroke='none', stroke_width=0, fill_opacity=fill_opacity))
 
-    def draw_polygon_layer(objs, bbox_, transform_coords, group, fill_color, hole_fill_color):
+    def draw_polygon_layer(objs, bbox_, transform_coords, group, fill_color, hole_fill_color, fill_opacity=1):
         for obj in objs:
             obj = obj[1]
 
@@ -119,9 +119,9 @@ def make_svg_page(page):
             if(bbox_): geom = geom.intersection(bbox_)
             if geom.is_empty: continue
 
-            if geom.geom_type == 'Polygon': draw_polygon(geom, transform_coords, group, fill_color, hole_fill_color)
+            if geom.geom_type == 'Polygon': draw_polygon(geom, transform_coords, group, fill_color, hole_fill_color, fill_opacity)
             elif geom.geom_type == 'MultiPolygon':
-                for geom_ in geom.geoms: draw_polygon(geom_, transform_coords, group, fill_color, hole_fill_color)
+                for geom_ in geom.geoms: draw_polygon(geom_, transform_coords, group, fill_color, hole_fill_color, fill_opacity)
             else: print(geom.geom_type)
 
     # draw land
@@ -237,7 +237,7 @@ def make_svg_page(page):
     x_ = 5 if case else width_px - ww_px - 5
     g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
     dwg.add(g_minimap)
-    g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd_, ry=rnd_))
+    g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
 
     sc = 1/250000000
     ww_m = ww_px/mm_to_px / sc / 1000
@@ -249,7 +249,7 @@ def make_svg_page(page):
 
     #minimap polygons
     minimap_poly = minimap_file.items()
-    draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white")
+    draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white", f_opacity)
 
     #minimap circle
     xxx = geoToPixX_(page.x)
@@ -258,7 +258,7 @@ def make_svg_page(page):
     yyy = geoToPixY_(page.y)
     if(yyy<0): yyy = 0
     elif(yyy>hh_px): yyy = hh_px
-    g_minimap.add(dwg.circle(center=(xxx, yyy), r=2.5, fill="orange"))
+    g_minimap.add(dwg.circle(center=(xxx, yyy), r=2.5, fill="red"))
 
 
     #print("Save SVG", res)
