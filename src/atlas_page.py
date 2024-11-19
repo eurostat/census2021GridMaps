@@ -103,16 +103,16 @@ def make_svg_page(page):
         # draw circle
         g_circles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
-    # draw land
-    lands = list(land_file.items(bbox=bbox))
 
-    def draw_land_polygon(polygon):
+    def draw_polygon(polygon, group, fill_color, hole_fill_color):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
-        g_land_waters.add(dwg.polygon(exterior_coords, fill='white', stroke='none', stroke_width=0))
+        group.add(dwg.polygon(exterior_coords, fill=fill_color, stroke='none', stroke_width=0))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
-            g_land_waters.add(dwg.polygon(transform_coords(hole_coords), fill=water_color, stroke='none', stroke_width=0))
+            group.add(dwg.polygon(transform_coords(hole_coords), fill=hole_fill_color, stroke='none', stroke_width=0))
 
+    # draw land
+    lands = list(land_file.items(bbox=bbox))
     for obj in lands:
         obj = obj[1]
 
@@ -120,25 +120,29 @@ def make_svg_page(page):
         geom = geom.intersection(bbox_)
         if geom.is_empty: continue
 
-        if geom.geom_type == 'Polygon': draw_land_polygon(geom)
+        if geom.geom_type == 'Polygon': draw_polygon(geom, g_land_waters, 'white', water_color)
         elif geom.geom_type == 'MultiPolygon':
-            for polygon in geom.geoms: draw_land_polygon(polygon)
+            for geom in geom.geoms: draw_polygon(geom, g_land_waters, 'white', water_color)
         else: print(geom.geom_type)
 
 
-#here !
+    # non
+    non = list(no_data_geo_file.items(bbox=bbox))
+    for obj in non:
+        obj = obj[1]
+
+        geom = shape(obj['geometry'])
+        geom = geom.intersection(bbox_)
+        if geom.is_empty: continue
+
+        if geom.geom_type == 'Polygon': draw_polygon(geom, g_land_waters, '#dedede', 'white')
+        elif geom.geom_type == 'MultiPolygon':
+            for geom in geom.geoms: draw_polygon(geom, g_land_waters, '#dedede', 'white')
+        else: print(geom.geom_type)
 
 
     # draw inland waters
     waters = list(water_file.items(bbox=bbox))
-
-    def draw_water_polygon(polygon):
-        exterior_coords = transform_coords(list(polygon.exterior.coords))
-        g_land_waters.add(dwg.polygon(exterior_coords, fill=water_color, stroke='none', stroke_width=0))
-        interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
-        for hole_coords in interior_coords_list:
-            g_land_waters.add(dwg.polygon(transform_coords(hole_coords), fill='white', stroke='none', stroke_width=0))
-
     for obj in waters:
         obj = obj[1]
         geom = shape(obj['geometry'])
@@ -147,9 +151,9 @@ def make_svg_page(page):
         geom = geom.intersection(bbox_)
         if geom.is_empty: continue
 
-        if geom.geom_type == 'Polygon': draw_water_polygon(geom)
+        if geom.geom_type == 'Polygon': draw_polygon(geom, g_land_waters, water_color, 'white')
         elif geom.geom_type == 'MultiPolygon':
-            for polygon in geom.geoms: draw_water_polygon(polygon)
+            for polygon in geom.geoms: draw_polygon(geom, g_land_waters, water_color, 'white')
         else: print(geom.geom_type)
 
 
