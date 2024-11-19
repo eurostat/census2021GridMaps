@@ -209,10 +209,18 @@ def make_index_page(pages):
     hp2 = height_m/2
     fsi = 90000
     for p in pages:
+
+        url = "https://ec.europa.eu/assets/estat/E/E4/gisco/website/census_2021_grid_map/index.html?z=500&lay=trivariate&trivariate_selection=age&x="+str(p.x)+"&y="+str(p.y)
+
+        #make page rectangle
         points = [(p.x-wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y-hp2), (p.x-wp2, y_min + y_max-p.y-hp2)]
-        gP.add(dwg.polygon(points, fill=blue_eu, fill_opacity=0.1, stroke=blue_eu, stroke_width=5000))
-        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, stroke="white", font_weight='bold', stroke_width=20000))
-        gPNB.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, fill=blue_eu, font_weight='bold'))
+        link = gP.add(dwg.a(href=url, target="_blank"))
+        link.add(dwg.polygon(points, fill=blue_eu, fill_opacity=0.1, stroke=blue_eu, stroke_width=5000))
+
+        #make page number label
+        link = gPNB.add(dwg.a(href=url, target="_blank"))
+        link.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, stroke="white", font_weight='bold', stroke_width=20000))
+        link.add(dwg.text(p.code, insert=(p.x, y_min + y_max-p.y), text_anchor="middle", dominant_baseline="middle", font_size=fsi, fill=blue_eu, font_weight='bold'))
 
 
     #draw boundaries

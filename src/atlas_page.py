@@ -230,6 +230,7 @@ def make_svg_page(page):
         g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #minimap
+    f_opacity = 0.75
     rnd_ = 4
     ww_px = 34
     hh_px = 38
