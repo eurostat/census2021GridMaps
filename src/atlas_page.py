@@ -239,12 +239,12 @@ def make_svg_page(page):
     dwg.add(g_minimap)
     g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
 
-    sc = 1/300000000
+    sc = 1/330000000
     ww_m = ww_px/mm_to_px / sc / 1000
     hh_m = hh_px/mm_to_px / sc / 1000
 
-    def geoToPixX_(xg): return round((xg-2200000)/ww_m * ww_px, decimals)
-    def geoToPixY_(yg): return round((1-(yg-1100000)/hh_m) * hh_px, decimals)
+    def geoToPixX_(xg): return round((xg-2300000)/ww_m * ww_px, decimals)
+    def geoToPixY_(yg): return round((1-(yg-1200000)/hh_m) * hh_px, decimals)
     def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
 
     #minimap polygons
@@ -252,13 +252,14 @@ def make_svg_page(page):
     draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white", f_opacity)
 
     #minimap circle
+    c_radius = 1.5
     xxx = geoToPixX_(page.x)
-    if(xxx<0): xxx = 0;
-    elif(xxx>ww_px): xxx = ww_px
+    if(xxx<c_radius): xxx = c_radius
+    elif(xxx>ww_px-c_radius): xxx = ww_px-c_radius
     yyy = geoToPixY_(page.y)
-    if(yyy<0): yyy = 0
-    elif(yyy>hh_px): yyy = hh_px
-    g_minimap.add(dwg.circle(center=(xxx, yyy), r=2, fill="red"))
+    if(yyy<c_radius): yyy = c_radius
+    elif(yyy>hh_px-c_radius): yyy = hh_px-c_radius
+    g_minimap.add(dwg.circle(center=(xxx, yyy), r=c_radius, fill="red"))
 
 
     #print("Save SVG", res)
