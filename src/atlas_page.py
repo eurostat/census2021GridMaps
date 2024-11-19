@@ -33,7 +33,7 @@ water_file = fiona.open("/home/juju/gisco/census_2021_atlas/data/waters_clc___.g
 cnt_bn_file = fiona.open("assets/BN_1M.gpkg", 'r')
 nuts_bn_file = fiona.open("assets/NUTS_BN_1M.gpkg", 'r')
 labels_file = fiona.open("assets/labels.gpkg", "r")
-minimap_file = fiona.open("assets/minimap_bn.gpkg", "r")
+minimap_file = fiona.open("assets/minimap.gpkg", "r")
 
 
 def make_svg_page(page):
@@ -104,37 +104,37 @@ def make_svg_page(page):
         g_circles.add(dwg.circle(center=(cell['x'], cell['y']), r=round(diameter/2, decimals), fill=color))
 
 
-    def draw_polygon(polygon, group, fill_color, hole_fill_color):
+    def draw_polygon(polygon, transform_coords, group, fill_color, hole_fill_color):
         exterior_coords = transform_coords(list(polygon.exterior.coords))
         group.add(dwg.polygon(exterior_coords, fill=fill_color, stroke='none', stroke_width=0))
         interior_coords_list = [list(interior.coords) for interior in polygon.interiors]
         for hole_coords in interior_coords_list:
             group.add(dwg.polygon(transform_coords(hole_coords), fill=hole_fill_color, stroke='none', stroke_width=0))
 
-    def draw_polygon_layer(objs, group, fill_color, hole_fill_color):
+    def draw_polygon_layer(objs, bbox_, transform_coords, group, fill_color, hole_fill_color):
         for obj in objs:
             obj = obj[1]
 
             geom = shape(obj['geometry'])
-            geom = geom.intersection(bbox_)
+            if(bbox_): geom = geom.intersection(bbox_)
             if geom.is_empty: continue
 
-            if geom.geom_type == 'Polygon': draw_polygon(geom, group, fill_color, hole_fill_color)
+            if geom.geom_type == 'Polygon': draw_polygon(geom, transform_coords, group, fill_color, hole_fill_color)
             elif geom.geom_type == 'MultiPolygon':
-                for geom_ in geom.geoms: draw_polygon(geom_, group, fill_color, hole_fill_color)
+                for geom_ in geom.geoms: draw_polygon(geom_, transform_coords, group, fill_color, hole_fill_color)
             else: print(geom.geom_type)
 
     # draw land
     objs = list(land_file.items(bbox=bbox))
-    draw_polygon_layer(objs, g_land_waters, 'white', water_color)
+    draw_polygon_layer(objs, bbox_, transform_coords, g_land_waters, 'white', water_color)
 
     # draw inland waters
     objs = list(water_file.items(bbox=bbox))
-    draw_polygon_layer(objs, g_land_waters, water_color, 'white')
+    draw_polygon_layer(objs, bbox_, transform_coords, g_land_waters, water_color, 'white')
 
     # no_data_geo
     objs = list(no_data_geo_file.items(bbox=bbox))
-    draw_polygon_layer(objs, g_land_waters, '#ddd', water_color)
+    draw_polygon_layer(objs, bbox_, transform_coords, g_land_waters, '#ddd', water_color)
 
 
 
@@ -247,20 +247,12 @@ def make_svg_page(page):
     def geoToPixY_(yg): return round((1-(yg-1100000)/hh_m) * hh_px, decimals)
     def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
 
-    #minimap boundaries
-    colstr = "#888"
-    sw = 1
-    lines = minimap_file.items()
-    for obj in list(lines):
-        obj = obj[1]
-        geom = shape(obj['geometry'])
-        if geom.geom_type == 'LineString': draw_line(geom, transform_coords_, g_minimap, colstr, sw)
-        elif geom.geom_type == 'MultiLineString':
-            for line in geom.geoms: draw_line(line, transform_coords_, g_minimap, colstr, sw)
-        else: print(geom.geom_type)
+    #minimap polygons
+    minimap_poly = minimap_file.items()
+    draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white")
 
     #minimap circle
-    g_minimap.add(dwg.circle(center=(geoToPixX_(page.x), geoToPixY_(page.y)), r=3, fill="red"))
+    g_minimap.add(dwg.circle(center=(geoToPixX_(page.x), geoToPixY_(page.y)), r=2.5, fill="orange"))
 
 
     #print("Save SVG", res)
