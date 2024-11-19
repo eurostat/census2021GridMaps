@@ -230,9 +230,9 @@ def make_svg_page(page):
         g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #minimap
-    rnd_ = 10
-    ww_px = 60
-    hh_px = 70
+    rnd_ = 5
+    ww_px = 45
+    hh_px = 50
     y_ = 65
     x_ = 5 if case else width_px - ww_px - 5
     g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
@@ -258,7 +258,7 @@ def make_svg_page(page):
     yyy = geoToPixY_(page.y)
     if(yyy<0): yyy = 0
     elif(yyy>hh_px): yyy = hh_px
-    g_minimap.add(dwg.circle(center=(xxx, yyy), r=2.5, fill="red"))
+    g_minimap.add(dwg.circle(center=(xxx, yyy), r=2, fill="red"))
 
 
     #print("Save SVG", res)
