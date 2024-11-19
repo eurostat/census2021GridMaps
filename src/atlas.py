@@ -26,7 +26,7 @@ print(len(pages), "pages")
 
 #make index SVG page
 make_index_page(pages)
-cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
+#cairosvg.svg2pdf(url=out_folder + 'index.svg', write_to=out_folder + 'index.pdf')
 #exit()
 
 #make all pages
