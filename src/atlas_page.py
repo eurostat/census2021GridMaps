@@ -230,33 +230,29 @@ def make_svg_page(page):
         g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #minimap
-    rnd = 5
-    ww_px = 80
-    hh_px = 60
-    yg = hr + 5
-    xg = -rnd if case else width_px - ww_px + rnd
-    g_minimap = dwg.g(id='minimap', transform="translate("+str(xg)+", "+str(yg)+")")
+    rnd_ = 10
+    ww_px = 60
+    hh_px = 70
+    y_ = 65
+    x_ = 5 if case else width_px - ww_px - 5
+    g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
     dwg.add(g_minimap)
-    g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
+    g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd_, ry=rnd_))
 
-    sc = 1/200000000
+    sc = 1/250000000
     ww_m = ww_px/mm_to_px / sc / 1000
     hh_m = hh_px/mm_to_px / sc / 1000
 
-    def geoToPixX_(xg): return round((xg-2393433)/ww_m * ww_px, decimals)
-    def geoToPixY_(yg): return round((1-(yg-1315141)/hh_m) * hh_px, decimals)
+    def geoToPixX_(xg): return round((xg-2200000)/ww_m * ww_px, decimals)
+    def geoToPixY_(yg): return round((1-(yg-1100000)/hh_m) * hh_px, decimals)
     def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
 
-    colstr = "black"
+    colstr = "#666"
     sw = 1
     lines = minimap_file.items()
     for obj in list(lines):
         obj = obj[1]
-
         geom = shape(obj['geometry'])
-        geom = geom.intersection(bbox_)
-        if geom.is_empty: continue
-
         if geom.geom_type == 'LineString': draw_line(geom, transform_coords_, g_minimap, colstr, sw)
         elif geom.geom_type == 'MultiLineString':
             for line in geom.geoms: draw_line(line, transform_coords_, g_minimap, colstr, sw)
