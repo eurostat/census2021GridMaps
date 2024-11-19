@@ -134,7 +134,7 @@ def make_svg_page(page):
 
     # no_data_geo
     objs = list(no_data_geo_file.items(bbox=bbox))
-    draw_polygon_layer(objs, g_land_waters, '#dedede', water_color)
+    draw_polygon_layer(objs, g_land_waters, '#e9e9e9', water_color)
 
 
 
