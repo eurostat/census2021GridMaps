@@ -205,10 +205,10 @@ def make_svg_page(page):
     #case wether to show it on the left or on the right
     f_opacity = 0.65
     case = page.code % 2 == 1
-    wr = 75; hr = 75; rnd = 23
+    wr = 56; hr = 56; rnd = 17
     xcr = -rnd if case else width_px - wr + rnd
     g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill=blue_eu, fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
-    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="20px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
+    g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="15px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
     # arrows
     r = 11
@@ -230,16 +230,16 @@ def make_svg_page(page):
         g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #minimap
-    rnd_ = 5
-    ww_px = 45
-    hh_px = 50
-    y_ = 65
-    x_ = 5 if case else width_px - ww_px - 5
+    rnd_ = 4
+    ww_px = 34
+    hh_px = 38
+    y_ = 48
+    x_ = 4 if case else width_px - ww_px - 4
     g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
     dwg.add(g_minimap)
     g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
 
-    sc = 1/330000000
+    sc = 1/440000000
     ww_m = ww_px/mm_to_px / sc / 1000
     hh_m = hh_px/mm_to_px / sc / 1000
 
@@ -252,7 +252,7 @@ def make_svg_page(page):
     draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white", f_opacity)
 
     #minimap circle
-    c_radius = 2
+    c_radius = 1.5
     xxx = geoToPixX_(page.x)
     if(xxx<c_radius): xxx = c_radius
     elif(xxx>ww_px-c_radius): xxx = ww_px-c_radius
