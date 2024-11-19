@@ -134,7 +134,7 @@ def make_svg_page(page):
 
     # no_data_geo
     objs = list(no_data_geo_file.items(bbox=bbox))
-    draw_polygon_layer(objs, g_land_waters, '#e9e9e9', water_color)
+    draw_polygon_layer(objs, g_land_waters, '#ddd', water_color)
 
 
 
@@ -227,6 +227,12 @@ def make_svg_page(page):
     if show_debug_code:
         dc = "i=" + str(page.i) + "  j=" + str(page.j)
         g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
+
+
+    g_minimap = dwg.g(id='minimap')
+    dwg.add(g_minimap)
+    g_minimap.add(dwg.rect(insert=(0, 0), size=(100, 100), fill="red", fill_opacity=f_opacity, stroke='black', stroke_width=3, rx=10, ry=10))
+
 
     #print("Save SVG", res)
     dwg.save()
