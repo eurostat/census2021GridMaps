@@ -82,7 +82,7 @@ def get_index():
     def make_sub_row(j, ri, ox, oy, dx):
         for i in ri:
             ox_ =0; oy_ = 0
-            if i==9 and j==12: oy_ = -150000; ox_ = -20000
+            if i==9 and j==12: oy_ = -135000; ox_ = -20000
             if i==10 and j==12: oy_ = -30000
             if i==8 and j==10: ox_ = 70000
             if i==7 and j==8: ox_ = 80000; oy_ = 60000 #NO SW
