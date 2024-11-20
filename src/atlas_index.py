@@ -215,7 +215,7 @@ def make_index_page(pages):
     fsi = 90000
     for p in pages:
 
-        url = "https://ec.europa.eu/assets/estat/E/E4/gisco/website/census_2021_grid_map/index.html?z=150&lay=trivariate&trivariate_selection=age&x="+str(p.x)+"&y="+str(p.y)
+        url = "https://ec.europa.eu/assets/estat/E/E4/gisco/website/census_2021_grid_map/index.html?z=150&lay=ternary&ternary_selection=age&x="+str(p.x)+"&y="+str(p.y)
 
         #make page rectangle
         points = [(p.x-wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y+hp2), (p.x+wp2, y_min + y_max-p.y-hp2), (p.x-wp2, y_min + y_max-p.y-hp2)]
