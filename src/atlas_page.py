@@ -20,7 +20,7 @@ minimap_file = fiona.open("assets/minimap.gpkg", "r")
 
 def make_svg_page(page, out_svg_path, width_mm=210, height_mm=297, res = 1000, scale = 1/1200000, power = 0.25, water_color = '#ebeff2'):
 
-    print("page", width_mm, height_mm, scale, page.code, page.title)
+    print("page", width_mm, height_mm, page.code, page.title)
 
     #the maximum population threshold - depends on the resolution
     max_pop = res * 60
