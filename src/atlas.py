@@ -3,8 +3,10 @@ from atlas_index import get_index, make_index_page
 import cairosvg
 import pypdf
 import concurrent.futures
-from atlas_params import out_folder
 import subprocess
+
+
+out_folder = '/home/juju/gisco/census_2021_atlas/'
 
 
 print("Start")
@@ -25,11 +27,16 @@ make_index_page(pages)
 #svg2pdf(out_folder + 'index.svg', out_folder + 'index.pdf')
 #exit()
 
+
+
 #make all pages
 def make_svg_pages():
+    def make_svg_page_(page):
+        make_svg_page(page, out_folder + 'pages_svg/'+str(page.code)+".svg")
+
     #launch parallel computation   
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_svg) as executor:
-        tasks_to_do = {executor.submit(make_svg_page, page): page for page in pages}
+        tasks_to_do = {executor.submit(make_svg_page_, page): page for page in pages}
         concurrent.futures.as_completed(tasks_to_do)
 
 

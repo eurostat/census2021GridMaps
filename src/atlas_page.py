@@ -18,7 +18,7 @@ labels_file = fiona.open("assets/labels.gpkg", "r")
 minimap_file = fiona.open("assets/minimap.gpkg", "r")
 
 
-def make_svg_page(page, width_mm=210, height_mm=297, res = 1000, scale = 1/1200000, power = 0.25, water_color = '#ebeff2', out_folder = '/home/juju/gisco/census_2021_atlas/'):
+def make_svg_page(page, out_svg_path, width_mm=210, height_mm=297, res = 1000, scale = 1/1200000, power = 0.25, water_color = '#ebeff2'):
 
     print("page", page.code, page.title)
 
@@ -49,7 +49,6 @@ def make_svg_page(page, width_mm=210, height_mm=297, res = 1000, scale = 1/12000
     def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
 
     # create SVG
-    out_svg_path = out_folder + 'pages_svg/'+str(page.code)+".svg"
     dwg = svgwrite.Drawing(out_svg_path, size=(f'{width_mm}mm', f'{height_mm}mm'))
 
     # load cells
