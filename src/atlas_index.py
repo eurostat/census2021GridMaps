@@ -1,71 +1,13 @@
 import svgwrite
 import fiona
-import math
-from shapely.geometry import box, LineString
-from atlas_params import width_m, height_m, width_mm, height_mm, out_folder
 from common import blue_eu
-
-
-overlap_m = 30000
-dx = width_m - overlap_m
-dy = height_m - overlap_m
-
-
-class Page:
-    CODE = 1
-    def __init__(self, x: float, y: float, i: int = None, j: int = None, title: str = None):
-        self.code = Page.CODE
-        Page.CODE += 1
-        self.x = x
-        self.y = y
-        self.i = i
-        self.j = j
-        self.box = box(x-width_m/2, y-height_m/2, x+width_m/2, y+height_m/2)
-        self.title = title
-        self.arrows = []
-
-    def make_arrows(self, pages):
-        for p in pages:
-            if(p.code == self.code): continue
-
-            #compute intersection of pages
-            inter = self.box.intersection(p.box)
-
-            # intersection too small: no arrow necessary
-            if inter.is_empty or inter.area < 3000000000: continue
-
-            # compute page frame
-            frame = self.box.buffer(-20000)
-            frame = self.box.difference(frame)
-
-            # compute arrow orientation
-            orientation = math.atan2(p.y-self.y, p.x-self.x)
-
-            # make ray line from page center to far away in the direction
-            far = 10e6
-            ray_line = LineString([(self.x, self.y), (self.x + far*math.cos(orientation), self.y + far*math.sin(orientation))])
-            #ray_line = LineString([(self.x, self.y), (p.x,p.y)])
-
-            # compute arrow position from intersection of ray line and frame
-            position = ray_line.intersection(frame)
-            if position.is_empty: continue
-            position = position.centroid
-
-            # add arrow
-            self.arrows.append(Arrow(p.code, position.x, position.y, orientation))
-
-
-class Arrow:
-    def __init__(self, code:int, x: float, y: float, orientation: float):
-        self.code = code
-        self.x = x
-        self.y = y
-        self.orientation = orientation
+from page import Page
 
 
 
 
-def get_index():
+
+def get_index(dx=0, dy=0):
 
     pages = []
 
@@ -178,8 +120,7 @@ def get_index():
     return pages
 
 
-scale = 1/30000000
-def make_index_page(pages):
+def make_index_page(pages, out_folder, width_mm=210, height_mm=297, scale = 1/30000000):
 
     cx = 3700000
     cy = 3300000
@@ -210,10 +151,10 @@ def make_index_page(pages):
     dwg.add(gPNB)
 
     #draw pages and number
-    wp2 = width_m/2
-    hp2 = height_m/2
-    fsi = 90000
     for p in pages:
+        wp2 = p.width_m/2
+        hp2 = p.height_m/2
+        fsi = 90000
 
         url = "https://ec.europa.eu/assets/estat/E/E4/gisco/website/census_2021_grid_map/index.html?z=150&lay=ternary&ternary_selection=age&x="+str(p.x)+"&y="+str(p.y)
 

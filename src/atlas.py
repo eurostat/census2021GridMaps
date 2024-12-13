@@ -1,5 +1,6 @@
 from atlas_page import make_svg_page
 from atlas_index import get_index, make_index_page
+from common import mm_to_px
 import cairosvg
 import pypdf
 import concurrent.futures
@@ -7,6 +8,17 @@ import subprocess
 
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
+
+width_mm = 210
+height_mm = 297
+scale = 1/1200000
+width_mm = width_mm
+height_mm = height_mm
+width_px = width_mm * mm_to_px
+height_px = height_mm * mm_to_px
+width_m = width_mm / scale / 1000
+height_m = height_mm / scale / 1000
+
 
 
 print("Start")
@@ -19,11 +31,14 @@ num_processors_svg = 1
 num_processors_pdf = 1
 
 print("Make pages index")
-pages = get_index()
+overlap_m = 30000
+dx = width_m - overlap_m
+dy = height_m - overlap_m
+pages = get_index(dx, dy)
 print(len(pages), "pages")
 
 #make index SVG page
-make_index_page(pages)
+make_index_page(pages, out_folder)
 #svg2pdf(out_folder + 'index.svg', out_folder + 'index.pdf')
 #exit()
 
