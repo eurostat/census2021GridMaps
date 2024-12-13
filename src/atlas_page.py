@@ -2,27 +2,10 @@ import fiona
 from math import cos,sin,pi
 import svgwrite
 from shapely.geometry import shape, box
-from atlas_params import scale, width_mm, height_mm, width_m, height_m, res, out_folder, water_color
+from atlas_params import out_folder
 from common import get_cells_1000_gpkg, classifier, font_name, colors, mm_to_px, blue_eu, yellow_eu, get_svg_arc_path
 
-
 show_debug_code = False
-
-
-width_px = width_mm * mm_to_px
-height_px = height_mm * mm_to_px
-
-#the maximum population threshold - depends on the resolution
-max_pop = res * 60
-
-#style parameters
-
-#minimum circle size: 0.25 mm
-min_diameter = 0.25 * mm_to_px
-#maximum diameter: 1.6*res
-max_diameter = 1.6 * res * scale * 1000 * mm_to_px
-
-power = 0.25
 
 
 
@@ -36,8 +19,23 @@ labels_file = fiona.open("assets/labels.gpkg", "r")
 minimap_file = fiona.open("assets/minimap.gpkg", "r")
 
 
-def make_svg_page(page):
+def make_svg_page(page, width_mm=210, height_mm=297, res = 1000, scale = 1/1200000, power = 0.25, water_color = '#ebeff2', out_folder = '/home/juju/gisco/census_2021_atlas/'):
+
     print("page", page.code, page.title)
+
+    width_px = width_mm * mm_to_px
+    height_px = height_mm * mm_to_px
+    width_m = width_mm / scale / 1000
+    height_m = height_mm / scale / 1000
+
+    #the maximum population threshold - depends on the resolution
+    max_pop = res * 60
+
+    #minimum circle size: 0.25 mm
+    min_diameter = 0.25 * mm_to_px
+    #maximum diameter: 1.6*res
+    max_diameter = 1.6 * res * scale * 1000 * mm_to_px
+
 
     cx = page.x; cy = page.y
     x_min, x_max = cx - width_m/2, cx + width_m/2
