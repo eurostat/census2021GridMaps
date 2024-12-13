@@ -2,7 +2,6 @@ import fiona
 from math import cos,sin,pi
 import svgwrite
 from shapely.geometry import shape, box
-from atlas_params import out_folder
 from common import get_cells_1000_gpkg, classifier, font_name, colors, mm_to_px, blue_eu, yellow_eu, get_svg_arc_path
 
 show_debug_code = False
