@@ -1,4 +1,3 @@
-from atlas_page import make_svg_page
 from atlas_index import get_index, make_index_page
 from common import mm_to_px
 import cairosvg
@@ -47,7 +46,7 @@ make_index_page(pages, out_folder)
 #make all pages
 def make_svg_pages():
     def make_svg_page_(page):
-        make_svg_page(page, out_folder + 'pages_svg/'+str(page.code)+".svg")
+        page.to_svg(out_folder + 'pages_svg/'+str(page.code)+".svg")
 
     #launch parallel computation   
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_svg) as executor:

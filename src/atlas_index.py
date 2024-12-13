@@ -1,8 +1,7 @@
 import svgwrite
 import fiona
 from common import blue_eu
-from page import Page
-
+from Map import Map
 
 
 
@@ -12,11 +11,10 @@ def get_index(dx=0, dy=0):
     pages = []
 
 
-
     # ireland
-    pages.append(Page(3034000, 3483400, title="ireland 1"))
-    pages.append(Page(3206000, 3483400, title="ireland 2"))
-    pages.append(Page(3166000, 3564800, title="ireland 3"))
+    pages.append(Map(3034000, 3483400, title="ireland 1"))
+    pages.append(Map(3206000, 3483400, title="ireland 2"))
+    pages.append(Map(3166000, 3564800, title="ireland 3"))
 
     #south west position for europe
     xmi = 2500000; ymi = 1350000
@@ -25,8 +23,8 @@ def get_index(dx=0, dy=0):
         for i in ri:
 
             # make special page for Venezia
-            if Page.CODE == 74:
-                pages.append(Page(4496383, 2473699, title="venezia"))
+            if Map.CODE == 74:
+                pages.append(Map(4496383, 2473699, title="venezia"))
 
             ox_ =0; oy_ = 0
             if i==9 and j==12: oy_ = -150000; ox_ = 0
@@ -67,7 +65,7 @@ def get_index(dx=0, dy=0):
             if i==8 and j==1: oy_ = 180000; ox_ = -50000 #sardinia
             if i==10 and j==1: oy_ = -90000; ox_ = -10000 #sicilia east
             if i==9 and j==0: ox_ = 150000 #lampedusa malta
-            pages.append(Page(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, i, j, str(i)+"_"+str(j)))
+            pages.append(Map(xmi + i*dx + ox + ox_, ymi + j*dy + oy + oy_, title=str(i)+"_"+str(j)))
 
     for j in range(12, -1, -1):
         if   j==12: make_sub_row(j, range(9, 12, 1), 90000, 0, dx)
@@ -94,20 +92,20 @@ def get_index(dx=0, dy=0):
             make_sub_row(j, range(14, 16, 1), 0, 220000, dx)
 
     #cyprus
-    pages.append(Page(6421000, 1639000, title="Cyprus"))
+    pages.append(Map(6421000, 1639000, title="Cyprus"))
 
     #acores
-    pages.append(Page(952995, 2764729, title="Açores"))
-    pages.append(Page(1149886, 2516476, title="Açores"))
-    pages.append(Page(1296216, 2313164, title="Açores"))
+    pages.append(Map(952995, 2764729, title="Açores"))
+    pages.append(Map(1149886, 2516476, title="Açores"))
+    pages.append(Map(1296216, 2313164, title="Açores"))
 
     #madeira
-    pages.append(Page(1847000, 1521000, title="Madeira"))
+    pages.append(Map(1847000, 1521000, title="Madeira"))
 
     #canaries
-    pages.append(Page(1640000, 1080000, title="Canarias"))
-    pages.append(Page(1830000, 1080000, title="Canarias"))
-    pages.append(Page(1955151, 1080000, title="Canarias"))
+    pages.append(Map(1640000, 1080000, title="Canarias"))
+    pages.append(Map(1830000, 1080000, title="Canarias"))
+    pages.append(Map(1955151, 1080000, title="Canarias"))
 
     # show info on selected pages
     #for p in pages: if(p.code == 27 or p.code == 34 or p.code == 35): print(p.code, p.x, p.y)
