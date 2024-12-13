@@ -32,15 +32,15 @@ def make_svg_page(page, out_svg_path, width_mm=210, height_mm=297, res = 1000, s
 
 
     cx = page.x; cy = page.y
-    x_min, x_max = cx - width_m/2, cx + width_m/2
-    y_min, y_max = cy - height_m/2, cy + height_m/2
+    x_min, x_max = cx - page.width_m/2, cx + page.width_m/2
+    y_min, y_max = cy - page.height_m/2, cy + page.height_m/2
     bbox = (x_min, y_min, x_max, y_max)
     bbox_ = box(x_min, y_min, x_max, y_max)
 
     # coordinates conversion functions
     decimals = 1
-    def geoToPixX(xg): return round((xg-x_min)/width_m * width_px, decimals)
-    def geoToPixY(yg): return round((1-(yg-y_min)/height_m) * height_px, decimals)
+    def geoToPixX(xg): return round((xg-x_min)/page.width_m * page.width_px, decimals)
+    def geoToPixY(yg): return round((1-(yg-y_min)/page.height_m) * page.height_px, decimals)
     def transform_coords(coords): return [(geoToPixX(x), geoToPixY(y)) for x, y in coords]
 
     # create SVG
@@ -197,7 +197,7 @@ def make_svg_page(page, out_svg_path, width_mm=210, height_mm=297, res = 1000, s
     f_opacity = 0.65
     case = page.code % 2 == 1
     wr = 56; hr = 56; rnd = 17
-    xcr = -rnd if case else width_px - wr + rnd
+    xcr = -rnd if case else page.width_px - wr + rnd
     g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill=blue_eu, fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
     g_layout.add(dwg.text(page.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="15px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
@@ -218,7 +218,7 @@ def make_svg_page(page, out_svg_path, width_mm=210, height_mm=297, res = 1000, s
     #debug code
     if show_debug_code:
         dc = "i=" + str(page.i) + "  j=" + str(page.j)
-        g_layout.add(dwg.text(dc, insert=(width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
+        g_layout.add(dwg.text(dc, insert=(page.width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
 
     #minimap
     f_opacity = 0.75
@@ -226,7 +226,7 @@ def make_svg_page(page, out_svg_path, width_mm=210, height_mm=297, res = 1000, s
     ww_px = 34
     hh_px = 38
     y_ = 48
-    x_ = 4 if case else width_px - ww_px - 4
+    x_ = 4 if case else page.width_px - ww_px - 4
     g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
     dwg.add(g_minimap)
     g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
