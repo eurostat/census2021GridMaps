@@ -218,7 +218,7 @@ class Map:
 
         if for_atlas:
             #page code
-            #case wether to show it on the left or on the right
+            #case whether to show it on the left or on the right
             f_opacity = 0.65
             case = self.code % 2 == 1
             wr = 56; hr = 56; rnd = 17
@@ -230,6 +230,12 @@ class Map:
             r = 11
             ea = pi/3
             for arr in self.arrows:
+
+                #skip the ones for the page next to it
+                #the page next is:
+                if case and arr.code==self.code+1: continue
+                if not case and arr.code==self.code-1: continue
+
                 x = geoToPixX(arr.x)
                 y = geoToPixY(arr.y)
                 ori = arr.orientation
