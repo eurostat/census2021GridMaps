@@ -46,7 +46,7 @@ make_index_page(pages, out_folder)
 #make all pages
 def make_svg_pages():
     def make_svg_page_(page):
-        page.to_svg(out_folder + 'pages_svg/'+str(page.code)+".svg")
+        page.to_svg(out_folder + 'pages_svg/'+str(page.code)+".svg", for_atlas=True)
 
     #launch parallel computation   
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_processors_svg) as executor:

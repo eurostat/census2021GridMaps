@@ -43,7 +43,7 @@ class Map:
         self.arrows = []
 
 
-    def to_svg(self, out_svg_path, res = 1000, power = 0.25, water_color = '#ebeff2'):
+    def to_svg(self, out_svg_path, res = 1000, power = 0.25, water_color = '#ebeff2', for_atlas=False):
 
         print("map", self.code, self.title)
 
@@ -216,68 +216,69 @@ class Map:
             g_labels_halo.add(obj)
 
 
+        if for_atlas:
+            #page code
+            #case wether to show it on the left or on the right
+            f_opacity = 0.65
+            case = self.code % 2 == 1
+            wr = 56; hr = 56; rnd = 17
+            xcr = -rnd if case else self.width_px - wr + rnd
+            g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill=blue_eu, fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
+            g_layout.add(dwg.text(self.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="15px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
-        #page code
-        #case wether to show it on the left or on the right
-        f_opacity = 0.65
-        case = self.code % 2 == 1
-        wr = 56; hr = 56; rnd = 17
-        xcr = -rnd if case else self.width_px - wr + rnd
-        g_layout.add(dwg.rect(insert=(xcr, -rnd), size=(wr, hr), fill=blue_eu, fill_opacity=f_opacity, stroke='none', stroke_width=0, rx=rnd, ry=rnd))
-        g_layout.add(dwg.text(self.code, insert=(xcr+(wr+(1 if case else -1)*rnd)/2, (hr-rnd)/2), font_size="15px", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
+            # arrows
+            r = 11
+            ea = pi/3
+            for arr in self.arrows:
+                x = geoToPixX(arr.x)
+                y = geoToPixY(arr.y)
+                ori = arr.orientation
+                g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y-r*sin(ori+ea)), (x+r*cos(ori-ea),y-r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], fill_opacity=f_opacity, fill=blue_eu))
+                #g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=f_opacity, fill=blue_eu))
+                arc_path = get_svg_arc_path(x, y, r, ori+ea, ori-ea)
+                g_layout.add(dwg.path(d=arc_path, fill_opacity=f_opacity, fill=blue_eu))
+                g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="6pt", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
 
-        # arrows
-        r = 11
-        ea = pi/3
-        for arr in self.arrows:
-            x = geoToPixX(arr.x)
-            y = geoToPixY(arr.y)
-            ori = arr.orientation
-            g_layout.add(dwg.polyline([(x+r*cos(ori+ea),y-r*sin(ori+ea)), (x+r*cos(ori-ea),y-r*sin(ori-ea)), (x+2*r*cos(ori), y-2*r*sin(ori))], fill_opacity=f_opacity, fill=blue_eu))
-            #g_layout.add(dwg.circle(center=(x, y), r=r, fill_opacity=f_opacity, fill=blue_eu))
-            arc_path = get_svg_arc_path(x, y, r, ori+ea, ori-ea)
-            g_layout.add(dwg.path(d=arc_path, fill_opacity=f_opacity, fill=blue_eu))
-            g_layout.add(dwg.text(arr.code, insert=(x, y), font_size="6pt", font_weight="bold", text_anchor="middle", dominant_baseline="middle", fill=yellow_eu, font_family=font_name))
+
+            #minimap
+            f_opacity = 0.75
+            rnd_ = 4
+            ww_px = 34
+            hh_px = 38
+            y_ = 48
+            x_ = 4 if case else self.width_px - ww_px - 4
+            g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
+            dwg.add(g_minimap)
+            g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
+
+            sc = 1/440000000
+            ww_m = ww_px/mm_to_px / sc / 1000
+            hh_m = hh_px/mm_to_px / sc / 1000
+
+            def geoToPixX_(xg): return round((xg-2300000)/ww_m * ww_px, decimals)
+            def geoToPixY_(yg): return round((1-(yg-1200000)/hh_m) * hh_px, decimals)
+            def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
+
+            #minimap polygons
+            minimap_poly = minimap_file.items()
+            draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white", f_opacity)
+
+            #minimap circle
+            c_radius = 1.5
+            xxx = geoToPixX_(self.x)
+            if(xxx<c_radius): xxx = c_radius
+            elif(xxx>ww_px-c_radius): xxx = ww_px-c_radius
+            yyy = geoToPixY_(self.y)
+            if(yyy<c_radius): yyy = c_radius
+            elif(yyy>hh_px-c_radius): yyy = hh_px-c_radius
+            g_minimap.add(dwg.circle(center=(xxx, yyy), r=c_radius, fill="red")) #, stroke='#888', stroke_width=1
+
 
 
         #debug code
         if show_debug_code:
             dc = "title=" + str(self.title)
             g_layout.add(dwg.text(dc, insert=(self.width_px/2, 20), font_size="12px", text_anchor="middle", dominant_baseline="middle", fill='black'))
-
-        #minimap
-        f_opacity = 0.75
-        rnd_ = 4
-        ww_px = 34
-        hh_px = 38
-        y_ = 48
-        x_ = 4 if case else self.width_px - ww_px - 4
-        g_minimap = dwg.g(id='minimap', transform="translate("+str(x_)+", "+str(y_)+")")
-        dwg.add(g_minimap)
-        g_minimap.add(dwg.rect(insert=(0,0), size=(ww_px, hh_px), fill="white", fill_opacity=f_opacity, stroke='#888', stroke_width=1, rx=rnd_, ry=rnd_))
-
-        sc = 1/440000000
-        ww_m = ww_px/mm_to_px / sc / 1000
-        hh_m = hh_px/mm_to_px / sc / 1000
-
-        def geoToPixX_(xg): return round((xg-2300000)/ww_m * ww_px, decimals)
-        def geoToPixY_(yg): return round((1-(yg-1200000)/hh_m) * hh_px, decimals)
-        def transform_coords_(coords): return [(geoToPixX_(x), geoToPixY_(y)) for x, y in coords]
-
-        #minimap polygons
-        minimap_poly = minimap_file.items()
-        draw_polygon_layer(minimap_poly, False, transform_coords_, g_minimap, blue_eu, "white", f_opacity)
-
-        #minimap circle
-        c_radius = 1.5
-        xxx = geoToPixX_(self.x)
-        if(xxx<c_radius): xxx = c_radius
-        elif(xxx>ww_px-c_radius): xxx = ww_px-c_radius
-        yyy = geoToPixY_(self.y)
-        if(yyy<c_radius): yyy = c_radius
-        elif(yyy>hh_px-c_radius): yyy = hh_px-c_radius
-        g_minimap.add(dwg.circle(center=(xxx, yyy), r=c_radius, fill="red")) #, stroke='#888', stroke_width=1
-
 
         #print("Save SVG", res)
         dwg.save()
