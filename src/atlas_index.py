@@ -5,7 +5,6 @@ from Map import Map
 
 
 
-
 def get_index(dx=0, dy=0):
 
     pages = []
