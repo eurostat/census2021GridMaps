@@ -7,6 +7,7 @@ import subprocess
 
 
 out_folder = '/home/juju/gisco/census_2021_atlas/'
+include_index_page = False
 
 width_mm = 210
 height_mm = 297
@@ -77,14 +78,14 @@ def combine_pdf_pages():
     print("combine PDF pages")
 
     # combine PDF pages
-    pdfs = [
-        out_folder + "atlas_first_pages.pdf",
-        out_folder + 'index.pdf',
-            ]
+    pdfs = [ out_folder + "atlas_first_pages.pdf" ]
+    if include_index_page: pdfs.append(out_folder + 'index.pdf')
+
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
     pdfs.append("docs/blank.pdf")
+    pdfs.append(out_folder + "atlas_last_pages.pdf")
 
     print("   ", len(pdfs), "pages to combine")
     combine_pdfs(pdfs, out_folder + "atlas.pdf")
@@ -103,8 +104,8 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
-make_svg_pages()
-make_pdf_pages()
+#make_svg_pages()
+#make_pdf_pages()
 combine_pdf_pages()
 
 
