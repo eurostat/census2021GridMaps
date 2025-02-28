@@ -82,7 +82,7 @@ def combine_pdf_pages():
     #pdfs = [ out_folder + "atlas_first_pages.pdf" ]
     #if include_index_page: pdfs.append(out_folder + 'index.pdf')
 
-    pdfs.append("docs/blank.pdf")
+    #pdfs.append("docs/blank.pdf")
 
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
@@ -107,8 +107,8 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
-make_svg_pages()
-make_pdf_pages()
+#make_svg_pages()
+#make_pdf_pages()
 combine_pdf_pages()
 
 
