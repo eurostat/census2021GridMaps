@@ -76,19 +76,22 @@ def make_pdf_pages(do_all_pages = True):
 # combine all pdf pages into a single pdf document
 def combine_pdf_pages():
     print("combine PDF pages")
+    pdfs = []
 
     # combine PDF pages
-    pdfs = [ out_folder + "atlas_first_pages.pdf" ]
-    if include_index_page: pdfs.append(out_folder + 'index.pdf')
+    #pdfs = [ out_folder + "atlas_first_pages.pdf" ]
+    #if include_index_page: pdfs.append(out_folder + 'index.pdf')
+
+    pdfs.append("docs/blank.pdf")
 
     for p in pages:
         pdfs.append(out_folder + 'pages_pdf/'+str(p.code)+".pdf")
 
-    pdfs.append("docs/blank.pdf")
-    pdfs.append(out_folder + "atlas_last_pages.pdf")
+    #pdfs.append("docs/blank.pdf")
+    #pdfs.append(out_folder + "atlas_last_pages.pdf")
 
     print("   ", len(pdfs), "pages to combine")
-    combine_pdfs(pdfs, out_folder + "atlas.pdf")
+    combine_pdfs(pdfs, out_folder + "atlas_map_pages.pdf")
 
 
 #combine multiple PDF files into one
@@ -104,8 +107,8 @@ def combine_pdfs(pdf_list, output_pdf_path):
 
 
 
-#make_svg_pages()
-#make_pdf_pages()
+make_svg_pages()
+make_pdf_pages()
 combine_pdf_pages()
 
 
